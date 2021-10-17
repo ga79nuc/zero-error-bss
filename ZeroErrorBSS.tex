@@ -97,8 +97,6 @@
 	with an explicit treatment of the unerlying machine Model: does there exist a Blum-Shub-Smale computable algorithm that solves the above 
 	decision problem based on the plant's and DMC's characteristics? Given the rise of digital technology in control and decision-making, 
 	questions of this kind are becoming increasingly important, especially with regards to machine ethics and technology assessment. 
-	%Other than that, the problem has several unique features that make it noteworthy from a purely theoretical point of view. In light of the latter, we additionally
-	%investigate the problem for a slightly altered communication model, namely, an entanglement-assisted DMC. 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -116,9 +114,7 @@
 
 	Informally, the corresponding dynamic system can be described as follows. The state of an unstable, linear, time-invariant plant is observed by a local sensor. 
 	Subsequently, the sensor data is feed into an encoder that prepares the data for transmission trough a discrete, memoryless channel \emph{(DMC)}. 
-	Based on the sequence of channel outputs, the remote decoder/estimator tries to estimate the current state of the plant. The setup is schematically depicted in Figure \ref{fig:Schematics} 
-	%(here, quantum-entanglement as a shared resource between encoder and decoder, which we will address in the further course of this section, is already included)
-	.
+	Based on the sequence of channel outputs, the remote decoder/estimator tries to estimate the current state of the plant. The setup is schematically depicted in Figure \ref{fig:Schematics}.
 	\begin{figure}\linespread{1}
 		\centering
 		\begin{tikzpicture}[scale = 0.8, every node/.style={scale=0.8}]
@@ -184,9 +180,7 @@
 				\draw[very thick, dashed, ->, shorten >=1.5pt] (-1, -0.2) -- (3, -0.2) -- (3,-1);
 				\draw (-1,-0.2)  node[anchor=south] {Entanglement Source};
 		\end{tikzpicture}
-		\caption{Schematics of the remote state estimation setup considered throughout this article.% 
-					%Aside from the entanglement source, the setup... 
-					The setup is identical to the one introduced in \sdummy.}
+		\caption{Schematics of the remote state estimation setup considered throughout this article. The setup is identical to the one introduced in \sdummy.}
 		\label{fig:Schematics}
 	\end{figure}
 	
@@ -214,25 +208,12 @@
 	This practice is justified by the premise that the error emerging from representing real numbers by floating point approximations is neglectible in all practically relevant numerical problems. 
 	Furthermore, assumptions on the underlying machine model are usually implicit in numerics. In contrast, we seek to explicitely treat the underlying machine model in our investigations.
 
-	%Regardless of any practical implications, the problem of remote state estimation has some features which make it unique from a theoretical point of view. As was shown in \sdummy, 
-	%the question of whether a suitable pair of encoder and decoder exists for a certain system specification involves the channel's zero-error capacity, a quantity itroduced in \sdummy. 
-	%To the best of the authors' knowledge, remote state estimation is the only egineering problem investigated so far which involves this quantity without explicitely requiring so in the 
-	%problem statement. The zero-error capacity itself has been subject to research for several years and gave rise to a number of mathematical problems. Several of these, for example, 
-	%the question of whether the zero-error capacity is always a Turing-computable number, are still unsolved. On the other hand, the zero-error capacity exhibits a list of noteworthy properties. 
-	%It has been shown that non-sginalling correlations, in particular, quantum-entanglement, can icrease the zero-error capacity. In turn, this suggests that there exist remote state estimation 
-	%configurations in which remote state estimation is possibe if the sender and the receiver share non-signalling correlations as a shared resource, but impossible if they don't. 
-
 	The outline of the remainder of this work is as follows.
 
 \section{Formal Description of the Remote State Estimation Setup}
 	\noindent As indicated in Section \ref{sec:Introduction}, we consider the problem of remotely estimating the state of a dynamic plant via a noisy communication channel. 
 	For a detailed treatment of the problem as such, we refer to \cite{MS07}. Schematically, the set-up is depicted in Figure \ref{fig:Schematics}. 
-	%Aside from the entanglement source, the system is identical...
-	The system is identical to the one introduced in \sdummy. In order to provide a self-contained work, we recapitulate the description of the 
-	%fully classical 
-	system given in \sdummy~ 
-	%alongside the entanglement-assisted case
-	.
+	The system is identical to the one introduced in \sdummy. In order to provide a self-contained work, we recapitulate the description of the system given in \sdummy~.
 
 	The remote state estimation setup is characterized by the quintuple \((\mA,\mB,W,\E,\D)\) and the random variables \((\rz_t)_{t\in\NN}\), and \(\rs_{0}\). 
 	The latter model the sequence of probabilistic fluctuations disturbing the plant, as well as the plant's initial state, respectively. The plant's state sequence \((\rs_t)_{t\in\NN}\) 
@@ -249,55 +230,14 @@
 							&= \E\big(t, \ru_1,\ru_2,\ldots,\ru_t\big).
 	\end{align} 
 	The sequence of channel outputs \((\ry_t)_{t\in\NN}\) is a sequence
-	of symbols from a finite alphabet \(\Y\). 
-	%In the classical case, ...
-	It is component-wise related to the sequence \((\rx_t)_{t\in\NN}\) by a conditional probability mass function,
+	of symbols from a finite alphabet \(\Y\). It is component-wise related to the sequence \((\rx_t)_{t\in\NN}\) by a conditional probability mass function,
 	\begin{align}   \label{eq:CndPrbMass}
 					W :~ \Y \times \X \rightarrow [0,1],~(y,x) \mapsto W(y|x).
 	\end{align}
-	Last but not least, 
-	% ... in the classical case, ... 
-	the decoder estimates the plant's state sequence based on the available channel outputs,
+	Last but not least, the decoder estimates the plant's state sequence based on the available channel outputs,
 	\begin{align}	\hat{\rs}_t  	&= \D \big(t, (\ry_{t'})_{t'=1}^{t}\big) \nonumber\\ 
 									&= \D\big(t,\ry_1,\ry_2,\ldots,\ry_t\big).
 	\end{align}
-
-	%In the entanglement-assissted case, the encoding/decoding process is somewhat more involved. For \(n\in\NN\) arbitrary,
-	%we consider the Hilbert space
-	%\begin{align}	\mathfrak{H} := \bigotimes_{t = 1}^{\infty} \big(\mathbb{C}^{n}\otimes \mathbb{C}^{n}\big)
-	%\end{align}
-	%(for the construction of an infinite direct product, c.f. \sdummy), and for all \(t\in\NN\), the Hilbert spaces
-	%\begin{align}	\mathfrak{L}_{\mathrm{E}}^{(t)} :&= 
-					%\underset{\mathbb{C}}{\Span} \left\{\bigotimes_{t'=1}^{t}\hspace{2pt} \big(\mathrm{Id}(\CC^n) \otimes Q_{t'}\big) : Q_{t'} \in \mathbb{L}\big(\mathbb{C}^{n}\big)\right\}, \\
-					%\mathfrak{L}_{\mathrm{D}}^{(t)} :&= 
-					%\underset{\mathbb{C}}{\Span} \left\{\bigotimes_{t'=1}^{t}\hspace{2pt} \big(Q_{t'} \otimes \mathrm{Id}(\CC^n)\big) : Q_{t'} \in \mathbb{L}\big(\mathbb{C}^{n}\big)\right\}.
-	%\end{align}
-	%Futhermore, we denote by \(\mathfrak{L}_{\mathrm{E}+}^{(t)}\) and \(\mathfrak{L}_{\mathrm{D}+}^{(t)}\) the subsets of \(\mathfrak{L}_{\mathrm{E}}^{(t)}\) and 
-	%\(\mathfrak{L}_{\mathrm{D}}^{(t)}\), respectively, that consist of positive semi-definite operators on \(\mathfrak{L}_{\mathrm{E}}^{(t)}\) and \(\mathfrak{L}_{\mathrm{D}}^{(t)}\). 
-	%Then, the encoder and decoder are (positive) operator-valued mappings \(\QE\) and \(\QD\) that satisfy the following:
-	%\begin{itemize}	\item   For all numbers \(t \in \NN\), all sequences \((x_{t'})_{t'=1}^t\in\X^t\) and all sequences \((\ru_{t'})_{t'=1}^{t}\in (\RR^n)^t\), we have
-						%\begin{align}   \QE\Big((x_{t'})_{t'=1}^t\Big|t,(\ru_{t'})_{t'=1}^{t}\Big) \in \mathfrak{L}_{\mathrm{E}+}^{(t)}.
-						%\end{align}
-					%\item   For all numbers \(t\in \NN\), all sequences \((\hat{s}_{t'})_{t'=1}^{t}\in(\RR^n)^t\) and all sequences \((\ry_{t'})_{t'=1}^{t}\in\Y^t\), we have
-						%\begin{align}   \QD\Big((\hat{s}_{t'})_{t'=1}^{t}\Big|t,(\ry_{t'})_{t'=1}^{t}\Big) \in \mathfrak{L}_{\mathrm{D}+}^{(t)}.
-						%\end{align}
-					%\item   For all numbers \(t\in \NN\) and all sequences \((\ru_{t'})_{t'=1}^{t}\in (\RR^n)^t\), we have
-						%\begin{align}  \sum_{\bm{x}\in\X^t} \QE(\bm{x}|t,\ru_1,\ru_2,\ldots,\ru_t) = \mathrm{Id}\Big(\mathfrak{L}_{\mathrm{E}}^{(t)}\Big).
-						%\end{align}
-					%\item   For  all numbers \(t\in \NN\) and all sequences \((\ry_{t'})_{t'=1}^{t}\in \Y^t\), we have
-						%\begin{align}  \int_{(\RR^n)^t} \QD(\hat{s}|t,\ry_1,\ry_2,\ldots,\ry_t) \mathrm{d}\hat{\bm{s}} = \mathrm{Id}\Big(\mathfrak{L}_{\mathrm{D}}^{(t)}\Big).
-						%\end{align} 
-	%\end{itemize}
-	%We furthermore denote by \(\oQE\) and \(\oQD\) the identity-extension of \(\QE\) and \(\QD\), respectively, to \(\mathbb{L}(\mathbb{H})\), i.e.,
-	%\begin{align*}	&\oQE(x|t,\ru_1,\ru_2,\ldots,\ru_t) \\
-					%&\quad:=    \left(\bigotimes_{t'=t+1}^{\infty}\hspace{2pt} \mathrm{Id}(\CC^n\otimes\CC^n)\right) \otimes \QE(x|t,\ru_1,\ru_2,\ldots,\ru_t) \\
-					%&\oQD(\hat{s}|t,\ry_1,\ry_2,\ldots,\ry_t) \nonumber\\
-					%&\quad:=    \left(\bigotimes_{t'=t+1}^{\infty}\hspace{2pt} \mathrm{Id}(\CC^n\otimes\CC^n)\right) \otimes \QD(\hat{s}|t,\ry_1,\ry_2,\ldots,\ry_t)
-	%\end{align*}
-	%The encoding/decoding scheme also involves a rank-one projection operator on \(\mathbb{H}\), i.e, an operator \(\Psi\in\mathbb{L}(\mathbb{H})\) such that there 
-	%exists a vector \(\psi\in\mathbb{H}\) that satisfies 
-	%\begin{align}   \Psi(\bullet) = \psi \langle \psi, \bullet \rangle_{\mathbb{H}}.
-	%\end{align}
 
 	The strong objective in remote state estimation requires almost sure observability. By a suitable choice of \(\E\) and \(\D\), the error between \((s(t))_{t\in\NN}\)
 	and \((\hat{s}(t))_{t\in\NN}\) must be kept small along almost all possible trajectories \((\zeta(t))_{t\in\NN}\) and \((y(t))_{t\in\NN}\), i.e., with probability one. 
