@@ -26,6 +26,8 @@
 	\def\F{{\mathcal F}}
 	\def\J{{\mathcal J}}
 	\def\W{{\mathcal W}}
+	\def\S{{\mathcal S}}
+	\def\U{{\mathcal U}}
 	\def\NN{{\mathbb N}}
 	\def\QQ{{\mathbb Q}}
 	\def\RR{{\mathbb R}}
@@ -240,6 +242,9 @@
 
 	The strong objective in remote state estimation requires almost sure observability. By a suitable choice of \(\E\) and \(\D\), the error between \((s(t))_{t\in\NN}\)
 	and \((\hat{s}(t))_{t\in\NN}\) must be kept small along almost all possible trajectories \((\zeta(t))_{t\in\NN}\) and \((y(t))_{t\in\NN}\), i.e., with probability one. 
+	
+	-almost sure stability
+	
 	Problems of this kind play an essential role in control theory \cite{BL00, EM01, HOV02, IF02, HT05, HF02, L03, MS04, MS05, MS05a, MS05b, PS01, S06, SP03, TM04, TM04b, WB99}. 
 	However, it is commonly assumed that either the plant or the communication channel is noiseless, which neglects any uncertainty in the respective system components. 
 	Hence, more realistic models for the remote state estimation problem incorporate noise-like disturbances in both the plant and the channel. 
@@ -374,7 +379,8 @@
 	terms of a perfect binary tree, where each branch corresponds to an evaluation of the predicate "\(W(y|x) > 0\)" for some letters \(x\in\X\) and \(y\in\Y\). Per definition, the latter 
 	can be done algorithmically, as a fundamental operation on the BSS machine.
 
-	\begin{Theorem}	Consider finite alphabets \(\X\) and \(\Y\). Then, there exists a BSS-Machine \(\BSS_{C_0}\)
+	\begin{Theorem}	\label{thm:ZeroErrorBSScomputable}
+					Consider finite alphabets \(\X\) and \(\Y\). Then, there exists a BSS-Machine \(\BSS_{C_0}\)
 					which, upon being passed a channel description \(W\in \W(\X,\Y)\), computes the mapping \(W \mapsto C_0(W)\).
 	\end{Theorem}\begin{proof}
 					Let \(j \mapsto \big(x(j), y(j)\big)\) be an enumeration of the set \(\X\times\Y\) and define
@@ -421,7 +427,63 @@
 	\end{proof}
 
 \section{Deciding the Solvability of the Remote State Estimation Problem on Blum-Shub-Smale Machines}	\label{sec:DecidingRemoteStateEstimationOnBSS}
-
+	In this section, we will use Theorem \ref{thm:ZeroErrorBSScomputable} to derive a BSS algorithm which, given the description of an unstable, linear plant,
+	decides the solvability of the remote state estimation problem as a function on \(\W(\X,\Y)\).
+	
+	Again, the algorithm essentially relies on the ability of BSS machines to handle exact real numbers 
+	For \(\mA \in \RR^{n\times n}\), denote \(\bm{\lambda}(\mA) := (\lambda_1(A),\lambda_2(A),\ldots,\lambda_n(\mA))\) a family 
+	consisting of all eigenvalues of \(\mA\), according to their algebraic multiplicity. Consequently, the family \(\bm{\lambda}(\mA)\)
+	consists of exactly \(n\) components for all \(\mA\in \RR^{n\times n}\). We define
+	\begin{align}	\eta(\mA):=\sum_{j:|\lambda_j(\mA)|\geq 1} \log_2|\lambda_j(\mA)|.
+	\end{align}
+	
+	As indicated in the introduction, the zero-error capacity of the DMC \(W\) plays a central role in the solvability of the remote state estimation problem;
+	in essence, given a characterization \((\mA,\mB,W,\E,\D)\) of a remote state estimation setup, it is almost entirely determined by the pair \((\mu(\mA),C_0(W))\).
+	-independet of distribution
+	-assumptions
+	
+	\begin{Lemma} 	[\sdummy]\label{lem:SolvabilityCondition} Let \(\X,\Y\) be finite alphabets, \(W\in \W(\X,\Y)\) a DMC and \((\mA,\mB) \in \RR^{n\times n}\times \RR^{m\times n}\) 
+					a characterization of an unstable, time-invariant, linear plant and an associated local sensor. Then, the following holds true:
+					\begin{itemize}	\item If \(\mu(\mA) < C_0(W)\) is satisfied, there exists an encoder/decoder-pair \((\E,\D)\) such that we have
+										\begin{align*}
+											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| < \infty \quad \text{a.s.}
+										\end{align*}
+										That is, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
+									\item If \(\mu(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have 
+										\begin{align*}
+											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| = \infty \quad \text{a.s.}
+										\end{align*}
+										That is, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
+					\end{itemize}
+	\end{Lemma} 
+	
+	In view of the solvability conditions stated in Lemma \ref{lem:SolvabilityCondition}, we introduce the sets
+	\begin{align*}	\S_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) < C_0(W) \right\} \\ 
+					\U_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) > C_0(W) \right\} 
+	\end{align*}
+	Then, if \(W\in \S_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
+	Likewise, if \(W\in \U_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
+	\begin{Theorem}	Let \(\X,\Y\) be finite alphabets and \(\mA \in \RR^{n\times n}\) a characterization of an unstable, time-invariant, 
+					linear plant. Then, the following holds true:
+					\begin{itemize}	\item There exists a BSS machine \(\BSS_{\S}^{\mA}\) that \emph{decides} the set
+										\(\S_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
+										\begin{align*}	\BSS_{\S}^{\mA}(W) = 	\begin{cases}	1 &\text{if}~ W\in \S_{\mA}(\X,\Y), \\
+																								0 &\text{otherwise}
+																				\end{cases}
+										\end{align*}
+										for all \(\W(\X,\Y)\).
+									\item There exists a BSS machine \(\BSS_{\U}^{\mA}\) that \emph{decides} the set
+										\(\U_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
+										\begin{align*}	\BSS_{\U}^{\mA}(W) = 	\begin{cases}	1 &\text{if}~ W\in \U_{\mA}(\X,\Y), \\
+																								0 &\text{otherwise}
+																				\end{cases}
+										\end{align*}
+										for all \(\W(\X,\Y)\).
+					\end{itemize}
+	\end{Theorem}
+	
+	
+	-Justification-
 \section{Conclusion}	\label{sec:Conclusion}
 
 -description on a BSS machine: BSS machines are able to handle exact descriptions, not "representations of objects",
@@ -436,8 +498,6 @@ in contranst to TMs
 
 
 %\section*{Acknowledgment}
-
-\section*{References}
 
 \bibliographystyle{ieeetran}
 \bibliography{ZeroErrorBSS}
