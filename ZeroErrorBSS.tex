@@ -301,37 +301,7 @@
 	is bounded arbitrarily close to zero. In this case, an unstable dynamic plant cannot be observed remotely with a bounded error. 
 
 	In \cite{BD20Z}, the computability of \(C_0(W)\) in dependence of \(W\) is considered. Incorporating the results established in \cite{BD20Z}, 
-	we want to investigate the remote state estimation problem with regards to algorithmic decidability. In particular, we want to investigate the following questions:
-	\begin{itemize}	\item[1.)] Does there exist a Turing machine which, given the triple \((\mA,\mB,W)\) as input, halts and returns "\(\mathtt{TRUE}\)" after
-						a finite number of computation steps whenever the remote state estimation problem is solvable for \((\mA,\mB,W)\)?
-					\item[2.)] Does there exist a Turing machine which, given the triple \((\mA,\mB,W)\) as input, halts and returns "\(\mathtt{FALSE}\)" after
-						a finite number of computation steps whenever the remote state estimation problem is unsolvable for \((\mA,\mB,W)\)?
-	\end{itemize}
-	The above Turing machines are supposed to each detect one of the two possible cases regarding the solvability of the remote state estimation problem. 
-	It is worth pointing out that both Turing machines are not required to reach their halting state after a finite number of computation steps for all possible 
-	inputs \((\mA,\mB,W)\). Rather, halting in finite time is only necessary for each of the two machines when passed an input \((\mA,\mB,W)\) that satisfies the 
-	particular case that they are supposed to detect.
-
-	In general, Turing machines are an abstract idealization of real-world digital computers. Hence, if any of the two questions above is answered to the negative, 
-	it is certainly impossible to have a real-word computer that successfully performs the respective task. This poses a severe drawback for computer-aided design tools 
-	and autonomous systems. Computer-aided design tools commonly feature an \emph{exit flag} functionality that serves as an indicator of success upon termination of the 
-	automated design process. Depending on the exit flag, the return value of the executed algorithm is marked to be either a valid solution for the design problem or not. 
-	In our context, a hypothetical automated design tool would return a triple \((\E,\D, \mathrm{b})\), consisting of an encoder, a decoder/estimator and a boolean exit flag 
-	\(\mathrm{b}\). If the exit flag equals "\(\mathtt{TRUE}\)", then the pair \((\E,\D)\) is a valid solution for the state estimation problem characterized by \((\mA,\mB,W)\). 
-	If the exit flag equals "\(\mathtt{FALSE}\)", the algorithm was unable to solve the state estimation problem and the pair \((\E,\D)\) is some arbitrary dummy value. 
-	If, however, any of the above questions has to be answered to the negative, an automated design tool that satisfies this requirement cannot exist. A similar problem arises 
-	for scenarios where autonomous adaption to changes in the system dynamics are required, as it is the case in wireless communication. Consider therefore a mobile dynamic system, 
-	e.g., a satellite or a drone, that is accessible to a base station via a wireless data link. While the parameters of the mobile system may be known in advance, the characteristics 
-	of the wireless transmission is likely to change over time. Hence, the mobile system and the base station have to agree on a new pair \((\E,\D)\) after each transmission. 
-	Again, if any of the above questions has to be answered to the negative, the mobile system and the base station are unable to perform this task in an automated fashion.
-
-	The outline of the remainder of the paper is as follows:
-	Sections \rdummy~ and \rdummy~ are dedicated to preliminaries from the theory of Turing machines and channel coding. In Section \rdummy, we introduce some more formalities 
-	regarding the remote state estimation problem and derive the main result of our work: the first of the above questions does indeed have to be answered to the negative. 
-	{\col For the second of the above questions, we give a sufficient condition for it to be answered to the negative as well.} We additionally consider slightly altered variants 
-	of the above questions, where the matrix \(\mA\) is fixed and only the channel \(W\) is allowed to vary as an input for the hypothetical Turing machines. In Section \rdummy, 
-	we investigate questions related to the decidability of the remote state estimation problem with respect to a weakened form of the problem objective: observability on average. 
-	Section \rdummy~ closes the paper with a brief subsumption of the derived results.
+	we want to investigate the remote state estimation problem with regards to algorithmic decidability. In particular...
 
 \section{Introduction to the Theory of BSS Machines and Effective Analysis}
 	{\color{red} Reference BSS Paper - }
