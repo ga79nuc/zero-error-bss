@@ -17,6 +17,13 @@
 	\newcommand{\rs}{\mathsf{s}}
 	\newcommand{\rz}{\mathsf{z}}
 	\newcommand{\ru}{\mathsf{u}}
+	\newcommand{\rsh}{\hat{\mathsf{s}}}
+	\newcommand{\rzs}{(\mathsf{z}_t)_{t\in\NN}}
+	\newcommand{\rss}{(\mathsf{s}_t)_{t\in\NN}}
+	\newcommand{\rus}{(\mathsf{u}_t)_{t\in\NN}}
+	\newcommand{\rxs}{(\mathsf{x}_t)_{t\in\NN}} 
+	\newcommand{\rys}{(\mathsf{y}_t)_{t\in\NN}} 
+	\newcommand{\rshs}{(\hat{\mathsf{s}}_t)_{t\in\NN}}
 	\def\E{{\mathcal E}}
 	\def\D{{\mathcal D}}
 	\def\X{{\mathcal X}}
@@ -134,10 +141,19 @@
 		\centering
 		\begin{tikzpicture}[scale = 0.8, every node/.style={scale=0.8}]
 			%   %   %   %   %   %   %   %   %   %   %
+			%   Initial state
+				\draw[very thick, ->, shorten >=1.5pt] (-4,1.5) -- (-2,1.5); 
+				\draw (-2.9,1.5)  node[fill = white, anchor=center, align=center]
+				{\(\rs_0\)};
+				\draw (-4,1.5)  node[fill = white, anchor=center, align=center]
+				{\(\dots\)};
+			%   %   %   %   %   %   %   %   %   %   %
 			%   Plant disturbance
-				\draw[very thick, ->, shorten >=1.5pt] (-5,1.5) -- (-2,1.5); 
-				\draw (-3.5,1.5)  node[fill = white, anchor=center, align=center]
-				{\((\rz_t)_{t\in\NN}\)};
+				\draw[very thick, ->, shorten >=1.5pt] (-4,0) -- (-1,0) -- (-1,1); 
+				\draw (-2.9,0)  node[fill = white, anchor=center, align=center]
+				{\(\rzs\)};
+				\draw (-4,0)  node[fill = white, anchor=center, align=center]
+				{\(\dots\)};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Plant
 				\draw[ultra thick, fill=black!20] (-2,2) rectangle (0,1);
@@ -147,18 +163,17 @@
 			%   Plant -> Sensor
 				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (0,1.5) -- (2.5,1.5); 
 				\draw (1.4,1.5)  node[fill = white, anchor=center]
-				{\((\rs_t)_{t\in\NN}\)};
+				{\(\rss\)};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Sensor
 				\draw[ultra thick, fill=black!20] (4.5,2) rectangle (2.5,1);
 				\draw (3.5,1.5)  node[anchor=center] {\(\mB\)};
 				\draw (3.5,2)  node[anchor=south] {Sensor};
-				
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Sensor -> Encoder
 				\draw[very thick, <-, shorten >=1.5pt, shorten <=1.5pt] (4,-1) -- (4,1); 
 				\draw (4,0)  node[fill = white, anchor=center, align=center]
-				{\((\ru_t)_{t\in\NN}\)};
+				{\(\rus\)};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Encoder
 				\draw[ultra thick, fill=black!20] (4.5,-2) rectangle (2.5,-1);
@@ -168,7 +183,7 @@
 			%   Encoder -> Channel
 				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (2.5,-1.5) -- (-0.3,-1.5); 
 				\draw (1.4,-1.5)  node[fill = white, anchor=center, align=center]
-				{\((\rx_t)_{t\in\NN}\)};
+				{\(\rxs\)};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Channel
 				\fill[fill = black!20] (-2,-1.5) -- (-1.7, -1.1) -- (0,-1.1) -- (-0.3,-1.5) -- (0,-1.9) -- (-1.7,-1.9);
@@ -178,7 +193,7 @@
 			%   Channel -> Decoder
 				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (-2,-1.5) -- (-4,-1.5); 
 				\draw (-2.9,-1.5)  node[fill = white, anchor=center, align=center]
-				{\((\ry_t)_{t\in\NN}\)};
+				{\(\rys\)};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Decoder
 				\draw[ultra thick, fill=black!20] (-6,-2) rectangle (-4,-1);
@@ -186,14 +201,11 @@
 				\draw (-5,-2)  node[anchor=north] {Decoder/Estimator};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   State estimate
-				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (-5.5,-1) -- (-5.5,1);
+				\draw[very thick, ->, shorten <=1.5pt] (-5.5,-1) -- (-5.5,1);
 				\draw (-5.5,0)  node[fill = white, anchor=center, align=center]
-				{\((\hat{\rs}_t)_{t\in\NN}\)};
-			%   %   %   %   %   %   %   %   %   %   %    
-			%   Entanglement Source
-				\draw[very thick, dashed, ->, shorten >=1.5pt] (-1, -0.2) -- (-4.5, -0.2) -- (-4.5,-1);
-				\draw[very thick, dashed, ->, shorten >=1.5pt] (-1, -0.2) -- (3, -0.2) -- (3,-1);
-				\draw (-1,-0.2)  node[anchor=south] {Entanglement Source};
+				{\(\rshs\)};
+				\draw (-5.5,1.5)  node[fill = white, anchor=center, align=center]
+				{\(\vdots\)};
 		\end{tikzpicture}
 		\caption{Schematics of the remote state estimation setup considered throughout this article. The setup is identical to the one introduced in \sdummy.}
 		\label{fig:Schematics}
