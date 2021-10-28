@@ -55,6 +55,7 @@
 	\newcommand{\sdummy}{{\color{red}[SOURCE]}}
 	\newcommand{\col}{\color{black}}
 	\newcommand{\colol}{\color{orange}}
+	\newcommand{\tbr}[1]{{\color{gray}[#1]}}
 % Custom Environments
 	\newtheorem{Theorem}{Theorem}
 	\newtheorem{Definition}[Theorem]{Definition}
@@ -66,7 +67,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 %
-	\title{On the Decidability of the Remote State Estimation Problem on Blum-Shub-Smale Machines
+	\title{Deciding the Problem of Remote State Estimation via Noisy Communication Channels on Analog Signal Processing Hardware
 	\thanks{{\color{red} Identify applicable funding agency here. If none, delete this.}}
 	}
 
@@ -98,14 +99,24 @@
 \maketitle
 
 \begin{abstract}
-	We consider the descision problem associated to the remote state estimation of a dynamic plant. 
-	That is, given the characteristics of some time-invariant, unstable, linear system, some linear sensor and some discrete, 
-	memoryless channel \emph{(DMC)}, does there exist a pair of encoder and decoder that allows for the remote tracking of the system's 
-	state with bounded error? Analytically, this problem has been shown to involve the eigenvalues of the plant's characteristics 
-	and the zero-error capacity of the DMC. Starting from this result, we approach the problem from the view of theoretical computer science, 
-	with an explicit treatment of the unerlying machine Model: does there exist a Blum-Shub-Smale computable algorithm that solves the above 
-	decision problem based on the plant's and DMC's characteristics? Given the rise of digital technology in control and decision-making, 
-	questions of this kind are becoming increasingly important, especially with regards to machine ethics and technology assessment. 
+	We consider a descision problem associated to the task of estimating the state of a dynamic plant remotely via a noisy communication channel: 
+	given the descriptions of some unstable LTI plant, some LTI sensor and some DMC, does there exist a pair of encoder and decoder that 
+	allows for the remote tracking of the plant's state with bounded error? Analytically, this problem has been shown to involve the eigenvalues of the matrix 
+	characterizing the plant's dynamic behaviour as well as the zero-error capacity of the DMC. Starting from this result, we approach the problem from the view of theoretical computer science, 
+	with an explicit treatment of the unerlying machine Model. In particular, we prove that for every pair of a finite channel input alphabet and a finite channel output alphabet, there exists
+	a Blum-Shub-Smale algorithm that computes the zero-error capacity in dependence of the channel matrix. Based on this, we devise a Blum-Shub-Smale algorithm that solves the above 
+	decision problem given the plant's and DMC's characteristics. 
+	
+	Generally, remote and/or distributed decision making is becoming increasingly important in view of future communication networks. For the upcoming 5G and 6G mobile communication standards,
+	explicite requirements regarding hardware trustworthiness and integrity are stated, some of which have been shown to exceed the limitations of today's digital hardware. 
+	At the same time, we can observe a recent paradigm shift in research and development towards analog signal processing and computing hardware. While the theoretical capabilities of digital hardware
+	are precisely captured by the abstract model of Turing machines, a comparable universal model for analog computing has not been widely accepted. 
+	A promising candidate for the latter is the \emph{Blum-Shub-Smale} machine, a generalization of the Turing machine that can process exact real numbers. BSS machines have been shown to be more powerful
+	than Turing machines in general, with many specific instances of practical relevance. In particular, there are several scenarios in communication where BSS machines are more powerful than Turing machines.
+	Hence, BSS machines merit an investigation from the view of theoretical computer science, even if they cannot be practically implementend as of today.
+	
+	\tbr{Given the rise of digital technology in control and decision making, questions of this kind become increasingly important, especially with regards to technology assessment and machine ethics.}
+	  
 \end{abstract}
 
 \begin{IEEEkeywords}
