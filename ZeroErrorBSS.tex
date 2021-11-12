@@ -70,21 +70,21 @@
 \begin{document}
 %
 	\title{Deciding the Problem of Remote State Estimation via Noisy Communication Channels on Real Number Processing Hardware
-		\thanks{H.~Boche was supported by the German Research Foundation (DFG) within
-				the Gottfried Wilhelm Leibniz Prize under Grant BO 1734/20-1, within
-				Germany’s Excellence Strategy EXC-2111—390814868 and EXC-2092 CASA -
-				390781972
-				and by the German Federal Ministry of Education and Research (BMBF)
-				within the national initiative for “Post Shannon Communication (NewCom)”
-				with the
-				project “Basics, simulation and demonstration for new communication
-				models” under Grant 16KIS1003K.
-				C.~Deppe was supported by the BMBF within NewCom with the project
-				“Coding theory and coding methods for new communication models” under
-				Grant 16KIS1005, by the German Research Foundation (DFG)
-				with the Project "Post-Shannon theory and implementation" under Grant DE
-				1915/2-1 and by the German Federal Ministry of Education and Research
-				(BMBF) within the project "6G-life" under Grant 16KISK002.}
+		%\thanks{H.~Boche was supported by the German Research Foundation (DFG) within
+				%the Gottfried Wilhelm Leibniz Prize under Grant BO 1734/20-1, within
+				%Germany’s Excellence Strategy EXC-2111—390814868 and EXC-2092 CASA -
+				%390781972
+				%and by the German Federal Ministry of Education and Research (BMBF)
+				%within the national initiative for “Post Shannon Communication (NewCom)”
+				%with the
+				%project “Basics, simulation and demonstration for new communication
+				%models” under Grant 16KIS1003K.
+				%C.~Deppe was supported by the BMBF within NewCom with the project
+				%“Coding theory and coding methods for new communication models” under
+				%Grant 16KIS1005, by the German Research Foundation (DFG)
+				%with the Project "Post-Shannon theory and implementation" under Grant DE
+				%1915/2-1 and by the German Federal Ministry of Education and Research
+				%(BMBF) within the project "6G-life" under Grant 16KISK002.}
 	}
 	\author{\IEEEauthorblockN{Holger Boche}
 	\IEEEauthorblockA{\textit{Institute for}\\ 
@@ -166,7 +166,7 @@
 
 \section{Introduction}	\label{sec:Introduction}
 	\IEEEPARstart{R}{emote} state estimation via noisy communication channels is a prominent problem in control theory 
-	\cite{BL00, EM01, HOV02, IF02, HT05, HF02, L03, MS04, MS05, MS05a, MS05b, PS01, S06, SP03, TM04, TM04b, WB99}. 
+	\cite{MS07, MS07SC, S06, SP03}. 
 	The problem involves both conotrol and communications. In praticular, as we will see in the following, the communications part is essential.  
 	Informally, the corresponding dynamic system can be described as follows. The state of an unstable, linear, time-invariant plant is observed by a local sensor. 
 	Subsequently, the sensor data is feed into an encoder that prepares the data for transmission trough a discrete, memoryless channel \emph{(DMC)}. 
@@ -561,14 +561,12 @@
 											\end{align}
 											and set \(\iota' := 1\).
 										\item[\(\zeta\)\hspace{1pt}:] For \(\zeta \in \{1,\ldots, M_\mathrm{C}\} = \{1\}\) and \(e_t = e_1 = \zeta\), set \(\zeta' = 2\) and define 
-											\begin{align*}	\bm{r}^{t+1} = \bm{r}^{2} := g_1(\bm{c},\bm{r}^1).
-											\end{align*}
+											\(\bm{r}^{t+1} = \bm{r}^{2} := g_1(\bm{c},\bm{r}^1).
+											\)
 										\item[\(\beta\)\hspace{1pt}:] 
 											For \(\beta \in \{M_\mathrm{C} + 1,\ldots, M_\mathrm{B}\} = \{2\}\), the pair of next nodes \(\big(\beta'(\mathsf{T}),
 											\beta'(\mathsf{F})\big)\) satisfies
-											\begin{align*} 	\beta'(\mathsf{T}) :    &=  3, \\
-															\beta'(\mathsf{F}) :    &=  4.
-											\end{align*}
+											\(\beta'(\mathsf{T}) :    =  3\) and \(\beta'(\mathsf{F}) :    =  4\).
 											If \(e_t = e_2 = \beta\), then \(e_{t+1} = e_T = e_3\) satisfies
 											\begin{align*}   e_{3} := 	\begin{cases}   \beta'(\mathsf{T}) &\text{if}~ 0 < r_1^3,\\
 																						\beta'(\mathsf{F}) &\text{otherwise}.
