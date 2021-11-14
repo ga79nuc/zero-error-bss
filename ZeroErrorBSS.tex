@@ -2,7 +2,7 @@
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
-\usepackage{mathtools,amssymb,amsfonts,amsthm,bm}
+\usepackage{mathtools,amssymb,amsfonts,amsthm,bm,dsfont}
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
@@ -69,7 +69,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 %
-	\title{Deciding the Problem of Remote State Estimation via Noisy Communication Channels on Real Number Processing Hardware
+	\title{Deciding the Problem of Remote State Estimation via Noisy Communication Channels on Real Number Signal Processing Hardware
 		%\thanks{H.~Boche was supported by the German Research Foundation (DFG) within
 				%the Gottfried Wilhelm Leibniz Prize under Grant BO 1734/20-1, within
 				%Germany’s Excellence Strategy EXC-2111—390814868 and EXC-2092 CASA -
@@ -115,20 +115,19 @@
 
 \begin{abstract}
 	We consider a descision problem associated to the task of estimating the state of a dynamic plant remotely via a noisy communication channel: 
-	given the descriptions of some unstable LTI plant, some LTI sensor and some DMC, does there exist a pair of encoder and decoder that 
+	given the characteristics of some unstable LTI plant and some DMC, does there exist an encoder/decoder-pair that 
 	allows for the remote tracking of the plant's state with bounded error? Questions of this kind are becoming increasingly important in communication technologies, 
-	since future communication networks are expected to incorporate distributed control and decision making. Analytically, this problem has been shown to involve the eigenvalues of the matrix 
-	characterizing the plant's dynamic behaviour as well as the zero-error capacity of the DMC. Starting from this result, we approach the problem from the view of theoretical computer science, 
-	with an explicit treatment of the unerlying machine Model. In particular, we prove that for every pair of a finite channel input alphabet and a finite channel output alphabet, there exists
+	since future communication networks are expected to incorporate distributed control and decision making. Analytically, this problem has been shown to involve the 
+	zero-error capacity of the DMC. Starting from this result, we approach the problem from the view of theoretical computer science, 
+	with an explicit treatment of the underlying machine Model. In particular, we prove that for every pair of a finite channel input alphabet and a finite channel output alphabet, there exists
 	a Blum-Shub-Smale algorithm that computes the zero-error capacity in dependence of the channel matrix. Based on this, we devise a Blum-Shub-Smale algorithm that solves the above 
 	decision problem given the plant's and DMC's characteristics. Blum-Shub-Smale machines are a promising candidate for a universal model of real number processing hardware, comparable
 	to the Turing machine in the digital domain. Recently, we observe an increased interest in research and development towards real number and/or analog computing hardware, usually
-	referred to by the term ``neuromorphic computing''. Since the requirements regarding hardware integrity and trustworthiness imposed on future communication networks has been shown
-	to reach the fundamental limits of digital hardware, Blum-Shub-Smale machines merit an investigation from the theoretical point of view, even if they cannot be implemented as of today.  
+	referred to by the term ``neuromorphic computing''.   
 \end{abstract}
 
 \begin{IEEEkeywords}
-	Computability, Blum-Shub-Smale Machines, Remote State Estimation, Noisy Channels, Zero-Error Coding 
+	Co-Design of Communications and Control, Remote State Estimation, Noisy Channels, Neuromorphic Computing. 
 \end{IEEEkeywords}
 
 %\section{TO-DO}
@@ -256,8 +255,8 @@
 	by the classical Shannon capacity of the DMC.
 	According to this, it is necessary to decide, based on the specifications of the plant and the DMC, whether an appropriate pair of encoder and decoder can exist in the first place. 
 	Nowadays, this decision is often made by automated design tools or autonomous control units, e.g., in automated driving, either in an explicit or implicit way. In recent times, 
-	\emph{digital twins} emerged as a further technique for handling design problems of this kind in practical applications. The approach is based on creating a full virtual copy of 
-	the system on a digital computer, which is then employed for optimization, control tasks and decision-making. 
+	\emph{digital twins} emerged as a further technique for handling design problems of this kind in practical applications \cite{RaSaKv20,TaZhLiNe19}. 
+	The approach is based on creating a full virtual copy of the system on a digital computer, which is then employed for optimization, control tasks and decision-making. 
 
 	From an analytic point of view, remote state estimation involves the disciplines of control and information theory. As indicated above, it is an explicit example of a so 
 	called co-design problem. The practice of automated design and autonomous control adds another layer to the problem. In almost all cases, dynamic plants are analog, continuous  systems, 
@@ -302,24 +301,24 @@
 	The remote state estimation setup is characterized by the quintuple \((\mA,\mB,W,\E,\D)\) and the random variables \((\rz_t)_{t\in\NN}\), and \(\rs_{0}\). 
 	The latter model the sequence of probabilistic fluctuations disturbing the plant, as well as the plant's initial state, respectively. The plant's state sequence \((\rs_t)_{t\in\NN}\) 
 	and the sequence of sensor data \((\ru_t)_{t\in\NN}\) obey the system of equations
-	\begin{align*}	\rs_1    &= \mA \rs_0 + \rz_1, \\ 
-					\rs_t    &= \mA \rs_{t-1} + \rz_t,\\ 
-					\ru_t    &= \mB \rs_t,
+	\begin{align*}	\rs_1    = \mA \rs_0 + \rz_1, \quad 
+					\rs_t    = \mA \rs_{t-1} + \rz_t,\quad 
+					\ru_t    = \mB \rs_t,
 	\end{align*}
 	where \(\mA\in\RR^{n\times n}\) and \(\mB\in\RR^{n\times l}\) capture the plant's and sensor's characteristics. 
 
 	The sequence of channel inputs \((\rx_t)_{t\in\NN}\) is a sequence
 	of symbols from a finite alphabet \(\X\). It is calculated by the encoder based on available sensor data,
-	\begin{align*}	\rx_t   &= \E \big(t, (\ru_{t'})_{t'=1}^{t}\big) \\
-							&= \E\big(t, \ru_1,\ru_2,\ldots,\ru_t\big).
+	\begin{align*}	\rx_t   = \E \big(t, (\ru_{t'})_{t'=1}^{t}\big) 
+							= \E\big(t, \ru_1,\ru_2,\ldots,\ru_t\big).
 	\end{align*} 
 	The sequence of channel outputs \((\ry_t)_{t\in\NN}\) is a sequence
 	of symbols from a finite alphabet \(\Y\). It is component-wise related to the sequence \((\rx_t)_{t\in\NN}\) by a conditional probability mass function,
 	\begin{align*}	W :~ \Y \times \X \rightarrow \RR_{\hspace{1pt}0}^+,~(y,x) \mapsto W(y|x).
 	\end{align*}
 	Last but not least, the decoder estimates the plant's state sequence based on the available channel outputs,
-	\begin{align*}	\hat{\rs}_t  	&= \D \big(t, (\ry_{t'})_{t'=1}^{t}\big) \\ 
-									&= \D\big(t,\ry_1,\ry_2,\ldots,\ry_t\big).
+	\begin{align*}	\hat{\rs}_t  	= \D \big(t, (\ry_{t'})_{t'=1}^{t}\big)  
+									= \D\big(t,\ry_1,\ry_2,\ldots,\ry_t\big).
 	\end{align*}
 
 	The strong objective in remote state estimation requires almost sure observability. By a suitable choice of \(\E\) and \(\D\), the error between \((s(t))_{t\in\NN}\)
@@ -364,7 +363,7 @@
 	Furthermore, the corresponding classes of fundamental machine operations can be specified as follows:
 	\begin{itemize}	\item[1)] \emph{Input nodes.} The unique input node \(\iota = e_1 = 0\) is associated to an 
 						input operation \(g_\iota\). The input operation writes each component of a tuple 
-						\begin{align*} 	\bm{a} = \big(a_1,a_2,\ldots a_{K({\bm{a}})}\big) \in \bigcup_{j=1}^{J_{\mathrm{R}}} \FF^{j}
+						\begin{align*} 	\bm{a} = \big(a_1,a_2,\ldots a_{K({\bm{a}})}\big) \in {\bigcup}_{j=1}^{J_{\mathrm{R}}} \FF^{j}
 						\end{align*}
 						to the machine's internal registers \(\bm{r}\), according to the specificaton
 						\begin{align*}	r^1_{j(k)} := a_k ,~ j(k)\in \{1,\ldots,J_{\mathrm{R}}\},~ k\in \{1,\ldots K(\bm{x})\}.   
@@ -374,8 +373,8 @@
 					\item[2)] \emph{Computation nodes.} The programm graph may contain a number of computation nodes \(\zeta \in \{1,2,\ldots M_{\mathrm{C}}\}\),    
 						\linebreak \(M_{\mathrm{C}} \leq M_{\BSS}\), each of which is 
 						is associated to a mapping 
-						\begin{align*} 	g_\zeta : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\mathrm{R}}}. 
-						\end{align*} 
+						\( 	g_\zeta : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\mathrm{R}}}, 
+						\) 
 						which is either polynomial, rational or has previously been shown to be BSS computable. The latter accounts for the fact that in the general, 
 						unbounded setting, the programm of some BSS machine can always be incorporated as a subroutine into the programm of another BSS machine.
 						If \(e_t = \zeta\) for some \(t\in\{1,\ldots, T-1\}\), we have
@@ -385,8 +384,8 @@
 					\item[3)] \emph{Branching nodes.}  A programm may contain a number of branching nodes \(\beta \in \{M_{\mathrm{C}} + 1, M_{\mathrm{C}} + 2,\ldots, M_\mathrm{B}\}\), 
 						each of which leave the content of the internal registers unchanged. That is, if \(e_t = \beta\) for some \(t\in\{1,\ldots, T-1\}\), we have
 						\(\bm{r}^{t+1} = \bm{r}^{t}\). There exist exactly two next nodes \(\beta'(\mathsf{T})\) and \(\beta'(\mathsf{F})\) to each branching node \(\beta\). If 
-						\begin{align*}	\diamond\big(0, r^t_{j'(\beta)}\big) = \mathsf{T} 
-						\end{align*}
+						\(	\diamond\big(0, r^t_{j'(\beta)}\big) = \mathsf{T} 
+						\)
 						holds true for \(j'(\beta) \in \{1,\ldots, J_\mathrm{R}\}\), the programm flow branches to the node \(\beta'(\mathsf{T})\). Otherwise, it moves to \(\beta'(\mathsf{F})\). 
 						That is, for \(\beta = e_t\), we have
 						\begin{align*}   e_{t+1} =   \begin{cases}   \beta'(\mathsf{T})  &\text{if}~\diamond\big(0,r^t_{j'(\beta)}\big) = \mathsf{T},\\
@@ -395,8 +394,8 @@
 						\end{align*}
 					\item[4)] \emph{Output nodes.} Each programm contains at least one output node \(\sigma \in \{M_{\mathrm{B}} + 1, M_{\mathrm{B}} + 2,\ldots, M_\BSS\}\), 
 						each of which is associated to an output mapping
-						\begin{align*}	o_\sigma : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\sigma}}.
-						\end{align*}
+						\(	o_\sigma : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\sigma}}.
+						\)
 						For some fixed subset \(\J_\sigma\) of \([J_\mathrm{C}]\) and \(e_t = e_T = \sigma\), \(T\in\NN\), the mapping outputs (by projection) the values of the 
 						register variables \((r_j^T)_{j\in \J_\sigma \cap \{1,\ldots,J_\mathrm{R}\}}\) and constants \((c_j)_{j\in \J_\sigma \cap \{J_\mathrm{R}+1,\ldots,J_\mathrm{C}\}}\). 
 						There exists no next node to \(\sigma\).
@@ -408,8 +407,8 @@
 \section{Preliminaries from the Theory of Zero-Error Coding}	\label{sec:PreliminariesZeroError}
 	\noindent As indicated in Section \ref{sec:FormalEstimationSetup}, we consider finite alphabets \(\X\) and \(\Y\) as well as conditional probability mass functions on \(\Y\times\X\).
 	In particular we define
-	\begin{align*}	\W(\X,\Y)	:=	\Bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+, \\
-												&~\forall x\in\X: \sum_{y\in\Y} W(x,y) = 1 \Bigg\}.
+	\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+, \\
+												&~\forall x\in\X: {\sum}_{y\in\Y} W(x,y) = 1 \bigg\}.
 	\end{align*}
 	Since \(W\in \W(\X,\Y)\) characterizes a conditional probability mass function, the values of \(W\) are denoted by \(W(y|x)\) rather than \(W(x,y)\).  
 	The triple \((\X,\Y,W)\) is called a \emph{discrete, memoryless channel}. 
@@ -458,19 +457,19 @@
 					\begin{align*}	\delta(W,j) :&=     \begin{cases}   1   &\text{if}~ 0 < W\big(y(j)|x(j)\big), \\
 																		0   &\text{otherwise},
 														\end{cases}\\
-									\Delta(W)   :&=     1 + \sum_{j=1}^{J_\mathrm{R}} \delta(W,j)\cdot 2^{j-1} \in \big\{1,\ldots,2^{J_\mathrm{R}}\big\}.
+									\Delta(W)   :&=     1 + {\sum}_{j=1}^{J_\mathrm{R}} \delta(W,j)\cdot 2^{j-1} \in \big\{1,\ldots,2^{J_\mathrm{R}}\big\}.
 					\end{align*} 
 					We observe that, as a direct consequence of Theorem \ref{thm:ZE_Capacity}, the value of \(C_0(W)\) is 
 					entirely determined by the set 
 					\begin{align*}   \{(x,y) \in \X\times \Y : W(x|y) > 0\} \subseteq 2^{\X\times\Y}
 					\end{align*} 
 					and hence, the zero-error capacity of \(W\) depends exclusively on the number \(\Delta(W)\). Thus, we obtain the existence of a mapping
-					\begin{align*}	C'_0 : \big\{1,\ldots,2^{J_\mathrm{R}}\big\} \rightarrow \RR_0^+,~ \Delta \mapsto C'_0(\Delta)        
-					\end{align*}
+					\(C'_0 : \big\{1,\ldots,2^{J_\mathrm{R}}\big\} \rightarrow \RR_0^+,~ \Delta \mapsto C'_0(\Delta),        
+					\)
 					such that \(C'_0(\Delta(W)) = C_0(W)\) holds true for all \(W\in\W(\X,\Y)\). For \(J_\mathrm{C} := J_\mathrm{R} + 2^{J_\mathrm{R}}\), 
 					hardcode the family of constants \(\bm{c}\) according to 
-					\begin{align*}   c_j := C'_0(j - J_\mathrm{R})
-					\end{align*}
+					\(  c_j := C'_0(j - J_\mathrm{R})
+					\)
 					for all \(j\in \{J_\mathrm{R} + 1, \ldots, J_\mathrm{C}\}\) and specify the programm \(\G = ([M_\BSS],\V_\BSS)\) with
 					\begin{align*}	M_\mathrm{C} := 0,~M_\mathrm{B} := 2^{J_\mathrm{R}} - 1,~ M_\BSS := ~M_\mathrm{B} + 2^{J_\mathrm{R}}
 					\end{align*}
@@ -481,9 +480,9 @@
 											register variables in the following.
 										\item[\(\beta\)\hspace{1pt}:] 
 											For \(\beta \in \{1,\ldots, M_\mathrm{B}\}\), the pair of next nodes \(\big(\beta'(\mathsf{T}),\beta'(\mathsf{F})\big)\) satisfies
-											\begin{align*} 	\beta'(\mathsf{T}) :    &=  2\beta + 1, \\
-															\beta'(\mathsf{F}) :    &=  2\beta.
-											\end{align*}
+											\(	\beta'(\mathsf{T}) :    =  2\beta + 1, \quad
+												\beta'(\mathsf{F}) :    =  2\beta.
+											\)
 											Denote \(m\in\NN\) the smallest natural number such that \(\beta < 2^m\) is satisfied. If, for some \(t\in\{1,\ldots, T-1\}\), we have
 											\(e_t = \beta\), then \(e_{t+1}\) satisfies
 											\begin{align*}   e_{t+1} := \begin{cases}	\beta'(\mathsf{T}) &\text{if}~ 0 < r_m,\\
@@ -504,7 +503,7 @@
 	For \(\mA \in \RR^{n\times n}\), denote \(\bm{\lambda}(\mA) := (\lambda_1(A),\lambda_2(A),\ldots,\lambda_n(\mA))\) a family 
 	consisting of all eigenvalues of \(\mA\), according to their algebraic multiplicity. Consequently, the family \(\bm{\lambda}(\mA)\)
 	consists of exactly \(n\) components for all \(\mA\in \RR^{n\times n}\). We define
-	\begin{align}	\eta(\mA):=\sum_{j:|\lambda_j(\mA)|\geq 1} \log_2|\lambda_j(\mA)|.
+	\begin{align}	\eta(\mA):={\sum}_{j:|\lambda_j(\mA)|\geq 1} \log_2|\lambda_j(\mA)|.
 	\end{align}
 	
 	As indicated in the introduction, the zero-error capacity of the DMC \(W\) plays a central role in the solvability of the remote state estimation problem;
@@ -513,14 +512,14 @@
 	\begin{Lemma} 	[\cite{MS07}]\label{lem:SolvabilityCondition} Let \(\X,\Y\) be finite alphabets, \(W\in \W(\X,\Y)\) a DMC and \((\mA,\mB) \in \RR^{n\times n}\times \RR^{m\times n}\) 
 					a characterization of an unstable, time-invariant, linear plant and an associated local sensor. Then, the following holds true:
 					\begin{itemize}	\item If \(\mu(\mA) < C_0(W)\) is satisfied, there exists an encoder/decoder-pair \((\E,\D)\) such that we have
-										\begin{align*}
-											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| < \infty \quad \text{a.s.}
-										\end{align*}
+										\(
+											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| < \infty 
+										\) almost surely.
 										That is, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
-									\item If \(\mu(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have 
-										\begin{align*}
-											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| = \infty \quad \text{a.s.}
-										\end{align*}
+									\item If \(\mu(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have\linebreak 
+										\(
+											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| = \infty 
+										\) almost surely.
 										That is, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
 					\end{itemize}
 	\end{Lemma} 
@@ -531,21 +530,19 @@
 	\end{align*}
 	Then, if \(W\in \S_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
 	Likewise, if \(W\in \U_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
+	In the following, denote \(\mathds{1}_{\S_{\mA}(\X,\Y)}\), \(\mathds{1}_{\U_{\mA}(\X,\Y)}\) the \emph{indicator function}
+	of \(\S_{\mA}(\X,\Y)\), \(\U_{\mA}(\X,\Y)\), respectively.
 	\begin{Theorem}	\label{thm:RemoteStateEstimationBSSDecidable}
 					Let \(\X,\Y\) be finite alphabets and \(\mA \in \RR^{n\times n}\) a characterization of an unstable, time-invariant, 
 					linear plant. Then, the following holds true:
 					\begin{itemize}	\item There exists a BSS machine \(\BSS_{\S}^{\mA}\) that \emph{decides} the set
 										\(\S_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
-										\begin{align*}	\BSS_{\S}^{\mA}(W) = 	\begin{cases}	1 &\text{if}~ W\in \S_{\mA}(\X,\Y), \\
-																								0 &\text{otherwise}
-																				\end{cases}
+										\begin{align*}	\BSS_{\S}^{\mA}(W) = 	\mathds{1}_{\S_{\mA}(\X,\Y)}(W)
 										\end{align*}
 										for all \(\W(\X,\Y)\).
 									\item There exists a BSS machine \(\BSS_{\U}^{\mA}\) that \emph{decides} the set
 										\(\U_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
-										\begin{align*}	\BSS_{\U}^{\mA}(W) = 	\begin{cases}	1 &\text{if}~ W\in \U_{\mA}(\X,\Y), \\
-																								0 &\text{otherwise}
-																				\end{cases}
+										\begin{align*}	\BSS_{\U}^{\mA}(W) = 	\mathds{1}_{\U_{\mA}(\X,\Y)}(W)
 										\end{align*}
 										for all \(\W(\X,\Y)\).
 					\end{itemize}
