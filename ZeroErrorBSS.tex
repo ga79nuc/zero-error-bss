@@ -114,7 +114,7 @@
 \maketitle
 
 \begin{abstract}
-	We consider a descision problem associated to the task of estimating the state of a dynamic plant remotely via a noisy communication channel: 
+	We consider a decision problem associated to the task of estimating the state of a dynamic plant remotely via a noisy communication channel: 
 	given the characteristics of some unstable LTI plant and some DMC, does there exist an encoder/decoder-pair that 
 	allows for the remote tracking of the plant's state with bounded error? Questions of this kind are becoming increasingly important in communication technologies, 
 	since future communication networks are expected to incorporate distributed control and decision making. Analytically, this problem has been shown to involve the 
@@ -166,7 +166,7 @@
 \section{Introduction}	\label{sec:Introduction}
 	\IEEEPARstart{R}{emote} state estimation via noisy communication channels is a prominent problem in control theory 
 	\cite{MS07, MS07SC, S06, SP03}. 
-	The problem involves both conotrol and communications. In praticular, as we will see in the following, the communications part is essential.  
+	The problem involves both control and communications. In particular, as we will see in the following, the communications part is essential.  
 	Informally, the corresponding dynamic system can be described as follows. The state of an unstable, linear, time-invariant plant is observed by a local sensor. 
 	Subsequently, the sensor data is feed into an encoder that prepares the data for transmission trough a discrete, memoryless channel \emph{(DMC)}. 
 	Based on the sequence of channel outputs, the remote decoder/estimator tries to estimate the current state of the plant. The setup is schematically depicted in Figure \ref{fig:Schematics}.
@@ -244,13 +244,13 @@
 		\label{fig:Schematics}
 	\end{figure}
 	The key applications of this problem range from robotics over autonomous driving to general remote controlled systems \cite{FeBo21}. However, there exist fundamental 
-	limits to the capabilites of autonomous systems and computer aided design tools, as has been shown in several instances \cite{BoBoDe21}\tbr{{\color{red}\(\leftarrow\) Check this source!~}}. These fundamental limits essentially
+	limits to the capabilities of autonomous systems and computer aided design tools, as has been shown in several instances \cite{BoBoDe21}\tbr{{\color{red}\(\leftarrow\) Check this source!~}}. These fundamental limits essentially
 	depend on the hardware in use. For digital hardware, the Turing machine determines the fundamental limits. In recent times, there has been an increasing interest in analog information processing.
 	Here Blum-Shub-Smale machines are a good candidate for a universal computation model.
 	
 	In essence, the remote state estimation problem consists of designing a pair of encoder and decoder which allows for the estimation of the plant's state in a sufficient manner.
 	Generally, this is known as the co-design of control and communication. In this context, the problem of remote state estimation via noisy channels is particularly interesting,
-	since it is an example for a scenario where practically relevant control-performance criteria have an essential impact on the required communcations performance.
+	since it is an example for a scenario where practically relevant control-performance criteria have an essential impact on the required communications performance.
 	As was shown in \cite{MS07}, the strong objective of almost sure observability requires the zero-error capacity of the DMC, while a weakened form of the observability criterion can be achieved
 	by the classical Shannon capacity of the DMC.
 	According to this, it is necessary to decide, based on the specifications of the plant and the DMC, whether an appropriate pair of encoder and decoder can exist in the first place. 
@@ -267,9 +267,9 @@
 
 	Problems of the latter kind are traditionally investigated in the field of theoretical computer science and have not gained much attention in applied engineering until now. 
 	On the other hand, we can observe increasing requirements on electronic systems regarding safety, secrecy and, in lack of a different term, ethical behaviour \tbr{\sdummy}. 
-	A prominent example is the related discussion surrounding autonomous driving, which is recently taking place in the community of machine ethics and technology assesment \tbr{\sdummy}. 
+	A prominent example is the related discussion surrounding autonomous driving, which is recently taking place in the community of machine ethics and technology assessment \tbr{\sdummy}. 
 	In order to obtain a qualified evaluation of whether some digitally controlled technological system meets the abovementioned requirements, it is necessary to precisely understand 
-	the fundametal boundaries of digital technology. This, in turn, requires an explicit treatment of those aspects of digital technology that involve theoretical computer science.
+	the fundamental boundaries of digital technology. This, in turn, requires an explicit treatment of those aspects of digital technology that involve theoretical computer science.
 
 	In this series of articles (c.f. \cite{BoBoDe21X} for a full survey), we aim to approach the decision problem related to remote state estimation and stabilization from the perspective 
 	of theoretical computer science. In \cite{BoBoDe21}\tbr{{\color{red}\(\leftarrow\) Change to TAC!~}}, we have considered the decision problem with regards to Turing machines. In this work, we instead discuss 
@@ -279,7 +279,7 @@
 	Despite the fact that the capabilities real-world, digital computers are 
 	entirely captured by Turing machines, BSS machines over \(\RR\) are regularly considered in numerics and computational complexity theory. 
 	This practice is justified by the premise that the error emerging from representing real numbers by floating point approximations is neglectible in all practically relevant numerical problems. 
-	Furthermore, assumptions on the underlying machine model are usually implicit in numerics. In contrast, we seek to explicitely treat the underlying machine model in our investigations.
+	Furthermore, assumptions on the underlying machine model are usually implicit in numerics. In contrast, we seek to explicitly treat the underlying machine model in our investigations.
 
 	The outline of the remainder of this work is as follows. Sections \ref{sec:FormalEstimationSetup}, \ref{sec:PreliminariesBSS} and \ref{sec:PreliminariesZeroError} are dedicated to preliminaries. 
 	In particular, we recapitulate the description of the remote state estimation setup in a formal manner and introduce the theory of Blum-Shub-Smale machines and zero-error coding.
@@ -287,8 +287,8 @@
 	the set of channels. In \ref{sec:DecidingRemoteStateEstimationOnBSS}, we apply the results established in Section \ref{sec:ComputingZeroErrorOnBSS} to devise a BSS algorithm
 	which, for a fixed characterization of the unstable plant, decides the solvability of the remote state estimation problem. 
 	As already stated before the co-design of control and communication is of particular interest in this context, since the criterion for control performance, which is
-	usually determined by the practical application, essentially determines the performance criterion for communication. Interestigly, the weakened form of the control performance criterion 
-	is decidable on digital hardware, and thus requires not only a weaker communication performance, but also a weaker computation performance regardig decidability. 
+	usually determined by the practical application, essentially determines the performance criterion for communication. Interestingly, the weakened form of the control performance criterion 
+	is decidable on digital hardware, and thus requires not only a weaker communication performance, but also a weaker computation performance regarding decidability. 
 	The paper closes with a subsumption of 
 	our findings in Section \ref{sec:Conclusion}.
                                                                         
@@ -334,65 +334,65 @@
 	with a binary relation \(\diamond~{:}~\FF \times \FF \rightarrow \{\mathsf{T},\mathsf{F}\}\), which is either an equality, equivalence or strict total order. 
 	
 	Despite the so called Church-Turing thesis being widely accepted as true, which implies that the capabilities of real-world computers are exactly characterized 
-	by the abstract Turing machine, BSS machines are often implicitely considered as the underlying machine model in numerics and complexity theory \tbr{\sdummy}. 
+	by the abstract Turing machine, BSS machines are often implicitly considered as the underlying machine model in numerics and complexity theory \tbr{\sdummy}. 
 	A reason for this practice may lie in the ability of BSS machines to handle exact real numbers. Since most areas of applied mathematics involve continuous structures, 
-	treating the content of a computer's memory as actual real numbers simplifys the description of algorithms to a great extent. For a detailed discussion on the Topic, we refer to \cite{Bl04}.
+	treating the content of a computer's memory as actual real numbers simplifies the description of algorithms to a great extent. For a detailed discussion on the Topic, we refer to \cite{Bl04}.
 
 	In essence, BSS machines can be considered a generalization of Turing machines. They are equipped with a two-way infinite tape divided into cells, each of which holds an 
 	element of \(\FF\cup\{\sqcup\}\). Here, "\(\sqcup\)" denotes the distinguished empty-space symbol. We assume that the tape is almost empty, i.e., all but finitely many cells 
 	contain the symbol "\(\sqcup\)", at the beginning of the computation. A BSS machine interacts with its tape by means of a read-write head, which can, depending on tis current 
-	position, access a fixed number of contiguous cells at a time. The algorithm executed by the BSS machine is characterized by its programm, a finite, directed, simple graph 
+	position, access a fixed number of contiguous cells at a time. The algorithm executed by the BSS machine is characterized by its program, a finite, directed, simple graph 
 	\begin{align*}   \G_\BSS = ([M_\BSS]_{0}, \V_\BSS),~ \V_\BSS \subseteq [M_\BSS]_{0} \times [M_\BSS],
 	\end{align*} 
 	with five types of nodes: \emph{input nodes}, \emph{computation nodes}, \emph{branching nodes}, \emph{shifting nodes} and \emph{output nodes}, each of which specifies a class 
-	of fundamental machine operations. For a given input, the programm flow corresponds to a directed walk in the programm graph
+	of fundamental machine operations. For a given input, the program flow corresponds to a directed walk in the program graph
 	\begin{align*}	\F := (e_t)_{t\in\{1,2,\ldots,T\}},~T\in\NN\cup \{\infty\},
 	\end{align*}
-	starting from the input node and (possibly) ending in some output node, or continuing infinitely. In each step, the operaton associated to the current node is executed, 
-	affecting the content of the tape, the position of the read-write head and the programm flow accordingly. Furthermore, the values stored in the initially non-empty cells 
-	of the tape are considered part of the algoritm, much like hard-coded constants in a real-world computer programm. 
+	starting from the input node and (possibly) ending in some output node, or continuing infinitely. In each step, the operation associated to the current node is executed, 
+	affecting the content of the tape, the position of the read-write head and the program flow accordingly. Furthermore, the values stored in the initially non-empty cells 
+	of the tape are considered part of the algorithm, much like hard-coded constants in a real-world computer program. 
 
-	In order to prove that some problem is BSS-computable, on has, in principle, to provide the existence of a suitable programm graph and, possibly, a tape with predefined constants. 
-	This can often be cumbersome, since it involves the exact specification of the movement of the read-write head. If the size of the \emph{memory} required to execute the programm, i.e., 
-	the number of different cells accessed througout the programm execution, can be uniformly upper bounded by a number \(J_\BSS \in \NN\), we can get rid of the tape alltogether by 
+	In order to prove that some problem is BSS-computable, on has, in principle, to provide the existence of a suitable program graph and, possibly, a tape with predefined constants. 
+	This can often be cumbersome, since it involves the exact specification of the movement of the read-write head. If the size of the \emph{memory} required to execute the program, i.e., 
+	the number of different cells accessed throughout the program execution, can be uniformly upper bounded by a number \(J_\BSS \in \NN\), we can get rid of the tape altogether by 
 	introducing \emph{register variables} and \emph{constants},
 	\begin{align*}	\bm{r} :&= (r_j^t)_{j\in\{1,\ldots,J_{\mathrm{R}}\}, t\in\{1,\ldots,T\}},\\
 					\bm{c} :&= (c_j)_{j\in\{J_{\mathrm{R}} + 1,\ldots,J_{\mathrm{C}}\}},
 	\end{align*}
-	with \(T\in\NN\cup\{\infty\}\) and \(J_{\mathrm{C}} \leq J_\BSS\). The programm graph then consists only of an input node, computation nodes, branching nodes and at least one output node.
+	with \(T\in\NN\cup\{\infty\}\) and \(J_{\mathrm{C}} \leq J_\BSS\). The program graph then consists only of an input node, computation nodes, branching nodes and at least one output node.
 	Furthermore, the corresponding classes of fundamental machine operations can be specified as follows:
 	\begin{itemize}	\item[1)] \emph{Input nodes.} The unique input node \(\iota = e_1 = 0\) is associated to an 
 						input operation \(g_\iota\). The input operation writes each component of a tuple 
 						\begin{align*} 	\bm{a} = \big(a_1,a_2,\ldots a_{K({\bm{a}})}\big) \in {\bigcup}_{j=1}^{J_{\mathrm{R}}} \FF^{j}
 						\end{align*}
-						to the machine's internal registers \(\bm{r}\), according to the specificaton
+						to the machine's internal registers \(\bm{r}\), according to the specification
 						\begin{align*}	r^1_{j(k)} := a_k ,~ j(k)\in \{1,\ldots,J_{\mathrm{R}}\},~ k\in \{1,\ldots K(\bm{x})\}.   
 						\end{align*}
 						The remaining registers are initialized with the value\linebreak \(0 \in \FF\).
 						There exists a unique next node \(\iota' \in [M_\BSS]\) to \(\iota\).
-					\item[2)] \emph{Computation nodes.} The programm graph may contain a number of computation nodes \(\zeta \in \{1,2,\ldots M_{\mathrm{C}}\}\),    
+					\item[2)] \emph{Computation nodes.} The program graph may contain a number of computation nodes \(\zeta \in \{1,2,\ldots M_{\mathrm{C}}\}\),    
 						\linebreak \(M_{\mathrm{C}} \leq M_{\BSS}\), each of which is 
 						is associated to a mapping 
 						\( 	g_\zeta : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\mathrm{R}}}, 
 						\) 
 						which is either polynomial, rational or has previously been shown to be BSS computable. The latter accounts for the fact that in the general, 
-						unbounded setting, the programm of some BSS machine can always be incorporated as a subroutine into the programm of another BSS machine.
+						unbounded setting, the program of some BSS machine can always be incorporated as a subroutine into the program of another BSS machine.
 						If \(e_t = \zeta\) for some \(t\in\{1,\ldots, T-1\}\), we have
 						\begin{align*}  \bm{r}^{t+1} = g_{\zeta}(\bm{r}^t,\bm{c})~\text{with}~\bm{r}^t := (r_j^t)_{j\in\{1,\ldots,J_{\mathrm{R}}\}}.
 						\end{align*}
 						There exists a unique next node \(\zeta' \in \{1,2,\ldots M_{\mathrm{C}}\}\) to each computation node \(\zeta\).
-					\item[3)] \emph{Branching nodes.}  A programm may contain a number of branching nodes \(\beta \in \{M_{\mathrm{C}} + 1, M_{\mathrm{C}} + 2,\ldots, M_\mathrm{B}\}\), 
+					\item[3)] \emph{Branching nodes.}  A program may contain a number of branching nodes \(\beta \in \{M_{\mathrm{C}} + 1, M_{\mathrm{C}} + 2,\ldots, M_\mathrm{B}\}\), 
 						each of which leave the content of the internal registers unchanged. That is, if \(e_t = \beta\) for some \(t\in\{1,\ldots, T-1\}\), we have
 						\(\bm{r}^{t+1} = \bm{r}^{t}\). There exist exactly two next nodes \(\beta'(\mathsf{T})\) and \(\beta'(\mathsf{F})\) to each branching node \(\beta\). If 
 						\(	\diamond\big(0, r^t_{j'(\beta)}\big) = \mathsf{T} 
 						\)
-						holds true for \(j'(\beta) \in \{1,\ldots, J_\mathrm{R}\}\), the programm flow branches to the node \(\beta'(\mathsf{T})\). Otherwise, it moves to \(\beta'(\mathsf{F})\). 
+						holds true for \(j'(\beta) \in \{1,\ldots, J_\mathrm{R}\}\), the program flow branches to the node \(\beta'(\mathsf{T})\). Otherwise, it moves to \(\beta'(\mathsf{F})\). 
 						That is, for \(\beta = e_t\), we have
 						\begin{align*}   e_{t+1} =   \begin{cases}   \beta'(\mathsf{T})  &\text{if}~\diamond\big(0,r^t_{j'(\beta)}\big) = \mathsf{T},\\
 																	\beta'(\mathsf{F})  &\text{otherwise}.
 													\end{cases}    
 						\end{align*}
-					\item[4)] \emph{Output nodes.} Each programm contains at least one output node \(\sigma \in \{M_{\mathrm{B}} + 1, M_{\mathrm{B}} + 2,\ldots, M_\BSS\}\), 
+					\item[4)] \emph{Output nodes.} Each program contains at least one output node \(\sigma \in \{M_{\mathrm{B}} + 1, M_{\mathrm{B}} + 2,\ldots, M_\BSS\}\), 
 						each of which is associated to an output mapping
 						\(	o_\sigma : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\sigma}}.
 						\)
@@ -444,7 +444,7 @@
 	\noindent In the following, we specify a BSS-Algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes the zero-error capacity \(C_0(W)\) 
 	upon being passed a channel description \(W \in \W_c(\X,\Y)\). 
 
-	Essentially, the algorithm relies on the fact that a \emph{lookup table} containing all possible values of \(C_0(W)\) can be hard-coded into the programm. The lookup is performed in 
+	Essentially, the algorithm relies on the fact that a \emph{lookup table} containing all possible values of \(C_0(W)\) can be hard-coded into the program. The lookup is performed in 
 	terms of a perfect binary tree, where each branch corresponds to an evaluation of the predicate "\(W(y|x) > 0\)" for some letters \(x\in\X\) and \(y\in\Y\). Per definition, the latter 
 	can be done algorithmically, as a fundamental operation on the BSS machine.
 
@@ -470,12 +470,12 @@
 					hardcode the family of constants \(\bm{c}\) according to 
 					\(  c_j := C'_0(j - J_\mathrm{R})
 					\)
-					for all \(j\in \{J_\mathrm{R} + 1, \ldots, J_\mathrm{C}\}\) and specify the programm \(\G = ([M_\BSS],\V_\BSS)\) with
+					for all \(j\in \{J_\mathrm{R} + 1, \ldots, J_\mathrm{C}\}\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) with
 					\begin{align*}	M_\mathrm{C} := 0,~M_\mathrm{B} := 2^{J_\mathrm{R}} - 1,~ M_\BSS := ~M_\mathrm{B} + 2^{J_\mathrm{R}}
 					\end{align*}
 					in the following way:
 					\begin{enumerate}	\item[\(\iota\)\hspace{1pt}:] Preallocate the machine's registers \(\bm{r} := \bm{r}^1\) according to
-											\(r_j := r^1_j := W\big(y(j)|x(j)\big)\) and set \(\iota' := 1\). Since the programm does not contain any computation nodes,
+											\(r_j := r^1_j := W\big(y(j)|x(j)\big)\) and set \(\iota' := 1\). Since the program does not contain any computation nodes,
 											the content of the registers remains constant during the execution. We thus omit the superscript of the
 											register variables in the following.
 										\item[\(\beta\)\hspace{1pt}:] 
@@ -550,7 +550,7 @@
 					Consider again an enumeration \(j \mapsto \big(x(j), y(j)\big)\) of the set \(\X\times\Y\) 
 					Define \(M_\mathrm{C} := 1\), \(M_\mathrm{B} := 2\) and \(M_\BSS := 4\) as well as \(J_\mathrm{R} = \max\{|\X\times \Y|,3\}\) and 
 					\(J_\mathrm{C} = J_\mathrm{R} + 1\). Furthermore, hard-code the sole constant \(c_{J_\mathrm{C}}\) according to
-					\(c_{J_\mathrm{C} } := \mu(\mA)\) and specify the programm \(\G = ([M_\BSS],\V_\BSS)\) in the following way:
+					\(c_{J_\mathrm{C} } := \mu(\mA)\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) in the following way:
 					\begin{enumerate}	\item[\(\iota\)\hspace{1pt}:] Preallocate the machine's registers \(\bm{r}\) according to
 											\begin{align}	r^1_j :=	\begin{cases}	W\big(y(j)|x(j)\big)	&\text{if}~ j\leq |\X\times\Y|,\\
 																						0						&\text{otherwise}
@@ -589,15 +589,15 @@
 \section{Summary and Conclusion}	\label{sec:Conclusion}
 	We have proven that for fixed alphabets \(\X,\Y\), the zero-error capacity \(C_0(W)\) is BSS-computable as a function on \(\W(\X,\Y)\).
 	Furthermore, we have shown that for each \(\mA\in \RR^{n\times n}\) describing an unstable plant, the solvability of the remote state estimation
-	probelm is decidable on a BSS machines as a function on on \(\W(\X,\Y)\). Both results rely essentially on the ability of BSS machines to handle exact real numbers.
+	problem is decidable on a BSS machines as a function on on \(\W(\X,\Y)\). Both results rely essentially on the ability of BSS machines to handle exact real numbers.
 	
-	The problem of remote state estimation via noisy channels is an explicite example of control and communications co-design. The criterion imposed on the control performance
+	The problem of remote state estimation via noisy channels is an explicit example of control and communications co-design. The criterion imposed on the control performance
 	essentially determines the required communication performance. In \cite{MS07,BoBoDe21}\tbr{{\color{red}\(\leftarrow\) Change to TAC!~}}, it was shown that the strong objective of almost sure observability requires the DMC to provide a sufficiently high
 	zero-error capacity and is not semi-decidable on Turing machines. Furthermore, it was shown that the weakened control objective only requires the DMC to provide a sufficiently high
 	Shannon capacity and is semi-decidable on a Turing machine. Here, we have shown that the strong objective is decidable on a Blum-Shub-Smale machine, which is generally more powerful than
 	Turing machines. Hence, the objective of almost sure observability not only requires a stronger communication performance, but also a stronger computation model.
 	
-	The strong objective of almost sure observability is required for several real-world control engineering scenarios, especially those which potentially affect human saftey or heal, e.g.
+	The strong objective of almost sure observability is required for several real-world control engineering scenarios, especially those which potentially affect human safety or heal, e.g.
 	autonomous driving. This highlights the importance of the precise understanding of the underlying mathematical theories of the models involved in the design process of these systems.
 
 		
