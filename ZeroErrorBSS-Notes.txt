@@ -1,0 +1,71 @@
+-description on a BSS machine: BSS machines are able to handle exact descriptions, not "representations of objects",
+in contranst to TMs
+-different machine model -> different results -> explicit treatment of underlying machine model
+
+-machine ethics
+
+-Starting from this result, we approach the problem from the view of theoretical computer science, 
+	with an explicit treatment of the unerlying machine Model: does there exist a Blum-Shub-Smale computable algorithm that solves the above 
+	decision problem based on the plant's and DMC's characteristics? Given the rise of digital technology in control and decision-making, 
+	questions of this kind are becoming increasingly important, especially with regards to machine ethics and technology assessment. 
+
+Generally, remote and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like``Industry 4.0'', ``Autonomous Driving'', ``Internet of Things'' and the 
+	``Metaverse'' are examples for a the currentd trend in communications to shift the focus away from pure data transmission towards interconnecting 
+	
+	For the upcoming 5G and 6G mobile communication standards,
+	explicite requirements regarding hardware trustworthiness and integrity are stated, some of which have been shown to exceed the limitations of today's digital hardware. 
+	At the same time, we can observe a recent paradigm shift in research and development towards analog signal processing and computing hardware, summarized under the slogan ``neuromorphic computing''. 
+	While the theoretical capabilities of digital hardware
+	are precisely captured by the abstract model of Turing machines, a comparable universal model for analog computing has not been widely accepted. 
+	A promising candidate for the latter is the \emph{Blum-Shub-Smale} machine, a generalization of the Turing machine that can process exact real numbers. BSS machines have been shown to be more powerful
+	than Turing machines in general, with many specific instances of practical relevance. In particular, there are several scenarios in communication where BSS machines are more powerful than Turing machines.
+	Hence, BSS machines merit an investigation from the view of theoretical computer science, even if they cannot be practically implementend as of today.
+
+
+
+Since the requirements regarding hardware integrity and trustworthiness imposed on future communication networks has been shown
+	to reach the fundamental limits of digital hardware, Blum-Shub-Smale machines merit an investigation from the theoretical point of view, even if they cannot be implemented as of today. 
+
+%\tbr{Generally, remote and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like``Industry 4.0'', 
+	%``Autonomous Driving'', ``Internet of Things'' and the ``Metaverse'' are examples for the currentd trend in communications to shift the focus away from pure data transmission 
+	%towards interconnected information processing and control of agents that perform real world actions. Since technologies of this kind are potentially affecting human lives, 
+	%strict rules for technology assessment are necessary. {\color{red} Der Übergang passt noch nicht...} For the upcoming 5G and 6G mobile communication standards,
+	%explicite requirements regarding hardware trustworthiness and integrity are stated, some of which have been shown to exceed the limitations of today's digital hardware. 
+	%At the same time, we can observe a recent paradigm shift in research and development towards analog signal processing and computing hardware, summarized under the slogan ``neuromorphic computing''. 
+	%While the theoretical capabilities of digital hardware are precisely captured by the abstract model of Turing machines, a comparable universal model for analog computing has not been widely accepted. 
+	%A promising candidate for the latter is the \emph{Blum-Shub-Smale} machine, a generalization of the Turing machine that can process exact real numbers. BSS machines have been shown to be more powerful
+	%than Turing machines in general, with many specific instances of practical relevance. In particular, there are several scenarios in communication where BSS machines are more powerful than Turing machines.
+	%Hence, BSS machines merit an investigation from a theoretical point of, even if they cannot be practically implementend as of today.}
+	%\tbr{Given the rise of digital technology in control and decision making, questions of this kind become increasingly important, especially with regards to technology assessment and machine ethics.}
+
+
+\section{TO-DO}
+	\begin{itemize}
+		
+		\item Conclusion (Why are results important?; Description on a BSS machine: BSS machines are able to handle exact descriptions, not ``representations of objects'',
+				as TMs do; Machine ethics; Big picture: other results on the topic; Different machine models lead to different results, making an explicit treatment of underlying
+				machine model necessary;).
+		\item ``Despite the fact..'': check styleguide.
+		\item ``BSS machines over \(\RR\) are regularly..'': check styleguide.
+		\item Almost sure stability.
+		\item Reference exact assumptions on \((\mA,\mB,W,\E,\D)\) and \((\rz_t)_{t\in\NN}\), \(\rs_{0}\).
+		\item Lemma \label{lem:SolvabilityCondition}: independent of distributions.
+		\item Set of unstable matrices
+		\item Update Figure	
+	\end{itemize}
+----
+\item Check usage of \(j,J,k,K,l,L,\ldots\).
+\item Indentation
+\item Sources, References.
+\item Spelling.
+\item Hypenation, Linebreaks, Pagebreaks, Inline-math.
+\item Emphasizement/Italic
+\item Sans-Serif versus normal notation (random variables versus realizations).
+\item Notationsplan (-> schriftarten)
+\item q.e.d symbols
+\item eq numberings
+\item Section titles
+\item Check hidden by format (kurztitle auf weiterne seiten)
+\item \emph, check where abbreviations are defined
+\item Abstract, Introduction und Conclusion auf Konstistenz prüfen
+\item \ref -> \emph{Thm.}\emph{Sec.}
