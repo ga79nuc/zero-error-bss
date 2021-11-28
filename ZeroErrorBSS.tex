@@ -24,6 +24,8 @@
 	\newcommand{\rxs}{(\mathsf{x}_t)_{t\in\NN}} 
 	\newcommand{\rys}{(\mathsf{y}_t)_{t\in\NN}} 
 	\newcommand{\rshs}{(\hat{\mathsf{s}}_t)_{t\in\NN}}
+	\newcommand{\part}{\hookrightarrow}
+	\def\A{{\mathcal A}}
 	\def\E{{\mathcal E}}
 	\def\D{{\mathcal D}}
 	\def\X{{\mathcal X}}
@@ -38,6 +40,7 @@
 	\def\NN{{\mathbb N}}
 	\def\QQ{{\mathbb Q}}
 	\def\RR{{\mathbb R}}
+	\newcommand{\RRc}{\RR_{\mathrm{c}}}
 	\def\ZZ{{\mathbb Z}}
 	\def\FF{{\mathbb F}}
 	\def\CC{{\mathbb C}}
@@ -50,6 +53,9 @@
 	\newcommand{\oQE}{\overline{\mathcal{Q}}_{\mathrm{E}}}
 	\newcommand{\oQD}{\overline{\mathcal{Q}}_{\mathrm{D}}}
 	\newcommand{\BSS}{\mathrm{BSS}}
+	\newcommand{\TM}{\mathrm{TM}}
+	\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{#1}}}}}}
+	\newcommand{\RRcP}[1]{\mathrlap{\phantom{\RR}_{\mathrm{c}}}\RR^{#1}}
 	\DeclareMathOperator{\Span}{Span}
 	\newcommand{\rdummy}{{\color{red}[REF]}}
 	\newcommand{\sdummy}{{\color{red}[SOURCE]}}
@@ -328,6 +334,73 @@
 	communication channel, as introduced in \cite{Sh56}. If the channel is unsuitable for transmitting a sufficient amount of data with perfect reliability, i.e., zero 
 	chance of a transmission error, the discrepancy between \(s(t)\) and \(\hat{s}(t)\) accumulates over time and grows arbitrarily large, even if \((\zeta(t))_{t\in\NN}\) 
 	is bounded arbitrarily close to zero. In this case, an unstable dynamic plant cannot be observed remotely with a bounded error. 
+
+\section{Preliminaries from the Theory of Turing Machines and Effective Analysis}\label{sec:introTuring}
+	\noindent In order to formalize the idea of algorithmic decidability, we employ the theory of Turing machines and, subsequently, 
+	the theory of effective analysis, which is based on the former.	Turing machines were introduced in \cite{T36,T36b} in order to formalize the idea of computability. 
+	The framework of Turing machines fully captures the theoretical limits of today's real-world digital computers. For \(n\in\NN\), a partial mapping \(f : \NN^n \part \NN\) 
+	is referred to as recursive if and only if it can be computed on a Turing machine \cite{Kl36,Tu37}. Hence, a function \(f :\NN^n \part \NN\) can, in principle, be 
+	computed on a real-world digital computer if and only if it is recursive. 
+
+	Applying the theory of Turing machines to the domain of real- and complex-valued analysis, we arrive at the 
+	discipline of effective analysis. The latter will be the core ingredient in our investigation of the RSE problem. 
+	For a comprehensive treatment of the topic, we refer to \cite{PoRi17,AB14}.%\FormatExtra{}{\pagebreak}
+
+	\begin{Definition}  \label{ber}
+						A sequence of rational numbers \((r_n)_{n\in\NN}\) is called computable if there exist recursive functions \(a,b,s:\NN\to\NN\), such that
+						\begin{align*}   r_{n} = (-1)^{s(n)}\frac{a(n)}{b(n)} 
+						\end{align*} 
+						holds true for all \(n\in\NN\).
+	\end{Definition}
+
+	\begin{Definition}  \label{compreal}
+						A number \(x\in\RR\) is called computable if there exists a computable sequence of rational numbers 
+						\(\mathfrak{r} = (r_n)_{n\in\NN}\) such that \(|x-r_n|<2^{-n}\) holds true for all \(n\in\NN\). We denote the set of computable real numbers by \(\RRc\).
+	\end{Definition}
+
+	\begin{Remark}  A number \(x\in\RRc\) is computable if and only if there is a computable sequence \((r_n)_{n\in\NN}\) 
+					of rational numbers and a recursive function \(\xi:\NN\to\NN\), such that \(|x-r_n|< 2^{-N}\)
+					holds true for all \(n,N\in\NN\) that satisfy \(n \geq \xi(N)\). 
+	\end{Remark}
+
+	\noindent A computable sequence \(\mathfrak{r} = (r_n)_{n\in\NN}\) of rational numbers that satisfies \(|x-r_n|<2^{-n}\) for some number \(x\in\RRc\) 
+	is referred to as a standard description of the number \(x\). 
+
+	Computable numbers can alternatively be characterized by computable sequences of rational numbers that satisfy monotonicity conditions. 
+	In particular, there exists a Turing machine \(\TM_{\mathrm{std}\rightarrow\mathrm{alt}}\) that returns a pair \((\vec{\mathfrak{r}}, \cev{\mathfrak{r}})\) 
+	whenever it receives a standard description \(\mathfrak{r}\) of some number \(x\in\RRc\) as input, such that
+	\(	\vec{r}_n \leq \vec{r}_{n+1} \leq x \leq \cev{r}_{n+1} \leq \cev{r}_n
+	\)
+	as well as 
+	\(	| \cev{r}_n - \vec{r}_n\hspace{1pt}| < 2^{-n}
+	\)
+	are satisfied for all \(n\in\NN\). Likewise, there exists a Turing machine \(\TM_{\mathrm{alt}\rightarrow\mathrm{std}}\) that returns a standard description 
+	\(\mathfrak{r}\) of that number whenever it receives an alternative description \((\vec{\mathfrak{r}}, \cev{\mathfrak{r}})\) in the above sense as input. 
+	For a more in-depth discussion, we again refer to \cite{PoRi17}. %\marker{\(\leftarrow\) Check This}
+
+	The definition of computable numbers allows for the extension of the theory of computability to the realm of functions on the real numbers, 
+	leading to the discipline of computable analysis. There are different approaches towards a formalization of computability on the reals; for a comparison 
+	we refer to \cite{AB14}. We introduce the notion of \emph{Markov computability}, which is suitable for our purposes. 
+
+	\begin{Definition}  \label{Borel}
+						A function \(f : \RRc \to \RRc\) is called Markov computable %\marker{\(\leftarrow\) Check This} 
+						if there exists a Turing machine \(\TM_f\) that returns a standard description
+						of the number \(f(x) \in \RRc\) whenever it receives a standard description of the number \(x\in \RRc\) as input.
+	\end{Definition}
+
+	\noindent Since real-valued vectors and matrices are essentially multi-dimensional tuples of real numbers, the ideas of standard descriptions and 
+	Markov computability naturally extend to the set \(\RRcP{n\times m} := (\RRc)^{n\times m}\) and vector/matrix-valued functions thereon. 
+	Last but not least, we introduce a formal notion of decidability in the realm of computable \(n\times m\) - matrices \(\RRcP{n\times m}\):
+
+	\begin{Definition}  \label{semi}
+						A set \(\A \subseteq \RRcP{n\times m}\) is called \emph{semi-decidable} as a subset of \(\RRcP{n\times m}\) 
+						if there exists a Turing machine \(\TM_{\A}\) that reaches its halting state (and returns the value "\(\mathtt{TRUE}\)") 
+						after a finite number of computation steps if and only if it receives a standard description \(\mathfrak{A}\) of an element 
+						\(\mA \in \RRcP{n\times m}\) that satisfies \(\mA\in\A\) as input. A set \(\A \subseteq \RRcP{n\times m}\) is called 
+						\emph{decidable} as a subset of \(\RRcP{n\times m}\) if both \(\A\) and \(\overline{\A} := \RRcP{n\times m}\setminus\A\) are semi-decidable.
+	\end{Definition} 
+
+	\noindent The Turing machine \(\TM_\A\) is said to \emph{accept} standard descriptions \(\mathfrak{A}\) of elements \(\mA\in\A\).
 
 \section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}	    	
 	\noindent Blum-Shub-Smale (BSS) machines formalize the notion of computability over a field \(\FF\). The latter is assume to be equipped 
