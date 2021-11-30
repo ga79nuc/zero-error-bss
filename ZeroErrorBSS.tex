@@ -56,6 +56,7 @@
 	\newcommand{\TM}{\mathrm{TM}}
 	\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{#1}}}}}}
 	\newcommand{\RRcP}[1]{\mathrlap{\phantom{\RR}_{\mathrm{c}}}\RR^{#1}}
+	\newcommand{\Wc}{\W_{\mathrm{c}}}
 	\DeclareMathOperator{\Span}{Span}
 	\newcommand{\rdummy}{{\color{red}[REF]}}
 	\newcommand{\sdummy}{{\color{red}[SOURCE]}}
@@ -480,10 +481,9 @@
 \section{Preliminaries from the Theory of Zero-Error Coding}	\label{sec:PreliminariesZeroError}
 	\noindent As indicated in Section \ref{sec:FormalEstimationSetup}, we consider finite alphabets \(\X\) and \(\Y\) as well as conditional probability mass functions on \(\Y\times\X\).
 	In particular we define
-	\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+, \\
-												&~\forall x\in\X: {\sum}_{y\in\Y} W(x,y) = 1 \bigg\}.
+	\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+,~ (x,y) \mapsto W(y|x),\\
+												&~\forall x\in\X: ~{\sum}_{y\in\Y} W(y|x) = 1 \bigg\}.
 	\end{align*}
-	Since \(W\in \W(\X,\Y)\) characterizes a conditional probability mass function, the values of \(W\) are denoted by \(W(y|x)\) rather than \(W(x,y)\).  
 	The triple \((\X,\Y,W)\) is called a \emph{discrete, memoryless channel}. 
 
 	The theory of zero-error coding, as introduced in \cite{Sh56}, is a sub-discipline of general channel coding. In essence, it considers the problem of finding the supremum 
@@ -507,15 +507,18 @@
 					\(\alpha\big(G^{\boxtimes n }(W)\big)\) denotes the \emph{independence number} of \(\alpha\big(G^{\boxtimes n }(W)\big)\).
 	\end{Theorem}
 	
-	In more than 60 years of research in information theory, the zero-error capacity has given rise to a number of famous problems, many of which remain
-	unsolved to date \tbr{\sdummy}. In \cite{BD20Z}, it was shown that \(C_0(W)\) is not computable on a Turing machine as a function on computable channel descriptions \(W\).
+	For finite alphabets \(\X,\Y\), we denote by \(\Wc(\X,\Y)\) the set of conditional probability mass functions \(W\) on \(\X\times\Y\) such that \(W(y|x) \in \RRc\) 
+	holds true for all \((x,y) \in \X\times \Y\). In \cite{BD20Z}, it was shown that \(C_0(W)\) is not computable on a Turing machine as a function on computable channel descriptions \(W\).
 	To the best of the author's knowledge, it remains an open problem whether \(C_0(W)\) is even a Turing computable number for all computable channel descriptions.
-	In Section \ref{sec:ComputingZeroErrorOnBSS}, we describe a BSS-algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes \(C_0(W)\) as a function on \(\W(\X,\Y)\), which
-	essentially relies on the ability of BSS machines to handle exact real numbers.
+	In Section \ref{sec:ComputingZeroErrorOnBSS}, we describe a BSS-algorithm that, for fixed alphabets \(\X\) and \(\Y\), computes \(C_0(W)\) as a function on \(\W(\X,\Y)\). The existence 
+	of such an algorithm essentially relies on the ability of BSS machines to handle exact real numbers.
+
+\section{Turing Computability and Channels (Working Title)}
+	
 
 \section{Computing the Zero-Error Capacity for Fixed Alphabets on Blum-Shub-Smale Machines}	\label{sec:ComputingZeroErrorOnBSS}
 	\noindent In the following, we specify a BSS-Algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes the zero-error capacity \(C_0(W)\) 
-	upon being passed a channel description \(W \in \W_c(\X,\Y)\). 
+	upon being passed a channel description \(W \in \W(\X,\Y)\). 
 
 	Essentially, the algorithm relies on the fact that a \emph{lookup table} containing all possible values of \(C_0(W)\) can be hard-coded into the program. The lookup is performed in 
 	terms of a perfect binary tree, where each branch corresponds to an evaluation of the predicate "\(W(y|x) > 0\)" for some letters \(x\in\X\) and \(y\in\Y\). Per definition, the latter 
@@ -567,6 +570,10 @@
 					\end{enumerate}
 					Then, the BSS machine \(\BSS_{C_0}\) characterized by the triple \((\bm{r}, \bm{c}, \G)\) computes the mapping \(W\mapsto C_0(W)\).
 	\end{proof}
+	
+	\begin{Remark}
+		Semi-algebraic sets!
+	\end{Remark}
 
 \section{Deciding the Solvability of the Remote State Estimation Problem on Blum-Shub-Smale Machines}	\label{sec:DecidingRemoteStateEstimationOnBSS}
 	In this section, we will use Theorem \ref{thm:ZeroErrorBSScomputable} to derive a BSS algorithm which, given the description of an unstable, linear plant,
