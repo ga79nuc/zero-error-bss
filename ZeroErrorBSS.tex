@@ -33,6 +33,7 @@
 	\def\X{{\mathcal X}}
 	\def\Y{{\mathcal Y}}
 	\def\M{{\mathcal M}}
+	\def\N{{\mathcal N}}
 	\def\G{{\mathcal G}}
 	\def\V{{\mathcal V}}
 	\def\F{{\mathcal F}}
@@ -347,11 +348,19 @@
 	is bounded arbitrarily close to zero. In this case, an unstable dynamic plant cannot be observed remotely with a bounded error. 
 
 \section{Preliminaries from the Theory of Turing Machines and Effective Analysis}\label{sec:introTuring}
+	
+	\noindent {\color{red} Copied from \cite{BoBoDe21TAC}!}
+	
 	\noindent In order to formalize the idea of algorithmic decidability, we employ the theory of Turing machines and, subsequently, 
 	the theory of effective analysis, which is based on the former.	Turing machines were introduced in \cite{T37a,T38} in order to formalize the idea of computability. 
 	The framework of Turing machines fully captures the theoretical limits of today's real-world digital computers. For \(n\in\NN\), a partial mapping \(f : \NN^n \part \NN\) 
 	is referred to as recursive if and only if it can be computed on a Turing machine \cite{Kl36,T37b}. Hence, a function \(f :\NN^n \part \NN\) can, in principle, be 
 	computed on a real-world digital computer if and only if it is recursive. 
+	
+	In the context of Turing machines, the partiality of recursive functions has a dedicated interpretation: for some partial recursive function \(f: \NN \part \NN\), 
+	a number \(n\in\NN\) satisfies \(n\in D(f)\) if and only if the correspondig Turing machine \(\TM_f\) \emph{halts} and returns the value \(f(n)\) after a finite
+	number of computing steps, whenever it receives the number \(n\) as input. In contrast, if \(n\) satisfies \(n\in \NN\setminus D(f)\), the Turing machine continues
+	its computation forever, without ever reaching its halting state. 
 
 	Applying the theory of Turing machines to the domain of real- and complex-valued analysis, we arrive at the 
 	discipline of effective analysis. The latter will be the core ingredient in our investigation of the RSE problem. 
@@ -401,16 +410,27 @@
 
 	The definition of computable numbers allows for the extension of the theory of computability to the realm of functions on the real numbers, 
 	leading to the discipline of computable analysis. There are different approaches towards a formalization of computability on the reals; for a comparison 
-	we refer to \cite{AB14}. We introduce the notion of \emph{Markov computability}, which is suitable for our purposes. 
+	we refer to \cite{AB14}. We introduce the notions of \emph{Banach-Mazur} and \emph{Markov computability}, which is suitable for our purposes. 
 
+	\begin{Definition}  \label{Borel}
+						A function \(f : \RRc \to \RRc\) is called Banach-Mazur computable %\marker{\(\leftarrow\) Check This} 
+						if for every computable sequence \((x_n)_{n\in\NN}\) of computable numbers, the sequence
+						\((f(x_n))_{n\in\NN}\) is in turn a computable sequence of computable numbers.
+	\end{Definition}
+	
 	\begin{Definition}  \label{Borel}
 						A function \(f : \RRc \to \RRc\) is called Markov computable %\marker{\(\leftarrow\) Check This} 
 						if there exists a Turing machine \(\TM_f\) that returns a standard description
 						of the number \(f(x) \in \RRc\) whenever it receives a standard description of the number \(x\in \RRc\) as input.
 	\end{Definition}
+	
+	\begin{Lemma}	Let \(f : \RRc \to \RRc\) be Markov computable. Then, \(f\) is Banach-Mazur computable.	
+	\end{Lemma}\begin{proof}
+					See \cite{AB14}.
+	\end{proof}
 
-	\noindent Since real-valued vectors and matrices are essentially multi-dimensional tuples of real numbers, the ideas of standard descriptions and 
-	Markov computability naturally extend to the set \(\RRcP{n\times m} := (\RRc)^{n\times m}\) and vector/matrix-valued functions thereon. 
+	\noindent Since real-valued vectors and matrices are essentially multi-dimensional tuples of real numbers, the ideas of standard descriptions, computable sequences,
+	Banach-Mazur computability and Markov computability naturally extend to the set \(\RRcP{n\times m} := (\RRc)^{n\times m}\) and vector/matrix-valued functions thereon. 
 	Last but not least, we introduce a formal notion of decidability in the realm of computable \(n\times m\) - matrices \(\RRcP{n\times m}\):
 
 	\begin{Definition}  \label{semi}
@@ -536,6 +556,25 @@
 	of such an algorithm essentially relies on the ability of BSS machines to handle exact real numbers.
 
 \section{Turing Computability and Channels (Working Title)}
+	\begin{Lemma}	Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
+					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
+										we have \((1-\mu)W_0 + \mu W_1 \in \M_1\). 
+					\end{itemize}
+					Then, the indicator-function \(\mathds{1}_{\M_0} : \M_0\cup \M_1 \rightarrow \RRc\) is \emph{not} Banach-Mazur computable.
+	\end{Lemma}\begin{proof}
+					We prove the claim by contradiction. Thus, assume the function \(\mathds{1}_{\M_0}\) is Banach-Mazur computable. Let 
+					\(\N\subset \NN\) be a recursively enumerable, nonrecursive set and consider a recursive enumeration \(f_\N : \NN \rightarrow \N\)
+					of \(\N\). For all \(n,m\in\NN\), define
+					\begin{align}	g(n,m) := 	\begin{cases}	1 &\text{if~} n \in \big\{f_\N(l) : 1 \leq l \leq m\big\}, \\ 	
+																0 &\text{otherwise}.
+												\end{cases}
+					\end{align}
+					Then, \(g: \NN^2 \rightarrow \NN\) is a total recursive function that satisfies the following:
+					\begin{itemize}	\item 	for all \(n,m,l\in\NN\) that satisfy \(m\leq l\), we have \linebreak \(g(n,m) = 1 \Rightarrow g(n,l) = 1\);
+									\item	for all \(n\in\NN\), there exists \(m\in\NN\) such that \(g(n,m) = 1\) is satisfied if and only if 
+											\(n\in \N\) holds true.
+					\end{itemize}  
+	\end{proof}
 	\begin{Lemma}	Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
 					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
 										we have \((1-\mu)W_0 + \mu W_1 \in \M_1\). 
