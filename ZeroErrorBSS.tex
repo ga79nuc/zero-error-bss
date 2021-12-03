@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{makecell}
 % Bibliography Package
 	\usepackage[numbers]{natbib}
 % Custom Packages
@@ -224,7 +225,7 @@
 				{\(\rus\)};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Encoder
-				\fill[fill=black!15] (4.5,-2) rectangle (2.5,-1);
+				\fill[fill=black!15, rounded corners=0.1cm] (4.5,-2) rectangle (2.5,-1);
 				\draw (3.5,-1.5)  node[anchor=center] {\(\E\)};
 				\draw (3.5,-2)  node[anchor=north] {Encoder};
 			%   %   %   %   %   %   %   %   %   %   %
@@ -244,7 +245,7 @@
 				{\(\rys\)};
 			%   %   %   %   %   %   %   %   %   %   %
 			%   Decoder
-				\fill[fill=black!15] (-6.5,-2) rectangle (-4.5,-1);
+				\fill[fill=black!15, rounded corners=0.1cm] (-6.5,-2) rectangle (-4.5,-1);
 				\draw (-5.5,-1.5)  node[anchor=center] {\(\De\)/\(\Dc\)};
 				\draw (-5.5,-2)  node[anchor=north] {Estimator/Controller};
 			%   %   %   %   %   %   %   %   %   %   %
@@ -797,7 +798,77 @@
 	are usually known during the design process, whereas only the channel is likely to vary during the operation
 	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
 	
-\section{Discussion on Banach-Mazur Computability (Working Title)}	
+\section{Discussion on Banach-Mazur Computability (Working Title)}
+	In the scope of system verification, Banach-Mazur computability has a noteworthy interpretation.
+	For reasons of expedience, we will discuss this interpretation in the context of remote system control; the underlying principle can be 
+	directly transferred to problems that are similar in structure.
+	
+	Consider a setup similar to the one depicted in Figure \ref{fig:Schematics}. An unstable, dynamic system is to be stabilized remotely via a control link.
+	The remote controller observes the system via a DMC \(W\), which belongs to one of two disjoint sets \(\M_0\) and \(\M_0\). For example, the set \(\M_0\) may
+	correspont to the set of \emph{critical} channels, that are insufficient for the remote stabilization of the system. In order to control the system automatically,
+	an autonomous control tool is designed, which is required to initiate special actions if it detects the communication link to belong to the set \(\M_0\). For example,
+	it might increase the transmission power to increase the quality of the channel, or, in extreme cases, shut down the system. For the sake of the argument, we
+	do not require the autonomous control tool to meet any constraints regarding computability; rather, we think of it as a black-box that implements an arbitrary
+	(but fixed) function that maps a set \(\M_0\cup \M_1\) to \(\{0,1\}\).
+	
+	Before such an autonomous control tool is put into operation, it is likely required to undergo a series of test to provide evidence for its functionality.
+	A possible test bench is visualized in Figure \ref{fig:Verification}: the tool is fed with a series of automatically generated, artificial inputs 
+	\begin{align}	V_1,V_2,V_3,\ldots \in (\M_0\cup \M_0) \cap \Wc(\X,\Y), 
+	\end{align}
+	while the tool's output is compared to a target value by a verifier. 
+	\begin{figure}\linespread{1}
+		\centering
+		\begin{tikzpicture}[scale = 0.7, every node/.style={scale=0.7}]
+			%   %   %   %   %   %   %   %   %   %   %
+			%   Input Generator
+				\fill[fill=black!15, rounded corners=0.1cm] (-5,2) rectangle (-3,0);
+				\draw (-4, 1)  node[anchor=center] {\((V_n)_{n\in\NN} \vphantom{\Bigg|}\)};
+				\draw (-4,2)  node[anchor=south] {Input Generator};
+			%   %   %   %   %   %   %   %   %   %   %
+			%   Autonomous Decision-Maker
+				\draw[thick, fill=black!25] (-1,2) rectangle (1,0);
+				\draw (0, 1)  node[anchor=center] {\(V_n \overset{\hspace{2pt}?}{\in} \M_0 \vphantom{\Bigg|}\)};
+				\draw (0,2)  node[anchor=south, align = center] {Autonomous\\ Decision-Maker};
+			%   %   %   %   %   %   %   %   %   %   %
+			%   Verifier
+				\fill[fill=black!15, rounded corners=0.1cm] (3,2) rectangle (5,0);
+				\draw (4, 1)  node[anchor=center] {\(\overset{?}{=}\substack{\text{Target}\\\text{Value}}\vphantom{\Bigg|}\)};
+				\draw (4,2)  node[anchor=south] {Verifier};
+			%   %   %   %   %   %   %   %   %   %   %
+			%   Test Cases
+				\draw[very thick, ->, shorten >=1.5pt] (-0.1,-1.2) -- (-0.1,-0.7) -- (-4,-0.7) -- (-4,0); 
+				\draw[very thick, ->, shorten >=1.5pt] (0.1,-1.2) -- (0.1,-0.7) -- (4,-0.7) -- (4,0);
+				\draw (0,-1.2)  node[anchor=north]
+				{\(n= 1,2,3,\ldots\)};
+				\draw (0, -0.7)  node[anchor=south]
+				{Test Cases};
+			%   %   %   %   %   %   %   %   %   %   %
+			%   Input Generator -> Autonomous Decision-Maker
+				\draw[very thick, ->, shorten >=1.5pt] (-3,1) -- (-1,1.); 
+				\draw (-2,1)  node[fill = white, anchor=center]
+				{\(V_n\)};
+			%   %   %   %   %   %   %   %   %   %   %
+			%   Autonomous Decision-Maker -> Verifier
+				\draw[very thick, ->, shorten >=1.5pt] (1,1) -- (3,1.); 
+				\fill[fill = white] (1.6,1.5) rectangle (2.4, 0.5);
+				\draw (1.7,1) -- (2.3,1); 
+				\draw (2,1)  node[anchor=south]
+				{\(\mathtt{YES}\)};
+				\draw (2,1)  node[anchor=north]
+				{\(\mathtt{NO}\)};				
+		\end{tikzpicture}
+		\caption{Interpretation of Banach-Mazur computability in the context of (semi-automated) system verification.}
+		\label{fig:Verification}
+	\end{figure}
+	
+	Provided that the sequence of test cases \((V_n)_{n\in\NN}\) is digitally generated and the indicator function \(\mathds{1}_{\M_0}\) is Banach-Mazur computable, 
+	it is always possible to implement a digital verifier that generates the sequence 
+	\begin{align} 	\mathds{1}_{\M_0}(V_1), \mathds{1}_{\M_0}(V_2), \mathds{1}_{\M_0}(V_3),\ldots	\in \{0,1\} 
+	\end{align}
+	of \emph{correct} target values,
+	which can then be compared to the autonomous control tool's output. Unless the indicator function \(\mathds{1}_{\M_0}\) is Turing computable, an individual verifier has to be implemente for each 
+	possible sequence of test cases. If, on the other hand, the indicator function \(\mathds{1}_{\M_0}\) is not Banach-Mazur computable, it is not generally possible to generate the 
+	sequence of correct target values on digital hardware. In other words, for some sequences \((V_n)_{n\in\NN}\), there may not exist a digital verifier at all in this case.
 	
 \section{Summary and Conclusion}	\label{sec:Conclusion}
 	We have proven that for fixed alphabets \(\X,\Y\), the zero-error capacity \(C_0(W)\) is BSS-computable as a function on \(\W(\X,\Y)\).
