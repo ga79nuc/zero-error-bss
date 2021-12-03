@@ -62,6 +62,8 @@
 	\newcommand{\Dc}{\D_{\text{Ctrl}}}
 	\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{#1}}}}}}
 	\newcommand{\RRcP}[1]{\mathrlap{\phantom{\RR}_{\mathrm{c}}}\RR^{#1}}
+	\newcommand{\xp}[1]{\mathrlap{\phantom{x}^{\prime}}x_{#1}}
+	\newcommand{\rp}[1]{\mathrlap{\phantom{r}^{\prime}}r_{#1}}
 	\newcommand{\Wc}{\W_{\mathrm{c}}}
 	\DeclareMathOperator{\Span}{Span}
 	\newcommand{\rdummy}{{\color{red}[REF]}}
@@ -431,8 +433,16 @@
 
 	\noindent Since real-valued vectors and matrices are essentially multi-dimensional tuples of real numbers, the ideas of standard descriptions, computable sequences,
 	Banach-Mazur computability and Markov computability naturally extend to the set \(\RRcP{n\times m} := (\RRc)^{n\times m}\) and vector/matrix-valued functions thereon. 
-	Last but not least, we introduce a formal notion of decidability in the realm of computable \(n\times m\) - matrices \(\RRcP{n\times m}\):
+	{\color{red} Last but not least, we introduce a formal notion of decidability in the realm of computable \(n\times m\) - matrices \(\RRcP{n\times m}\):}
 
+	{\color{red}\begin{Definition}  
+						A set \(\A \subseteq \RRcP{n\times m}\) is called \emph{semi-decidable} as a subset of \(\RRcP{n\times m}\) 
+						if there exists a Turing machine \(\TM_{\A}\) that reaches its halting state (and returns the value ``\(\mathtt{TRUE}\)") 
+						after a finite number of computation steps if and only if it receives a standard description \(\mathfrak{A}\) of an element 
+						\(\mA \in \RRcP{n\times m}\) that satisfies \(\mA\in\A\) as input. A set \(\A \subseteq \RRcP{n\times m}\) is called 
+						\emph{decidable} as a subset of \(\RRcP{n\times m}\) if both \(\A\) and \(\overline{\A} := \RRcP{n\times m}\setminus\A\) are semi-decidable.
+	\end{Definition}} 
+	
 	\begin{Definition}  \label{semi}
 						A set \(\A \subseteq \RRcP{n\times m}\) is called \emph{semi-decidable} as a subset of \(\RRcP{n\times m}\) 
 						if there exists a Turing machine \(\TM_{\A}\) that reaches its halting state (and returns the value ``\(\mathtt{TRUE}\)") 
@@ -440,8 +450,11 @@
 						\(\mA \in \RRcP{n\times m}\) that satisfies \(\mA\in\A\) as input. A set \(\A \subseteq \RRcP{n\times m}\) is called 
 						\emph{decidable} as a subset of \(\RRcP{n\times m}\) if both \(\A\) and \(\overline{\A} := \RRcP{n\times m}\setminus\A\) are semi-decidable.
 	\end{Definition} 
-
+	
 	\noindent The Turing machine \(\TM_\A\) is said to \emph{accept} standard descriptions \(\mathfrak{A}\) of elements \(\mA\in\A\).
+	
+	{\color{red} 
+	\begin{Remark} Decidability and Recursiveness, indicator function\end{Remark}}
 	
 	{\color{red} Decidability \emph{relative} to some set... Consistency in nomenclature between versions?}
 
@@ -565,15 +578,52 @@
 					We prove the claim by contradiction. Thus, assume the function \(\mathds{1}_{\M_0}\) is Banach-Mazur computable. Let 
 					\(\N\subset \NN\) be a recursively enumerable, nonrecursive set and consider a recursive enumeration \(f_\N : \NN \rightarrow \N\)
 					of \(\N\). For all \(n,m\in\NN\), define
-					\begin{align}	g(n,m) := 	\begin{cases}	1 &\text{if~} n \in \big\{f_\N(l) : 1 \leq l \leq m\big\}, \\ 	
-																0 &\text{otherwise}.
+					\begin{align}	g(n,m) := 	\begin{cases}	0 &\text{if~} n \in \big\{f_\N(l) : 1 \leq l \leq m\big\}, \\ 	
+																1 &\text{otherwise}.
 												\end{cases}
 					\end{align}
 					Then, \(g: \NN^2 \rightarrow \NN\) is a total recursive function that satisfies the following:
-					\begin{itemize}	\item 	for all \(n,m,l\in\NN\) that satisfy \(m\leq l\), we have \linebreak \(g(n,m) = 1 \Rightarrow g(n,l) = 1\);
-									\item	for all \(n\in\NN\), there exists \(m\in\NN\) such that \(g(n,m) = 1\) is satisfied if and only if 
+					\begin{itemize}	\item 	for all \(n,m,l\in\NN\) that satisfy \(m\leq l\), we have \linebreak \(g(n,m) = 0 \Rightarrow g(n,l) = 0\);
+									\item	for all \(n\in\NN\), there exists \(m\in\NN\) such that \(g(n,m) = 0\) is satisfied if and only if 
 											\(n\in \N\) holds true.
-					\end{itemize}  
+					\end{itemize}
+					Next, define the computable double sequence \((r_{n,m})_{n,m\in\NN}\) of rational numbers via
+					\begin{align}	r_{n,m} := 1 - \sum_{l = 1}^{m+1} g(n,l)\cdot 2^{-l}
+					\end{align}
+					for all \(n,m\in\NN\). Then, the sequence \((r_{n,m})_{n,m\in\NN}\) satisfies the following:
+					\begin{itemize}	\item	we have \(\lim_{m\to\infty} r_{n,m} =: x_n \in [0,1]\) for all \(n\in \NN\);
+									\item	for all \(n,m,l\in\NN\) with \(m < l\), we have either \(r_{n,m} < 2^{-m}\) or   
+											\(r_{n,m} = r_{n,l}\). Hence, we have \(|x_n - r_{n,m}| < 2^{-m}\) for all \(n,m\in\NN\),
+											making \((x_n)_{n\in\NN}\) a computable sequence of computable numbers with 
+											\((r_{n,m})_{n,m\in\NN} \sim (\mathfrak{r}_{n})_{n\in\NN} \sim (x_n)_{n\in\NN}\);
+									\item 	we have \(x_n = 0\) if and only if \(n\in\N\) is satisfied. 
+					\end{itemize}   
+					Now consider channels \(W_0\in\M_0\) and \(W_1\in\M_1\) as specified by the claim. Define the sequence \((V_n)_{n\in\NN}\) via
+					\begin{align}	(1-x_n)W_0 + x_n W_1 =: V_n \in \Wc(\X,\Y).
+					\end{align}
+					Since multiplication and addition are Markov computable on \(\RRc\), the sequence \((V_n)_{n\in\NN}\) is a computable
+					sequence of computable channels. Furthermore, for all \(n\in\NN\), we have \(V_n \in \M_0\) if and only if \(n\in\N\) holds true. 
+					By assumption, the indicator function \(\mathds{1}_{\M_0}\) is Banach-Mazur computable. Hence, there exists a computable sequence
+					\((\xp{n})_{n\in\NN}\) of computable numbers that satisfies
+					\begin{align}	\xp{n}	&= 	\begin{cases}	1	&\text{if}~ V_n \in \M_0, \\
+																0 	&\text{otherwise},
+												\end{cases} \\
+											&=	\begin{cases}	1	&\text{if}~ n \in \N, \\
+																0 	&\text{otherwise}.
+												\end{cases} 
+					\end{align}
+					Let \((\rp{n,m})_{n,m\in\NN}\) be a standard description of \((\xp{n})_{n\in\NN}\). Then, for all \(n\in\NN\), we have
+					\begin{align}	\rp{n,1} 	\begin{cases}	> 2^{-1}	&\text{if}~ n \in \M_0, \\
+																< 2^{-1} 	&\text{otherwise}.
+												\end{cases} 
+					\end{align}
+					Hence, for the indicator function \(\mathds{1}_\N\) of \(\N\), we obtain
+					\begin{align}	\mathds{1}_\N =		\begin{cases}	1	&\text{if}~\rp{n,1} > 2^{-1}, \\
+																		0	&\text{otherwise}.
+														\end{cases} 
+					\end{align}
+					Since \(\rp{n,1}\) is a rational number for all \(n\in\NN\), the predicate \(P(n) \equiv  \rp{n,1} > 2^{-1}\) can be
+					evaluated effectively for all \(n\in\NN\), making \(\mathds{1}_\N\) a recursive function, which is a contradiction to the nonrecursivity of \(\N\).			
 	\end{proof}
 	\begin{Lemma}	Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
 					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
@@ -746,6 +796,8 @@
 	since the number \(\mu(\mA)\) has to be hard-coded into the algorithm. In practical applications however, the characteristics of the plant
 	are usually known during the design process, whereas only the channel is likely to vary during the operation
 	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
+	
+\section{Discussion on Banach-Mazur Computability (Working Title)}	
 	
 \section{Summary and Conclusion}	\label{sec:Conclusion}
 	We have proven that for fixed alphabets \(\X,\Y\), the zero-error capacity \(C_0(W)\) is BSS-computable as a function on \(\W(\X,\Y)\).
