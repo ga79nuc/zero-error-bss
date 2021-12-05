@@ -183,7 +183,7 @@
 	\IEEEPARstart{R}{emote} state estimation via noisy communication channels is a prominent problem in control theory 
 	\cite{MS07, MS07SC, S06, SP03}. 
 	The problem involves both control and communications. In particular, as we will see in the following, the communications part is essential.  
-	Informally, the corresponding dynamic system can be described as follows. The state of an unstable, linear, time-invariant plant is observed by a local sensor. 
+	Informally, the corresponding dynamic system can be described as follows. The state of an unstable linear time-invariant \emph{(LTI)} plant is observed by a local sensor. 
 	Subsequently, the sensor data is feed into an encoder that prepares the data for transmission trough a discrete, memoryless channel \emph{(DMC)}. 
 	Based on the sequence of channel outputs, the remote decoder/estimator tries to estimate the current state of the plant. The setup is schematically depicted in Figure \ref{fig:Schematics}.
 	\begin{figure}\linespread{1}
@@ -314,35 +314,63 @@
 	our findings in Section \ref{sec:Conclusion}.
                                                                         
 \section{Formal Description of the Remote State Estimation Setup}	\label{sec:FormalEstimationSetup}
-	\noindent As indicated in Section \ref{sec:Introduction}, we consider the problem of remotely estimating the state of a dynamic plant via a noisy communication channel. 
-	For a detailed treatment of the problem as such, we refer to \cite{MS07}. Schematically, the set-up is depicted in Figure \ref{fig:Schematics}. 
-	The system is identical to the one introduced in \cite{BoBoDe21TAC}\tbr{{\color{red}\(\leftarrow\) Change to TAC!~}}. In order to provide a self-contained work, we recapitulate 
-	the description in the following.
-
-	The remote state estimation setup is characterized by the quintuple \((\mA,\mB,W,\E,\D)\) and the random variables \((\rz_t)_{t\in\NN}\), and \(\rs_{0}\). 
-	The latter model the sequence of probabilistic fluctuations disturbing the plant, as well as the plant's initial state, respectively. The plant's state sequence \((\rs_t)_{t\in\NN}\) 
-	and the sequence of sensor data \((\ru_t)_{t\in\NN}\) obey the system of equations
-	\begin{align*}	\rs_1    = \mA \rs_0 + \rz_1, \quad 
-					\rs_t    = \mA \rs_{t-1} + \rz_t,\quad 
-					\ru_t    = \mB \rs_t,
+	\noindent In to following, we give a formal description of the setup depicted in Figure \ref{fig:Schematics}, as well as a brief summary of 
+	some relevant results concerning different variants of the related estimation and control problem. Originally, these were derived in \cite{MS07, MS07SC}.  
+	
+	As indicated in Section \ref{sec:Introduction}, 
+	the remote state estimation and stabilization problem revolves around the state sequence \((\rs_t)_{t\in\NN}\) 
+	of an unstable LTI system. The system's dynamics are modelled by means of a matrix \(\mA \in \RR^{n\times n}\), which governs the evolution of \((\rs_t)_{t\in\NN}\) 
+	according to the set of equations 
+	\begin{align*}	 \rs_{t+1}    	= \mA \rs_t + \rz_t + \rv_1, 
 	\end{align*}
-	where \(\mA\in\RR^{n\times n}\) and \(\mB\in\RR^{n\times l}\) capture the plant's and sensor's characteristics. 
-
-	The sequence of channel inputs \((\rx_t)_{t\in\NN}\) is a sequence
-	of symbols from a finite alphabet \(\X\). It is calculated by the encoder based on available sensor data,
-	\begin{align*}	\rx_t   = \E \big(t, (\ru_{t'})_{t'=1}^{t}\big) 
-							= \E\big(t, \ru_1,\ru_2,\ldots,\ru_t\big).
-	\end{align*} 
+	Here, the sequence \((\rz_t)_{t\in\NN}\) accounts for noise-like disturbances in the system's state progression and the sequence \(\rvs\) incorporates a control input. 
+	Furthermore, the inital state \(\rs_0\) is assumend to emerge randomly according to some probability measure. 
+	The system status is continuously monitored by a local sensor, which is characterized by a matrix \(\mB\in\RR^{n\times m}\). The sensor relates the
+	state sequence \((\rs_t)_{t\in\NN}\) to a sequence \(\rus\) of measurements, conforming to the set of equations
+	\begin{align*}	\ru_t    = \mB \rs_t.
+	\end{align*}  	
+	Based on the avaiable sensor data, an encoder succesively chooses channel inputs from a finte alphabet \(\X\). Mathematically, this is captured by the relation
+	\begin{align*}	\rx_t   = \E \big(t, (\ru_{t'})_{t'=1}^{t}\big) 							= \E\big(t, \ru_1,\ru_2,\ldots,\ru_t\big).
+	\end{align*}
 	The sequence of channel outputs \((\ry_t)_{t\in\NN}\) is a sequence
-	of symbols from a finite alphabet \(\Y\). It is component-wise related to the sequence \((\rx_t)_{t\in\NN}\) by a conditional probability mass function,
+	of symbols from another finite alphabet \(\Y\), and is related component-wise to the sequence \((\rx_t)_{t\in\NN}\) by a conditional probability mass function
 	\begin{align*}	W :~ \Y \times \X \rightarrow \RR_{\hspace{1pt}0}^+,~(y,x) \mapsto W(y|x).
 	\end{align*}
-	Last but not least, the decoder estimates the plant's state sequence based on the available channel outputs,
-	\begin{align*}	\hat{\rs}_t  	= \D \big(t, (\ry_{t'})_{t'=1}^{t}\big)  
-									= \D\big(t,\ry_1,\ry_2,\ldots,\ry_t\big).
+	The triple \((\X,\Y,W)\) fully characterizes the behaviour of the communication unit, and is referred to as a \emph{discrete, memoryless channel} (DMC).
+	Last but not least, at the receiving end of the channel, the plant's state sequence is estimated and a control input is calculated,
+	\begin{align*}	\hat{\rs}_t  	&= \De \big(t, (\ry_{t'})_{t'=1}^{t}\big)  \\
+									&= \De\big(t,\ry_1,\ry_2,\ldots,\ry_t\big), \\
+					\rv_t  			&= \Dc \big(t, (\ry_{t'})_{t'=1}^{t}\big)  \\
+									&= \Dc\big(t,\ry_1,\ry_2,\ldots,\ry_t\big).
 	\end{align*}
-
-	The strong objective in remote state estimation requires almost sure observability. By a suitable choice of \(\E\) and \(\D\), the error between \((s(t))_{t\in\NN}\)
+	The generated control input is fed back to the dynamic system, thereby closing the control loop.
+	
+	In general, the task is to design suitable pair of encoder and estimation- and control-unit. The question of which pairs are deemed \emph{suitable} 
+	depends first and foremoste on the specific objective regarding estimation and control, the behavior of the dynamic system as characterized by the matrix \(\mA\), 
+	and the quantitative ability of the communication channel to transmit inforamtion. The latter is is expressed in terms of \emph{channel capacities}, the 
+	relevant of which are the \emph{Shannon capacity} \sdummy, the \emph{zero-error capacity} \sdummy and the \emph{feedback zero-error capacity} \sdummy, 
+	\begin{align*} C_{\text{Sh}}, C_{0}, C_{\text{Fb}}:~ \W(\X,\Y) \rightarrow \RR_{\hspace{1pt}}^{+},
+	\end{align*}
+	where \(\W(\X,\Y)\) is the set of conditional probability mass functions on finite alphabets \(\X\) and \(\Y\),
+	\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+,~ (x,y) \mapsto W(y|x),\\
+												&~\forall x\in\X: ~{\sum}_{y\in\Y} W(y|x) = 1 \bigg\}.
+	\end{align*} 
+	As we will explain in the course of this section, the objective regarding estimation and control fully determines 
+	which capacity has to be employed as a measure of channel quality.
+	
+	The amount of data that needs to be transmitted depends exclusively on the characteristics of the dynamic system. 
+	For \(\mA \in \RR^{n\times n}\), denote \(\bm{\lambda}(\mA) := (\lambda_1(A),\lambda_2(A),\ldots,\lambda_n(\mA))\) a family 
+	consisting of all eigenvalues of \(\mA\), according to their algebraic multiplicity. Consequently, the family \(\bm{\lambda}(\mA)\)
+	consists of exactly \(n\) components for all \(\mA\in \RR^{n\times n}\). We define
+	\begin{align}	\eta(\mA):={\sum}_{j:|\lambda_j(\mA)|\geq 1} \log_2|\lambda_j(\mA)|.
+	\end{align}
+	Informally, the quantity \(\eta(\mA)\) equals the average number of bits that need to be transmitted per time instance in order
+	to sucessfully estimate and control the state sequence \(\rss\).
+	
+	It remains to provide a formal objective regarding the estimation and control of the system's state sequence. The following variants have been considered
+	in \cite{MS07, MS07SC}:
+	
+	1. - \emph{State Estimation for Disturbed Plants.} The strong objective in remote state estimation requires almost sure observability. By a suitable choice of \(\E\) and \(\D\), the error between \((s(t))_{t\in\NN}\)
 	and \((\hat{s}(t))_{t\in\NN}\) must be kept small along almost all possible trajectories \((\zeta(t))_{t\in\NN}\) and \((y(t))_{t\in\NN}\), i.e., with probability one.
 	A corresponding mathematical framework, which most of the considerations within the present work will be based on, was established in \cite{MS07}.
 	In particular, the authors derived a strong relation between the solvability of the remote state estimation problem and the zero-error capacity \(C_0(W)\) of the 
