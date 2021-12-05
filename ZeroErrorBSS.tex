@@ -321,7 +321,7 @@
 	the remote state estimation and stabilization problem revolves around the state sequence \((\rs_t)_{t\in\NN}\) 
 	of an unstable LTI system. The system's dynamics are modelled by means of a matrix \(\mA \in \RR^{n\times n}\), which governs the evolution of \((\rs_t)_{t\in\NN}\) 
 	according to the set of equations 
-	\begin{align*}	 \rs_{t+1}    	= \mA \rs_t + \rz_t + \rv_1, 
+	\begin{align*}	 \rs_{t+1}    	= \mA \rs_t + \rz_t + \rv_t, 
 	\end{align*}
 	Here, the sequence \((\rz_t)_{t\in\NN}\) accounts for noise-like disturbances in the system's state progression and the sequence \(\rvs\) incorporates a control input. 
 	Furthermore, the inital state \(\rs_0\) is assumend to emerge randomly according to some probability measure. 
@@ -337,26 +337,34 @@
 	\begin{align*}	W :~ \Y \times \X \rightarrow \RR_{\hspace{1pt}0}^+,~(y,x) \mapsto W(y|x).
 	\end{align*}
 	The triple \((\X,\Y,W)\) fully characterizes the behaviour of the communication unit, and is referred to as a \emph{discrete, memoryless channel} (DMC).
-	Last but not least, at the receiving end of the channel, the plant's state sequence is estimated and a control input is calculated,
-	\begin{align*}	\hat{\rs}_t  	&= \De \big(t, (\ry_{t'})_{t'=1}^{t}\big)  \\
-									&= \De\big(t,\ry_1,\ry_2,\ldots,\ry_t\big), \\
-					\rv_t  			&= \Dc \big(t, (\ry_{t'})_{t'=1}^{t}\big)  \\
-									&= \Dc\big(t,\ry_1,\ry_2,\ldots,\ry_t\big).
+	Last but not least, at the receiving end, the plant's state sequence is estimated according to a relation
+	\begin{align*}	\hat{\rs}_t  	&= \De\big(t, (\ry_{t'})_{t'=1}^{t}\big)  \\
+									&= \De\big(t,\ry_1,\ry_2,\ldots,\ry_t\big).
 	\end{align*}
-	The generated control input is fed back to the dynamic system, thereby closing the control loop.
-	
+	Depending on the specific objective, a control input 
+	\begin{align*}	\rv_t  			&= \Dc\big(t, (\ry_{t'})_{t'=1}^{t}\big)  \\
+									&= \Dc\big(t,\ry_1,\ry_2,\ldots,\ry_t\big)
+	\end{align*}
+	is generated, which is then fed back to the dynamic system via a control-loop. Otherwise, if the objective concerns the estimation
+	of the state sequence, we set
+	\begin{align}	\label{eq:No_Ctrl_Loop}
+					\Dc\big(t,\ry_1,\ry_2,\ldots,\ry_t\big) = \bm{0}
+	\end{align}
+	for all \(t\in\NN\), where \(\bm{0}\) denotes the \emph{zero-vector} in \(\RR^{n}\). 
+	 
 	In general, the task is to design suitable pair of encoder and estimation- and control-unit. The question of which pairs are deemed \emph{suitable} 
 	depends first and foremoste on the specific objective regarding estimation and control, the behavior of the dynamic system as characterized by the matrix \(\mA\), 
 	and the quantitative ability of the communication channel to transmit inforamtion. The latter is is expressed in terms of \emph{channel capacities}, the 
-	relevant of which are the \emph{Shannon capacity} \sdummy, the \emph{zero-error capacity} \sdummy and the \emph{feedback zero-error capacity} \sdummy, 
+	relevant of which are the \emph{Shannon capacity} \cite{Sh48}, the \emph{zero-error capacity} \cite{Sh56} and the \emph{feedback zero-error capacity} \cite{Sh56}, 
 	\begin{align*} C_{\text{Sh}}, C_{0}, C_{\text{Fb}}:~ \W(\X,\Y) \rightarrow \RR_{\hspace{1pt}}^{+},
 	\end{align*}
 	where \(\W(\X,\Y)\) is the set of conditional probability mass functions on finite alphabets \(\X\) and \(\Y\),
 	\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+,~ (x,y) \mapsto W(y|x),\\
 												&~\forall x\in\X: ~{\sum}_{y\in\Y} W(y|x) = 1 \bigg\}.
-	\end{align*} 
+	\end{align*}
+	For a comprehensive introduction to different measures of information and their properties, we refer to \cite{CsKo11}.  
 	As we will explain in the course of this section, the objective regarding estimation and control fully determines 
-	which capacity has to be employed as a measure of channel quality.
+	which capacity has to be employed as a quantification of channel quality.
 	
 	The amount of data that needs to be transmitted depends exclusively on the characteristics of the dynamic system. 
 	For \(\mA \in \RR^{n\times n}\), denote \(\bm{\lambda}(\mA) := (\lambda_1(A),\lambda_2(A),\ldots,\lambda_n(\mA))\) a family 
@@ -367,16 +375,44 @@
 	Informally, the quantity \(\eta(\mA)\) equals the average number of bits that need to be transmitted per time instance in order
 	to sucessfully estimate and control the state sequence \(\rss\).
 	
-	It remains to provide a formal objective regarding the estimation and control of the system's state sequence. The following variants have been considered
-	in \cite{MS07, MS07SC}:
+	It remains to provide a formal objective regarding the estimation and control of the system's state sequence. The following variants were considered
+	in \cite{MS07, MS07SC}. Each has been shown to involve one of the abovementioned capacities.
 	
-	1. - \emph{State Estimation for Disturbed Plants.} The strong objective in remote state estimation requires almost sure observability. By a suitable choice of \(\E\) and \(\D\), the error between \((s(t))_{t\in\NN}\)
-	and \((\hat{s}(t))_{t\in\NN}\) must be kept small along almost all possible trajectories \((\zeta(t))_{t\in\NN}\) and \((y(t))_{t\in\NN}\), i.e., with probability one.
-	A corresponding mathematical framework, which most of the considerations within the present work will be based on, was established in \cite{MS07}.
-	In particular, the authors derived a strong relation between the solvability of the remote state estimation problem and the zero-error capacity \(C_0(W)\) of the 
-	communication channel, as introduced in \cite{Sh56}. If the channel is unsuitable for transmitting a sufficient amount of data with perfect reliability, i.e., zero 
-	chance of a transmission error, the discrepancy between \(s(t)\) and \(\hat{s}(t)\) accumulates over time and grows arbitrarily large, even if \((\zeta(t))_{t\in\NN}\) 
-	is bounded arbitrarily close to zero. In this case, an unstable dynamic plant cannot be observed remotely with a bounded error. 
+	1 - \(C_{\text{Sh}}\): \emph{State Estimation for Undisturbed Plants.} The scenario is characterized by the assumtion of a fully deterministic 
+	state evolution, aside from the initial state being choosen at random. In other words, the sequence of noise-like fluctuations affecting the system satisfies
+	\(\rz_t = \bm{0}\) for all \(t\in\NN\). The task is to design a pair \((\E,\De)\)
+	(with \(\Dc\) satisfying \eqref{eq:No_Ctrl_Loop}) such that \(\limsup_{t\in\NN} \|\rsh_t -\rs_t\| = 0\) holds true with probability \(p > \delta\).
+	If \(\eta(\mA) < C_{\text{Sh}}\) is satisfied, there exists, for all \(0 \leq \delta < 1\), a pair \((\E,\De)\) that meets the requirement. On the other hand,
+	if \(\eta(\mA) > C_{\text{Sh}}\) is satisfied, there exists \(0 < \delta \leq 1\) such that for all possible pairs \((\E,\De)\), we have 
+	\(\limsup_{t\in\NN} \|\rsh_t -\rs_t\| = \infty\) with probability \(p > \delta\).	
+		
+	2 - \(C_{\text{Sh}}\): \emph{Stabilization for Undisturbed Plants.} The scenario is analogous to state estimation for undisturbed plants. 
+	The task is to design a pair \((\E,\Dc)\) such that \(\limsup_{t\in\NN} \|\rs_t\| = 0\) holds true with probability \(p > \delta\).
+	If \(\eta(\mA) < C_{\text{Sh}}\) is satisfied, there exists, for all \(0 \leq \delta < 1\), a pair \((\E,\Dc)\) that meets the requirement. On the other hand,
+	if \(\eta(\mA) > C_{\text{Sh}}\) is satisfied, there exists \(0 < \delta \leq 1\) such that for all possible pairs \((\E,\Dc)\), we have 
+	\(\limsup_{t\in\NN} \|\rs_t\| = \infty\) with probability \(p > \delta\).
+	
+	3 - \(C_{0}\): \emph{State Estimation for Disturbed Plants.} The task is to design a pair \((\E,\De)\)
+	(with \(\Dc\) satisfying \eqref{eq:No_Ctrl_Loop}) such that \(\limsup_{t\in\NN} \|\rsh_t -\rs_t\| < \infty\) holds true almost surely.
+	The the sequence of noise-like fluctuations may be bounded arbitrarily close to zero.
+	If \(\eta(\mA) < C_{0}\) is satisfied, there exists a pair \((\E,\De)\) that meets the requirement. On the other hand,
+	if \(\eta(\mA) > C_{0}\) is satisfied, then \(\limsup_{t\in\NN} \|\rsh_t -\rs_t\| = \infty\) holds true almost surely for all possible pairs \((\E,\De)\).
+	
+	4 - \(C_{\text{Fb}}\): \emph{Stabilization for Disturbed Plants.} The scenario is analogous to state estimation for disturbed plants. The task is to design a pair \((\E,\Dc)\)
+	such that \(\limsup_{t\in\NN} \|\rs_t\| < \infty\) holds true almost surely. The the sequence of noise-like fluctuations may be bounded arbitrarily close to zero.
+	If \(\eta(\mA) < C_{\text{Fb}}\) is satisfied, there exists a pair \((\E,\Dc)\) that meets the requirement. On the other hand,
+	if \(\eta(\mA) > C_{\text{Fb}}\) is satisfied, then \(\limsup_{t\in\NN} \|\rs_t\| = \infty\) holds true almost surely for all possible pairs \((\E,\Dc)\).
+	
+	In the following, we use the greek letter '\(\Delta\)' as a placeholder symbol. In light of the results established in \cite{MS07, MS07SC}, we define 
+	the sets 
+	\begin{align}	\S_\Delta(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\Delta > \eta(\mA)\big\}, \\
+					\U_\Delta(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\Delta < \eta(\mA)\big\},
+	\end{align}
+	for \(\Delta \in \{\text{'Sh'},\text{'\(0\)'},\text{'Fb'}\}\) and \(\mA\in\RR^{n\times n}\).
+	
+	\begin{Remark}	Further variants of the remote state estimation and control problem that were also considered in \cite{MS07, MS07SC} 
+					allow communication channels with feedback. However, this supplementary degree of freedom does not introduce an additional channel capacity. 
+	\end{Remark} 
 
 \section{Preliminaries from the Theory of Turing Machines and Effective Analysis}\label{sec:introTuring}
 	
@@ -486,117 +522,7 @@
 	\begin{Remark} Decidability and Recursiveness, indicator function\end{Remark}}
 	
 	{\color{red} Decidability \emph{relative} to some set... Consistency in nomenclature between versions?}
-
-\section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}	    	
-	\noindent Blum-Shub-Smale (BSS) machines formalize the notion of computability over a field \(\FF\). The latter is assume to be equipped 
-	with a binary relation \(\diamond~{:}~\FF \times \FF \rightarrow \{\mathsf{T},\mathsf{F}\}\), which is either an equality, equivalence or strict total order. 
 	
-	Despite the so called Church-Turing thesis being widely accepted as true, which implies that the capabilities of real-world computers are exactly characterized 
-	by the abstract Turing machine, BSS machines are often implicitly considered as the underlying machine model in numerics and complexity theory \tbr{\sdummy}. 
-	A reason for this practice may lie in the ability of BSS machines to handle exact real numbers. Since most areas of applied mathematics involve continuous structures, 
-	treating the content of a computer's memory as actual real numbers simplifies the description of algorithms to a great extent. For a detailed discussion on the Topic, we refer to \cite{Bl04}.
-
-	In essence, BSS machines can be considered a generalization of Turing machines. They are equipped with a two-way infinite tape divided into cells, each of which holds an 
-	element of \(\FF\cup\{\sqcup\}\). Here, "\(\sqcup\)" denotes the distinguished empty-space symbol. We assume that the tape is almost empty, i.e., all but finitely many cells 
-	contain the symbol "\(\sqcup\)", at the beginning of the computation. A BSS machine interacts with its tape by means of a read-write head, which can, depending on tis current 
-	position, access a fixed number of contiguous cells at a time. The algorithm executed by the BSS machine is characterized by its program, a finite, directed, simple graph 
-	\begin{align*}   \G_\BSS = ([M_\BSS]_{0}, \V_\BSS),~ \V_\BSS \subseteq [M_\BSS]_{0} \times [M_\BSS],
-	\end{align*} 
-	with five types of nodes: \emph{input nodes}, \emph{computation nodes}, \emph{branching nodes}, \emph{shifting nodes} and \emph{output nodes}, each of which specifies a class 
-	of fundamental machine operations. For a given input, the program flow corresponds to a directed walk in the program graph
-	\begin{align*}	\F := (e_t)_{t\in\{1,2,\ldots,T\}},~T\in\NN\cup \{\infty\},
-	\end{align*}
-	starting from the input node and (possibly) ending in some output node, or continuing infinitely. In each step, the operation associated to the current node is executed, 
-	affecting the content of the tape, the position of the read-write head and the program flow accordingly. Furthermore, the values stored in the initially non-empty cells 
-	of the tape are considered part of the algorithm, much like hard-coded constants in a real-world computer program. 
-
-	In order to prove that some problem is BSS-computable, on has, in principle, to provide the existence of a suitable program graph and, possibly, a tape with predefined constants. 
-	This can often be cumbersome, since it involves the exact specification of the movement of the read-write head. If the size of the \emph{memory} required to execute the program, i.e., 
-	the number of different cells accessed throughout the program execution, can be uniformly upper bounded by a number \(J_\BSS \in \NN\), we can get rid of the tape altogether by 
-	introducing \emph{register variables} and \emph{constants},
-	\begin{align*}	\bm{r} :&= (r_j^t)_{j\in\{1,\ldots,J_{\mathrm{R}}\}, t\in\{1,\ldots,T\}},\\
-					\bm{c} :&= (c_j)_{j\in\{J_{\mathrm{R}} + 1,\ldots,J_{\mathrm{C}}\}},
-	\end{align*}
-	with \(T\in\NN\cup\{\infty\}\) and \(J_{\mathrm{C}} \leq J_\BSS\). The program graph then consists only of an input node, computation nodes, branching nodes and at least one output node.
-	Furthermore, the corresponding classes of fundamental machine operations can be specified as follows:
-	\begin{itemize}	\item[1)] \emph{Input nodes.} The unique input node \(\iota = e_1 = 0\) is associated to an 
-						input operation \(g_\iota\). The input operation writes each component of a tuple 
-						\begin{align*} 	\bm{a} = \big(a_1,a_2,\ldots a_{K({\bm{a}})}\big) \in {\bigcup}_{j=1}^{J_{\mathrm{R}}} \FF^{j}
-						\end{align*}
-						to the machine's internal registers \(\bm{r}\), according to the specification
-						\begin{align*}	r^1_{j(k)} := a_k ,~ j(k)\in \{1,\ldots,J_{\mathrm{R}}\},~ k\in \{1,\ldots K(\bm{x})\}.   
-						\end{align*}
-						The remaining registers are initialized with the value\linebreak \(0 \in \FF\).
-						There exists a unique next node \(\iota' \in [M_\BSS]\) to \(\iota\).
-					\item[2)] \emph{Computation nodes.} The program graph may contain a number of computation nodes \(\zeta \in \{1,2,\ldots M_{\mathrm{C}}\}\),    
-						\linebreak \(M_{\mathrm{C}} \leq M_{\BSS}\), each of which is 
-						is associated to a mapping 
-						\( 	g_\zeta : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\mathrm{R}}}, 
-						\) 
-						which is either polynomial, rational or has previously been shown to be BSS computable. The latter accounts for the fact that in the general, 
-						unbounded setting, the program of some BSS machine can always be incorporated as a subroutine into the program of another BSS machine.
-						If \(e_t = \zeta\) for some \(t\in\{1,\ldots, T-1\}\), we have
-						\begin{align*}  \bm{r}^{t+1} = g_{\zeta}(\bm{r}^t,\bm{c})~\text{with}~\bm{r}^t := (r_j^t)_{j\in\{1,\ldots,J_{\mathrm{R}}\}}.
-						\end{align*}
-						There exists a unique next node \(\zeta' \in \{1,2,\ldots M_{\mathrm{C}}\}\) to each computation node \(\zeta\).
-					\item[3)] \emph{Branching nodes.}  A program may contain a number of branching nodes \(\beta \in \{M_{\mathrm{C}} + 1, M_{\mathrm{C}} + 2,\ldots, M_\mathrm{B}\}\), 
-						each of which leave the content of the internal registers unchanged. That is, if \(e_t = \beta\) for some \(t\in\{1,\ldots, T-1\}\), we have
-						\(\bm{r}^{t+1} = \bm{r}^{t}\). There exist exactly two next nodes \(\beta'(\mathsf{T})\) and \(\beta'(\mathsf{F})\) to each branching node \(\beta\). If 
-						\(	\diamond\big(0, r^t_{j'(\beta)}\big) = \mathsf{T} 
-						\)
-						holds true for \(j'(\beta) \in \{1,\ldots, J_\mathrm{R}\}\), the program flow branches to the node \(\beta'(\mathsf{T})\). Otherwise, it moves to \(\beta'(\mathsf{F})\). 
-						That is, for \(\beta = e_t\), we have
-						\begin{align*}   e_{t+1} =   \begin{cases}   \beta'(\mathsf{T})  &\text{if}~\diamond\big(0,r^t_{j'(\beta)}\big) = \mathsf{T},\\
-																	\beta'(\mathsf{F})  &\text{otherwise}.
-													\end{cases}    
-						\end{align*}
-					\item[4)] \emph{Output nodes.} Each program contains at least one output node \(\sigma \in \{M_{\mathrm{B}} + 1, M_{\mathrm{B}} + 2,\ldots, M_\BSS\}\), 
-						each of which is associated to an output mapping
-						\(	o_\sigma : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\sigma}}.
-						\)
-						For some fixed subset \(\J_\sigma\) of \([J_\mathrm{C}]\) and \(e_t = e_T = \sigma\), \(T\in\NN\), the mapping outputs (by projection) the values of the 
-						register variables \((r_j^T)_{j\in \J_\sigma \cap \{1,\ldots,J_\mathrm{R}\}}\) and constants \((c_j)_{j\in \J_\sigma \cap \{J_\mathrm{R}+1,\ldots,J_\mathrm{C}\}}\). 
-						There exists no next node to \(\sigma\).
-	\end{itemize}
-	In our case, the field \(\FF\) will be the real numbers \(\RR\) with the usual strict total order "\(<\)". If \(\FF\) equals \(\ZZ_2\) (the set of boolean values with logical con- and disjunction 
-	as field operations), the traditional theory of computation as formalized by Turing machines is recovered. For the remainder of this article, we will refer to BSS machines over \(\RR\) 
-	simply as BSS machines, omitting the explicit mention of the field \(\FF\) being equal to the real numbers. 
-
-\section{Preliminaries from the Theory of Zero-Error Coding}	\label{sec:PreliminariesZeroError}
-	\noindent As indicated in Section \ref{sec:FormalEstimationSetup}, we consider finite alphabets \(\X\) and \(\Y\) as well as conditional probability mass functions on \(\Y\times\X\).
-	In particular we define
-	\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+,~ (x,y) \mapsto W(y|x),\\
-												&~\forall x\in\X: ~{\sum}_{y\in\Y} W(y|x) = 1 \bigg\}.
-	\end{align*}
-	The triple \((\X,\Y,W)\) is called a \emph{discrete, memoryless channel}. 
-
-	The theory of zero-error coding, as introduced in \cite{Sh56}, is a sub-discipline of general channel coding. In essence, it considers the problem of finding the supremum 
-	\(C_0(W)\) of all possible rates at which information can be transmitted trough a DMC \((\X,\Y,W)\) with perfect reliability. Here, ``perfect reliability'' refers
-	to the ability of the decoder to correctly infer the transmitted message with probability one. Furthermore, the term ``rate'' denominates the asymptotic average of bits transmitted per channel use. 
-	The number \(C_0(W)\) is commonly referred to as zero-error capacity of \(W\).
-
-	Given a DMC \((\X,\Y,W)\), one of the results derived in \cite{Sh56} yields a characterization of \(C_0(W)\) in graph-theoretic terms.
-	In fact, for each \(W\in \W(\X,\Y)\), there exists a finite, undirected, simple graph \(G(W)\), referred to as the \emph{confusability graph} of \(W\), which
-	uniquely determines \(C_0(W)\).
-
-	\begin{Theorem}	[\cite{Sh56}]\label{thm:ZE_Capacity}
-					For a DMC \(W\in\W(\X,\Y)\), let \(G(W) = (\X, \V(W))\) be the finite, simple graph that satisfies
-					\begin{align*}   \V(W) = \big\{\{x,x'\} : \exists y : W(y|x)W(y|x') > 0\big\}.
-					\end{align*}
-					Then, the zero-error capacity of \(W\) satisfies
-					\begin{align*}   C_0(W)  	&=  \lim_{n\to\infty} \frac{1}{n} \log_2 \alpha\big(G^{\boxtimes n }(W)\big) \\
-												&=  \sup_{n\in\NN} \frac{1}{n} \log_2 \alpha\big(G^{\boxtimes n }(W)\big),
-					\end{align*}
-					where \(G^{\boxtimes n }(W)\) denotes the \(n\)-fold \emph{strong graph product} of \(G(W)\) with itself and
-					\(\alpha\big(G^{\boxtimes n }(W)\big)\) denotes the \emph{independence number} of \(\alpha\big(G^{\boxtimes n }(W)\big)\).
-	\end{Theorem}
-	
-	For finite alphabets \(\X,\Y\), we denote by \(\Wc(\X,\Y)\) the set of conditional probability mass functions \(W\) on \(\X\times\Y\) such that \(W(y|x) \in \RRc\) 
-	holds true for all \((x,y) \in \X\times \Y\). In \cite{BD20Z}, it was shown that \(C_0(W)\) is not computable on a Turing machine as a function on computable channel descriptions \(W\).
-	To the best of the author's knowledge, it remains an open problem whether \(C_0(W)\) is even a Turing computable number for all computable channel descriptions.
-	In Section \ref{sec:ComputingZeroErrorOnBSS}, we describe a BSS-algorithm that, for fixed alphabets \(\X\) and \(\Y\), computes \(C_0(W)\) as a function on \(\W(\X,\Y)\). The existence 
-	of such an algorithm essentially relies on the ability of BSS machines to handle exact real numbers.
-
 \section{Turing Computability and Channels (Working Title)}
 	\begin{Lemma}	Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
 					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
@@ -675,156 +601,6 @@
 					\end{align}
 					which is a contradiction to the undecidability of the \emph{halting} problem, see \sdummy.
 	\end{proof}
-
-\section{Computing the Zero-Error Capacity for Fixed Alphabets on Blum-Shub-Smale Machines}	\label{sec:ComputingZeroErrorOnBSS}
-	\noindent In the following, we specify a BSS-Algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes the zero-error capacity \(C_0(W)\) 
-	upon being passed a channel description \(W \in \W(\X,\Y)\). 
-
-	Essentially, the algorithm relies on the fact that a \emph{lookup table} containing all possible values of \(C_0(W)\) can be hard-coded into the program. The lookup is performed in 
-	terms of a perfect binary tree, where each branch corresponds to an evaluation of the predicate "\(W(y|x) > 0\)" for some letters \(x\in\X\) and \(y\in\Y\). Per definition, the latter 
-	can be done algorithmically, as a fundamental operation on the BSS machine.
-
-	\begin{Theorem}	\label{thm:ZeroErrorBSScomputable}
-					Consider finite alphabets \(\X\) and \(\Y\). Then, there exists a BSS-Machine \(\BSS_{C_0}\)
-					which, upon being passed a channel description \(W\in \W(\X,\Y)\), computes the mapping \(W \mapsto C_0(W)\).
-	\end{Theorem}\begin{proof}
-					Let \(j \mapsto \big(x(j), y(j)\big)\) be an enumeration of the set \(\X\times\Y\) and define
-					\(J_\mathrm{R} := |\X\times \Y|\). Furthermore, consider the mappings
-					\begin{align*}	\delta(W,j) :&=     \begin{cases}   1   &\text{if}~ 0 < W\big(y(j)|x(j)\big), \\
-																		0   &\text{otherwise},
-														\end{cases}\\
-									\Delta(W)   :&=     1 + {\sum}_{j=1}^{J_\mathrm{R}} \delta(W,j)\cdot 2^{j-1} \in \big\{1,\ldots,2^{J_\mathrm{R}}\big\}.
-					\end{align*} 
-					We observe that, as a direct consequence of Theorem \ref{thm:ZE_Capacity}, the value of \(C_0(W)\) is 
-					entirely determined by the set 
-					\begin{align*}   \{(x,y) \in \X\times \Y : W(x|y) > 0\} \subseteq 2^{\X\times\Y}
-					\end{align*} 
-					and hence, the zero-error capacity of \(W\) depends exclusively on the number \(\Delta(W)\). Thus, we obtain the existence of a mapping
-					\(C'_0 : \big\{1,\ldots,2^{J_\mathrm{R}}\big\} \rightarrow \RR_0^+,~ \Delta \mapsto C'_0(\Delta),        
-					\)
-					such that \(C'_0(\Delta(W)) = C_0(W)\) holds true for all \(W\in\W(\X,\Y)\). For \(J_\mathrm{C} := J_\mathrm{R} + 2^{J_\mathrm{R}}\), 
-					hardcode the family of constants \(\bm{c}\) according to 
-					\(  c_j := C'_0(j - J_\mathrm{R})
-					\)
-					for all \(j\in \{J_\mathrm{R} + 1, \ldots, J_\mathrm{C}\}\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) with
-					\begin{align*}	M_\mathrm{C} := 0,~M_\mathrm{B} := 2^{J_\mathrm{R}} - 1,~ M_\BSS := ~M_\mathrm{B} + 2^{J_\mathrm{R}}
-					\end{align*}
-					in the following way:
-					\begin{enumerate}	\item[\(\iota\)\hspace{1pt}:] Preallocate the machine's registers \(\bm{r} := \bm{r}^1\) according to
-											\(r_j := r^1_j := W\big(y(j)|x(j)\big)\) and set \(\iota' := 1\). Since the program does not contain any computation nodes,
-											the content of the registers remains constant during the execution. We thus omit the superscript of the
-											register variables in the following.
-										\item[\(\beta\)\hspace{1pt}:] 
-											For \(\beta \in \{1,\ldots, M_\mathrm{B}\}\), the pair of next nodes \(\big(\beta'(\mathsf{T}),\beta'(\mathsf{F})\big)\) satisfies
-											\(	\beta'(\mathsf{T}) :    =  2\beta + 1, \quad
-												\beta'(\mathsf{F}) :    =  2\beta.
-											\)
-											Denote \(m\in\NN\) the smallest natural number such that \(\beta < 2^m\) is satisfied. If, for some \(t\in\{1,\ldots, T-1\}\), we have
-											\(e_t = \beta\), then \(e_{t+1}\) satisfies
-											\begin{align*}   e_{t+1} := \begin{cases}	\beta'(\mathsf{T}) &\text{if}~ 0 < r_m,\\
-																						\beta'(\mathsf{F}) &\text{otherwise}.
-																		\end{cases}
-											\end{align*}
-										\item[\(\sigma\)\hspace{1pt}:] For \(\sigma \in \{M_\mathrm{B} +1, M_\BSS\}\), set \(j(\sigma) := \sigma - M_\mathrm{B} + J_\mathrm{R}\) 
-											and return \(c_{j(\sigma)}\).
-					\end{enumerate}
-					Then, the BSS machine \(\BSS_{C_0}\) characterized by the triple \((\bm{r}, \bm{c}, \G)\) computes the mapping \(W\mapsto C_0(W)\).
-	\end{proof}
-	
-	\begin{Remark}
-		Semi-algebraic sets!
-	\end{Remark}
-
-\section{Deciding the Solvability of the Remote State Estimation Problem on Blum-Shub-Smale Machines}	\label{sec:DecidingRemoteStateEstimationOnBSS}
-	In this section, we will use Theorem \ref{thm:ZeroErrorBSScomputable} to derive a BSS algorithm which, given the description of an unstable, linear plant,
-	decides the solvability of the remote state estimation problem as a function on \(\W(\X,\Y)\).
-	
-	Again, the algorithm essentially relies on the ability of BSS machines to handle exact real numbers 
-	For \(\mA \in \RR^{n\times n}\), denote \(\bm{\lambda}(\mA) := (\lambda_1(A),\lambda_2(A),\ldots,\lambda_n(\mA))\) a family 
-	consisting of all eigenvalues of \(\mA\), according to their algebraic multiplicity. Consequently, the family \(\bm{\lambda}(\mA)\)
-	consists of exactly \(n\) components for all \(\mA\in \RR^{n\times n}\). We define
-	\begin{align}	\eta(\mA):={\sum}_{j:|\lambda_j(\mA)|\geq 1} \log_2|\lambda_j(\mA)|.
-	\end{align}
-	
-	As indicated in the introduction, the zero-error capacity of the DMC \(W\) plays a central role in the solvability of the remote state estimation problem;
-	in essence, given a characterization \((\mA,\mB,W,\E,\D)\) of a remote state estimation setup, it is almost entirely determined by the pair \((\mu(\mA),C_0(W))\).
-	
-	\begin{Lemma} 	[\cite{MS07}]\label{lem:SolvabilityCondition} Let \(\X,\Y\) be finite alphabets, \(W\in \W(\X,\Y)\) a DMC and \((\mA,\mB) \in \RR^{n\times n}\times \RR^{m\times n}\) 
-					a characterization of an unstable, time-invariant, linear plant and an associated local sensor. Then, the following holds true:
-					\begin{itemize}	\item If \(\mu(\mA) < C_0(W)\) is satisfied, there exists an encoder/decoder-pair \((\E,\D)\) such that we have
-										\(
-											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| < \infty 
-										\) almost surely.
-										That is, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
-									\item If \(\mu(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have\linebreak 
-										\(
-											\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| = \infty 
-										\) almost surely.
-										That is, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
-					\end{itemize}
-	\end{Lemma} 
-	
-	In view of the solvability conditions stated in Lemma \ref{lem:SolvabilityCondition}, we introduce the sets
-	\begin{align*}	\S_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) < C_0(W) \right\} \\ 
-					\U_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) > C_0(W) \right\} 
-	\end{align*}
-	Then, if \(W\in \S_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
-	Likewise, if \(W\in \U_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
-	In the following, denote \(\mathds{1}_{\S_{\mA}(\X,\Y)}\), \(\mathds{1}_{\U_{\mA}(\X,\Y)}\) the \emph{indicator function}
-	of \(\S_{\mA}(\X,\Y)\), \(\U_{\mA}(\X,\Y)\), respectively.
-	\begin{Theorem}	\label{thm:RemoteStateEstimationBSSDecidable}
-					Let \(\X,\Y\) be finite alphabets and \(\mA \in \RR^{n\times n}\) a characterization of an unstable, time-invariant, 
-					linear plant. Then, the following holds true:
-					\begin{itemize}	\item There exists a BSS machine \(\BSS_{\S}^{\mA}\) that \emph{decides} the set
-										\(\S_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
-										\begin{align*}	\BSS_{\S}^{\mA}(W) = 	\mathds{1}_{\S_{\mA}(\X,\Y)}(W)
-										\end{align*}
-										for all \(\W(\X,\Y)\).
-									\item There exists a BSS machine \(\BSS_{\U}^{\mA}\) that \emph{decides} the set
-										\(\U_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
-										\begin{align*}	\BSS_{\U}^{\mA}(W) = 	\mathds{1}_{\U_{\mA}(\X,\Y)}(W)
-										\end{align*}
-										for all \(\W(\X,\Y)\).
-					\end{itemize}
-	\end{Theorem}\begin{proof}
-					Consider again an enumeration \(j \mapsto \big(x(j), y(j)\big)\) of the set \(\X\times\Y\) 
-					Define \(M_\mathrm{C} := 1\), \(M_\mathrm{B} := 2\) and \(M_\BSS := 4\) as well as \(J_\mathrm{R} = \max\{|\X\times \Y|,3\}\) and 
-					\(J_\mathrm{C} = J_\mathrm{R} + 1\). Furthermore, hard-code the sole constant \(c_{J_\mathrm{C}}\) according to
-					\(c_{J_\mathrm{C} } := \mu(\mA)\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) in the following way:
-					\begin{enumerate}	\item[\(\iota\)\hspace{1pt}:] Preallocate the machine's registers \(\bm{r}\) according to
-											\begin{align}	r^1_j :=	\begin{cases}	W\big(y(j)|x(j)\big)	&\text{if}~ j\leq |\X\times\Y|,\\
-																						0						&\text{otherwise}
-																		\end{cases}
-											\end{align}
-											and set \(\iota' := 1\).
-										\item[\(\zeta\)\hspace{1pt}:] For \(\zeta \in \{1,\ldots, M_\mathrm{C}\} = \{1\}\) and \(e_t = e_1 = \zeta\), set \(\zeta' = 2\) and define 
-											\(\bm{r}^{t+1} = \bm{r}^{2} := g_1(\bm{c},\bm{r}^1).
-											\)
-										\item[\(\beta\)\hspace{1pt}:] 
-											For \(\beta \in \{M_\mathrm{C} + 1,\ldots, M_\mathrm{B}\} = \{2\}\), the pair of next nodes \(\big(\beta'(\mathsf{T}),
-											\beta'(\mathsf{F})\big)\) satisfies
-											\(\beta'(\mathsf{T}) :    =  3\) and \(\beta'(\mathsf{F}) :    =  4\).
-											If \(e_t = e_2 = \beta\), then \(e_{t+1} = e_T = e_3\) satisfies
-											\begin{align*}   e_{3} := 	\begin{cases}   \beta'(\mathsf{T}) &\text{if}~ 0 < r_1^3,\\
-																						\beta'(\mathsf{F}) &\text{otherwise}.
-																		\end{cases}
-											\end{align*}
-										\item[\(\sigma\)\hspace{1pt}:] We have \(\sigma \in \{3,4\}\). For \(\sigma = 3\), return \(r_2^3\). For \(\sigma = 4\), return \(r_3^3\).
-					\end{enumerate}
-					Last but not least, consider the mappings
-					\begin{align*}	g_1^\S(\bm{r}^t,\bm{c}) :&= \big(\BSS_{C_0}(\bm{r}^t) - c_{J_\mathrm{C}}, 1, 0, \ldots, 0\big), \\
-									g_1^\U(\bm{r}^t,\bm{c}) :&= \big(c_{J_\mathrm{C}} - \BSS_{C_0}(\bm{r}^t), 1, 0, \ldots, 0\big), 
-					\end{align*}
-					where \(\BSS_{C_0}\) denotes the BSS-computable mapping that computes the zero-error capacity according to Theorem \ref{thm:ZeroErrorBSScomputable}. 
-					Setting \(g_1 := g_1^\S\) yields a triple \((\bm{r}, \bm{c}, \G)\)
-					that characterizes \(\BSS_{\S}^{\mA}\). Likewise, setting \(g_1 := g_1^\U\) yields a triple \((\bm{r}, \bm{c}, \G)\)
-					that characterizes \(\BSS_{\S}^{\mA}\).
-	\end{proof}
-	
-	The algorithm specified in the proof of Theorem \ref{thm:RemoteStateEstimationBSSDecidable} does not depend on \(\mA\) in a BSS-computable manner,
-	since the number \(\mu(\mA)\) has to be hard-coded into the algorithm. In practical applications however, the characteristics of the plant
-	are usually known during the design process, whereas only the channel is likely to vary during the operation
-	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
 	
 \section{Discussion on Banach-Mazur Computability (Working Title)}
 	In the scope of system verification, Banach-Mazur computability has a noteworthy interpretation.
@@ -897,6 +673,270 @@
 	which can then be compared to the autonomous control tool's output. Unless the indicator function \(\mathds{1}_{\M_0}\) is Turing computable, an individual verifier has to be implemente for each 
 	possible sequence of test cases. If, on the other hand, the indicator function \(\mathds{1}_{\M_0}\) is not Banach-Mazur computable, it is not generally possible to generate the 
 	sequence of correct target values on digital hardware. In other words, for some sequences \((V_n)_{n\in\NN}\), there may not exist a digital verifier at all in this case.
+
+\section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}	    	
+	\noindent Blum-Shub-Smale (BSS) machines formalize the notion of computability over a field \(\FF\). The latter is assume to be equipped 
+	with a binary relation \(\diamond~{:}~\FF \times \FF \rightarrow \{\mathsf{T},\mathsf{F}\}\), which is either an equality, equivalence or strict total order. 
+	
+	Despite the so called Church-Turing thesis being widely accepted as true, which implies that the capabilities of real-world computers are exactly characterized 
+	by the abstract Turing machine, BSS machines are often implicitly considered as the underlying machine model in numerics and complexity theory \tbr{\sdummy}. 
+	A reason for this practice may lie in the ability of BSS machines to handle exact real numbers. Since most areas of applied mathematics involve continuous structures, 
+	treating the content of a computer's memory as actual real numbers simplifies the description of algorithms to a great extent. For a detailed discussion on the Topic, we refer to \cite{Bl04}.
+
+	In essence, BSS machines can be considered a generalization of Turing machines. They are equipped with a two-way infinite tape divided into cells, each of which holds an 
+	element of \(\FF\cup\{\sqcup\}\). Here, "\(\sqcup\)" denotes the distinguished empty-space symbol. We assume that the tape is almost empty, i.e., all but finitely many cells 
+	contain the symbol "\(\sqcup\)", at the beginning of the computation. A BSS machine interacts with its tape by means of a read-write head, which can, depending on tis current 
+	position, access a fixed number of contiguous cells at a time. The algorithm executed by the BSS machine is characterized by its program, a finite, directed, simple graph 
+	\begin{align*}   \G_\BSS = ([M_\BSS]_{0}, \V_\BSS),~ \V_\BSS \subseteq [M_\BSS]_{0} \times [M_\BSS],
+	\end{align*} 
+	with five types of nodes: \emph{input nodes}, \emph{computation nodes}, \emph{branching nodes}, \emph{shifting nodes} and \emph{output nodes}, each of which specifies a class 
+	of fundamental machine operations. For a given input, the program flow corresponds to a directed walk in the program graph
+	\begin{align*}	\F := (e_t)_{t\in\{1,2,\ldots,T\}},~T\in\NN\cup \{\infty\},
+	\end{align*}
+	starting from the input node and (possibly) ending in some output node, or continuing infinitely. In each step, the operation associated to the current node is executed, 
+	affecting the content of the tape, the position of the read-write head and the program flow accordingly. Furthermore, the values stored in the initially non-empty cells 
+	of the tape are considered part of the algorithm, much like hard-coded constants in a real-world computer program. 
+
+	In order to prove that some problem is BSS-computable, on has, in principle, to provide the existence of a suitable program graph and, possibly, a tape with predefined constants. 
+	This can often be cumbersome, since it involves the exact specification of the movement of the read-write head. If the size of the \emph{memory} required to execute the program, i.e., 
+	the number of different cells accessed throughout the program execution, can be uniformly upper bounded by a number \(J_\BSS \in \NN\), we can get rid of the tape altogether by 
+	introducing \emph{register variables} and \emph{constants},
+	\begin{align*}	\bm{r} :&= (r_j^t)_{j\in\{1,\ldots,J_{\mathrm{R}}\}, t\in\{1,\ldots,T\}},\\
+					\bm{c} :&= (c_j)_{j\in\{J_{\mathrm{R}} + 1,\ldots,J_{\mathrm{C}}\}},
+	\end{align*}
+	with \(T\in\NN\cup\{\infty\}\) and \(J_{\mathrm{C}} \leq J_\BSS\). The program graph then consists only of an input node, computation nodes, branching nodes and at least one output node.
+	Furthermore, the corresponding classes of fundamental machine operations can be specified as follows:
+	
+	1 - \emph{Input nodes.} The unique input node \(\iota = e_1 = 0\) is associated to an 
+		input operation \(g_\iota\). The input operation writes each component of a tuple 
+		\begin{align*} 	\bm{a} = \big(a_1,a_2,\ldots a_{K({\bm{a}})}\big) \in {\bigcup}_{j=1}^{J_{\mathrm{R}}} \FF^{j}
+		\end{align*}
+		to the machine's internal registers \(\bm{r}\), according to the specification
+		\begin{align*}	r^1_{j(k)} := a_k ,~ j(k)\in \{1,\ldots,J_{\mathrm{R}}\},~ k\in \{1,\ldots K(\bm{x})\}.   
+		\end{align*}
+		The remaining registers are initialized with the value\linebreak \(0 \in \FF\).
+		There exists a unique next node \(\iota' \in [M_\BSS]\) to \(\iota\).
+	
+	2 - \emph{Computation nodes.} The program graph may contain a number of computation nodes \(\zeta \in \{1,2,\ldots M_{\mathrm{C}}\}\),    
+		\linebreak \(M_{\mathrm{C}} \leq M_{\BSS}\), each of which is 
+		is associated to a mapping 
+		\( 	g_\zeta : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\mathrm{R}}}, 
+		\) 
+		which is either polynomial, rational or has previously been shown to be BSS computable. The latter accounts for the fact that in the general, 
+		unbounded setting, the program of some BSS machine can always be incorporated as a subroutine into the program of another BSS machine.
+		If \(e_t = \zeta\) for some \(t\in\{1,\ldots, T-1\}\), we have
+		\begin{align*}  \bm{r}^{t+1} = g_{\zeta}(\bm{r}^t,\bm{c})~\text{with}~\bm{r}^t := (r_j^t)_{j\in\{1,\ldots,J_{\mathrm{R}}\}}.
+		\end{align*}
+		There exists a unique next node \(\zeta' \in \{1,2,\ldots M_{\mathrm{C}}\}\) to each computation node \(\zeta\).
+	
+	3 - \emph{Branching nodes.}  A program may contain a number of branching nodes \(\beta \in \{M_{\mathrm{C}} + 1, M_{\mathrm{C}} + 2,\ldots, M_\mathrm{B}\}\), 
+		each of which leave the content of the internal registers unchanged. That is, if \(e_t = \beta\) for some \(t\in\{1,\ldots, T-1\}\), we have
+		\(\bm{r}^{t+1} = \bm{r}^{t}\). There exist exactly two next nodes \(\beta'(\mathsf{T})\) and \(\beta'(\mathsf{F})\) to each branching node \(\beta\). If 
+		\(	\diamond\big(0, r^t_{j'(\beta)}\big) = \mathsf{T} 
+		\)
+		holds true for \(j'(\beta) \in \{1,\ldots, J_\mathrm{R}\}\), the program flow branches to the node \(\beta'(\mathsf{T})\). Otherwise, it moves to \(\beta'(\mathsf{F})\). 
+		That is, for \(\beta = e_t\), we have
+		\begin{align*}   e_{t+1} =   \begin{cases}   \beta'(\mathsf{T})  &\text{if}~\diamond\big(0,r^t_{j'(\beta)}\big) = \mathsf{T},\\
+													\beta'(\mathsf{F})  &\text{otherwise}.
+									\end{cases}    
+		\end{align*}
+		
+	4 - \emph{Output nodes.} Each program contains at least one output node \(\sigma \in \{M_{\mathrm{B}} + 1, M_{\mathrm{B}} + 2,\ldots, M_\BSS\}\), 
+		each of which is associated to an output mapping
+		\(	o_\sigma : \FF^{J_{\mathrm{C}}}\rightarrow \FF^{J_{\sigma}}.
+		\)
+		For some fixed subset \(\J_\sigma\) of \([J_\mathrm{C}]\) and \(e_t = e_T = \sigma\), \(T\in\NN\), the mapping outputs (by projection) the values of the 
+		register variables \((r_j^T)_{j\in \J_\sigma \cap \{1,\ldots,J_\mathrm{R}\}}\) and constants \((c_j)_{j\in \J_\sigma \cap \{J_\mathrm{R}+1,\ldots,J_\mathrm{C}\}}\). 
+		There exists no next node to \(\sigma\).
+
+	In our case, the field \(\FF\) will be the real numbers \(\RR\) with the usual strict total order "\(<\)". If \(\FF\) equals \(\ZZ_2\) (the set of boolean values with logical con- and disjunction 
+	as field operations), the traditional theory of computation as formalized by Turing machines is recovered. For the remainder of this article, we will refer to BSS machines over \(\RR\) 
+	simply as BSS machines, omitting the explicit mention of the field \(\FF\) being equal to the real numbers. 
+
+%\section{Preliminaries from the Theory of Zero-Error Coding}	\label{sec:PreliminariesZeroError}
+	%\noindent As indicated in Section \ref{sec:FormalEstimationSetup}, we consider finite alphabets \(\X\) and \(\Y\) as well as conditional probability mass functions on \(\Y\times\X\).
+	%In particular we define
+	%\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+,~ (x,y) \mapsto W(y|x),\\
+												%&~\forall x\in\X: ~{\sum}_{y\in\Y} W(y|x) = 1 \bigg\}.
+	%\end{align*}
+	%The triple \((\X,\Y,W)\) is called a \emph{discrete, memoryless channel}. 
+
+	%The theory of zero-error coding, as introduced in \cite{Sh56}, is a sub-discipline of general channel coding. In essence, it considers the problem of finding the supremum 
+	%\(C_0(W)\) of all possible rates at which information can be transmitted trough a DMC \((\X,\Y,W)\) with perfect reliability. Here, ``perfect reliability'' refers
+	%to the ability of the decoder to correctly infer the transmitted message with probability one. Furthermore, the term ``rate'' denominates the asymptotic average of bits transmitted per channel use. 
+	%The number \(C_0(W)\) is commonly referred to as zero-error capacity of \(W\).
+
+	%Given a DMC \((\X,\Y,W)\), one of the results derived in \cite{Sh56} yields a characterization of \(C_0(W)\) in graph-theoretic terms.
+	%In fact, for each \(W\in \W(\X,\Y)\), there exists a finite, undirected, simple graph \(G(W)\), referred to as the \emph{confusability graph} of \(W\), which
+	%uniquely determines \(C_0(W)\).
+
+	%\begin{Theorem}	[\cite{Sh56}]\label{thm:ZE_Capacity}
+					%For a DMC \(W\in\W(\X,\Y)\), let \(G(W) = (\X, \V(W))\) be the finite, simple graph that satisfies
+					%\begin{align*}   \V(W) = \big\{\{x,x'\} : \exists y : W(y|x)W(y|x') > 0\big\}.
+					%\end{align*}
+					%Then, the zero-error capacity of \(W\) satisfies
+					%\begin{align*}   C_0(W)  	&=  \lim_{n\to\infty} \frac{1}{n} \log_2 \alpha\big(G^{\boxtimes n }(W)\big) \\
+												%&=  \sup_{n\in\NN} \frac{1}{n} \log_2 \alpha\big(G^{\boxtimes n }(W)\big),
+					%\end{align*}
+					%where \(G^{\boxtimes n }(W)\) denotes the \(n\)-fold \emph{strong graph product} of \(G(W)\) with itself and
+					%\(\alpha\big(G^{\boxtimes n }(W)\big)\) denotes the \emph{independence number} of \(\alpha\big(G^{\boxtimes n }(W)\big)\).
+	%\end{Theorem}
+	
+	%For finite alphabets \(\X,\Y\), we denote by \(\Wc(\X,\Y)\) the set of conditional probability mass functions \(W\) on \(\X\times\Y\) such that \(W(y|x) \in \RRc\) 
+	%holds true for all \((x,y) \in \X\times \Y\). In \cite{BD20Z}, it was shown that \(C_0(W)\) is not computable on a Turing machine as a function on computable channel descriptions \(W\).
+	%To the best of the author's knowledge, it remains an open problem whether \(C_0(W)\) is even a Turing computable number for all computable channel descriptions.
+	%In Section \ref{sec:ComputingZeroErrorOnBSS}, we describe a BSS-algorithm that, for fixed alphabets \(\X\) and \(\Y\), computes \(C_0(W)\) as a function on \(\W(\X,\Y)\). The existence 
+	%of such an algorithm essentially relies on the ability of BSS machines to handle exact real numbers.
+
+\section{Computing the Zero-Error Capacity for Fixed Alphabets on Blum-Shub-Smale Machines}	\label{sec:ComputingZeroErrorOnBSS}
+	\noindent In the following, we specify a BSS-Algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes the zero-error capacity \(C_0(W)\) 
+	upon being passed a channel description \(W \in \W(\X,\Y)\). 
+
+	Essentially, the algorithm relies on the fact that a \emph{lookup table} containing all possible values of \(C_0(W)\) can be hard-coded into the program. The lookup is performed in 
+	terms of a perfect binary tree, where each branch corresponds to an evaluation of the predicate "\(W(y|x) > 0\)" for some letters \(x\in\X\) and \(y\in\Y\). Per definition, the latter 
+	can be done algorithmically, as a fundamental operation on the BSS machine.
+
+	\begin{Theorem}	\label{thm:ZeroErrorBSScomputable}
+					Consider finite alphabets \(\X\) and \(\Y\). Then, there exists a BSS-Machine \(\BSS_{C_0}\)
+					which, upon being passed a channel description \(W\in \W(\X,\Y)\), computes the mapping \(W \mapsto C_0(W)\).
+	\end{Theorem}\begin{proof}
+					Let \(j \mapsto \big(x(j), y(j)\big)\) be an enumeration of the set \(\X\times\Y\) and define
+					\(J_\mathrm{R} := |\X\times \Y|\). Furthermore, consider the mappings
+					\begin{align*}	\delta(W,j) :&=     \begin{cases}   1   &\text{if}~ 0 < W\big(y(j)|x(j)\big), \\
+																		0   &\text{otherwise},
+														\end{cases}\\
+									\Delta(W)   :&=     1 + {\sum}_{j=1}^{J_\mathrm{R}} \delta(W,j)\cdot 2^{j-1} \in \big\{1,\ldots,2^{J_\mathrm{R}}\big\}.
+					\end{align*} 
+					We observe that, as a direct consequence of Theorem \ref{thm:ZE_Capacity}, the value of \(C_0(W)\) is 
+					entirely determined by the set 
+					\begin{align*}   \{(x,y) \in \X\times \Y : W(x|y) > 0\} \subseteq 2^{\X\times\Y}
+					\end{align*} 
+					and hence, the zero-error capacity of \(W\) depends exclusively on the number \(\Delta(W)\). Thus, we obtain the existence of a mapping
+					\(C'_0 : \big\{1,\ldots,2^{J_\mathrm{R}}\big\} \rightarrow \RR_0^+,~ \Delta \mapsto C'_0(\Delta),        
+					\)
+					such that \(C'_0(\Delta(W)) = C_0(W)\) holds true for all \(W\in\W(\X,\Y)\). For \(J_\mathrm{C} := J_\mathrm{R} + 2^{J_\mathrm{R}}\), 
+					hardcode the family of constants \(\bm{c}\) according to 
+					\(  c_j := C'_0(j - J_\mathrm{R})
+					\)
+					for all \(j\in \{J_\mathrm{R} + 1, \ldots, J_\mathrm{C}\}\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) with
+					\begin{align*}	M_\mathrm{C} := 0,~M_\mathrm{B} := 2^{J_\mathrm{R}} - 1,~ M_\BSS := ~M_\mathrm{B} + 2^{J_\mathrm{R}}
+					\end{align*}
+					in the following way:
+					\begin{enumerate}	\item[\(\iota\)\hspace{1pt}:] Preallocate the machine's registers \(\bm{r} := \bm{r}^1\) according to
+											\(r_j := r^1_j := W\big(y(j)|x(j)\big)\) and set \(\iota' := 1\). Since the program does not contain any computation nodes,
+											the content of the registers remains constant during the execution. We thus omit the superscript of the
+											register variables in the following.
+										\item[\(\beta\)\hspace{1pt}:] 
+											For \(\beta \in \{1,\ldots, M_\mathrm{B}\}\), the pair of next nodes \(\big(\beta'(\mathsf{T}),\beta'(\mathsf{F})\big)\) satisfies
+											\(	\beta'(\mathsf{T}) :    =  2\beta + 1, \quad
+												\beta'(\mathsf{F}) :    =  2\beta.
+											\)
+											Denote \(m\in\NN\) the smallest natural number such that \(\beta < 2^m\) is satisfied. If, for some \(t\in\{1,\ldots, T-1\}\), we have
+											\(e_t = \beta\), then \(e_{t+1}\) satisfies
+											\begin{align*}   e_{t+1} := \begin{cases}	\beta'(\mathsf{T}) &\text{if}~ 0 < r_m,\\
+																						\beta'(\mathsf{F}) &\text{otherwise}.
+																		\end{cases}
+											\end{align*}
+										\item[\(\sigma\)\hspace{1pt}:] For \(\sigma \in \{M_\mathrm{B} +1, M_\BSS\}\), set \(j(\sigma) := \sigma - M_\mathrm{B} + J_\mathrm{R}\) 
+											and return \(c_{j(\sigma)}\).
+					\end{enumerate}
+					Then, the BSS machine \(\BSS_{C_0}\) characterized by the triple \((\bm{r}, \bm{c}, \G)\) computes the mapping \(W\mapsto C_0(W)\).
+	\end{proof}
+	
+	\begin{Remark}
+		Semi-algebraic sets!
+	\end{Remark}
+
+\section{Decidability Analysis}	\label{sec:DecidingRemoteStateEstimationOnBSS}
+	In this section, we will use Theorem \ref{thm:ZeroErrorBSScomputable} to derive a BSS algorithm which, given the description of an unstable, linear plant,
+	decides the solvability of the remote state estimation problem as a function on \(\W(\X,\Y)\).
+	
+	Again, the algorithm essentially relies on the ability of BSS machines to handle exact real numbers. 
+	%For \(\mA \in \RR^{n\times n}\), denote \(\bm{\lambda}(\mA) := (\lambda_1(A),\lambda_2(A),\ldots,\lambda_n(\mA))\) a family 
+	%consisting of all eigenvalues of \(\mA\), according to their algebraic multiplicity. Consequently, the family \(\bm{\lambda}(\mA)\)
+	%consists of exactly \(n\) components for all \(\mA\in \RR^{n\times n}\). We define
+	%\begin{align}	\eta(\mA):={\sum}_{j:|\lambda_j(\mA)|\geq 1} \log_2|\lambda_j(\mA)|.
+	%\end{align}
+	
+	%As indicated in the introduction, the zero-error capacity of the DMC \(W\) plays a central role in the solvability of the remote state estimation problem;
+	%in essence, given a characterization \((\mA,\mB,W,\E,\D)\) of a remote state estimation setup, it is almost entirely determined by the pair \((\mu(\mA),C_0(W))\).
+	
+	%\begin{Lemma} 	[\cite{MS07}]\label{lem:SolvabilityCondition} Let \(\X,\Y\) be finite alphabets, \(W\in \W(\X,\Y)\) a DMC and \((\mA,\mB) \in \RR^{n\times n}\times \RR^{m\times n}\) 
+					%a characterization of an unstable, time-invariant, linear plant and an associated local sensor. Then, the following holds true:
+					%\begin{itemize}	\item If \(\mu(\mA) < C_0(W)\) is satisfied, there exists an encoder/decoder-pair \((\E,\D)\) such that we have
+										%\(
+											%\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| < \infty 
+										%\) almost surely.
+										%That is, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
+									%\item If \(\mu(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have\linebreak 
+										%\(
+											%\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| = \infty 
+										%\) almost surely.
+										%That is, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
+					%\end{itemize}
+	%\end{Lemma} 
+	
+	%In view of the solvability conditions stated in Lemma \ref{lem:SolvabilityCondition}, we introduce the sets
+	%\begin{align*}	\S_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) < C_0(W) \right\} \\ 
+					%\U_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) > C_0(W) \right\} 
+	%\end{align*}
+	%Then, if \(W\in \S_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
+	%Likewise, if \(W\in \U_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
+	%In the following, denote \(\mathds{1}_{\S_{\mA}(\X,\Y)}\), \(\mathds{1}_{\U_{\mA}(\X,\Y)}\) the \emph{indicator function}
+	%of \(\S_{\mA}(\X,\Y)\), \(\U_{\mA}(\X,\Y)\), respectively.
+	\begin{Theorem}	\label{thm:RemoteStateEstimationBSSDecidable}
+					Let \(\X,\Y\) be finite alphabets and \(\mA \in \RR^{n\times n}\) a characterization of an unstable, time-invariant, 
+					linear plant. Then, the following holds true:
+					\begin{itemize}	\item There exists a BSS machine \(\BSS_{\S}^{\mA}\) that \emph{decides} the set
+										\(\S_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
+										\begin{align*}	\BSS_{\S}^{\mA}(W) = 	\mathds{1}_{\S_{\mA}(\X,\Y)}(W)
+										\end{align*}
+										for all \(\W(\X,\Y)\).
+									\item There exists a BSS machine \(\BSS_{\U}^{\mA}\) that \emph{decides} the set
+										\(\U_{\mA}(\X,\Y)\) as a subset of \(\W(\X,\Y)\). That is, we have
+										\begin{align*}	\BSS_{\U}^{\mA}(W) = 	\mathds{1}_{\U_{\mA}(\X,\Y)}(W)
+										\end{align*}
+										for all \(\W(\X,\Y)\).
+					\end{itemize}
+	\end{Theorem}\begin{proof}
+					Consider again an enumeration \(j \mapsto \big(x(j), y(j)\big)\) of the set \(\X\times\Y\) 
+					Define \(M_\mathrm{C} := 1\), \(M_\mathrm{B} := 2\) and \(M_\BSS := 4\) as well as \(J_\mathrm{R} = \max\{|\X\times \Y|,3\}\) and 
+					\(J_\mathrm{C} = J_\mathrm{R} + 1\). Furthermore, hard-code the sole constant \(c_{J_\mathrm{C}}\) according to
+					\(c_{J_\mathrm{C} } := \mu(\mA)\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) in the following way:
+					\begin{enumerate}	\item[\(\iota\)\hspace{1pt}:] Preallocate the machine's registers \(\bm{r}\) according to
+											\begin{align}	r^1_j :=	\begin{cases}	W\big(y(j)|x(j)\big)	&\text{if}~ j\leq |\X\times\Y|,\\
+																						0						&\text{otherwise}
+																		\end{cases}
+											\end{align}
+											and set \(\iota' := 1\).
+										\item[\(\zeta\)\hspace{1pt}:] For \(\zeta \in \{1,\ldots, M_\mathrm{C}\} = \{1\}\) and \(e_t = e_1 = \zeta\), set \(\zeta' = 2\) and define 
+											\(\bm{r}^{t+1} = \bm{r}^{2} := g_1(\bm{c},\bm{r}^1).
+											\)
+										\item[\(\beta\)\hspace{1pt}:] 
+											For \(\beta \in \{M_\mathrm{C} + 1,\ldots, M_\mathrm{B}\} = \{2\}\), the pair of next nodes \(\big(\beta'(\mathsf{T}),
+											\beta'(\mathsf{F})\big)\) satisfies
+											\(\beta'(\mathsf{T}) :    =  3\) and \(\beta'(\mathsf{F}) :    =  4\).
+											If \(e_t = e_2 = \beta\), then \(e_{t+1} = e_T = e_3\) satisfies
+											\begin{align*}   e_{3} := 	\begin{cases}   \beta'(\mathsf{T}) &\text{if}~ 0 < r_1^3,\\
+																						\beta'(\mathsf{F}) &\text{otherwise}.
+																		\end{cases}
+											\end{align*}
+										\item[\(\sigma\)\hspace{1pt}:] We have \(\sigma \in \{3,4\}\). For \(\sigma = 3\), return \(r_2^3\). For \(\sigma = 4\), return \(r_3^3\).
+					\end{enumerate}
+					Last but not least, consider the mappings
+					\begin{align*}	g_1^\S(\bm{r}^t,\bm{c}) :&= \big(\BSS_{C_0}(\bm{r}^t) - c_{J_\mathrm{C}}, 1, 0, \ldots, 0\big), \\
+									g_1^\U(\bm{r}^t,\bm{c}) :&= \big(c_{J_\mathrm{C}} - \BSS_{C_0}(\bm{r}^t), 1, 0, \ldots, 0\big), 
+					\end{align*}
+					where \(\BSS_{C_0}\) denotes the BSS-computable mapping that computes the zero-error capacity according to Theorem \ref{thm:ZeroErrorBSScomputable}. 
+					Setting \(g_1 := g_1^\S\) yields a triple \((\bm{r}, \bm{c}, \G)\)
+					that characterizes \(\BSS_{\S}^{\mA}\). Likewise, setting \(g_1 := g_1^\U\) yields a triple \((\bm{r}, \bm{c}, \G)\)
+					that characterizes \(\BSS_{\S}^{\mA}\).
+	\end{proof}
+	
+	The algorithm specified in the proof of Theorem \ref{thm:RemoteStateEstimationBSSDecidable} does not depend on \(\mA\) in a BSS-computable manner,
+	since the number \(\mu(\mA)\) has to be hard-coded into the algorithm. In practical applications however, the characteristics of the plant
+	are usually known during the design process, whereas only the channel is likely to vary during the operation
+	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
 	
 \section{Summary and Conclusion}	\label{sec:Conclusion}
 	We have proven that for fixed alphabets \(\X,\Y\), the zero-error capacity \(C_0(W)\) is BSS-computable as a function on \(\W(\X,\Y)\).
