@@ -403,12 +403,12 @@
 	If \(\eta(\mA) < C_{\text{Fb}}\) is satisfied, there exists a pair \((\E,\Dc)\) that meets the requirement. On the other hand,
 	if \(\eta(\mA) > C_{\text{Fb}}\) is satisfied, then \(\limsup_{t\in\NN} \|\rs_t\| = \infty\) holds true almost surely for all possible pairs \((\E,\Dc)\).
 	
-	In the following, we use the greek letter '\(\Delta\)' as a placeholder symbol. In light of the results established in \cite{MS07, MS07SC}, we define 
+	In the following, we use the star symbol '\(\star\)' as a placeholder. In light of the results established in \cite{MS07, MS07SC}, we define 
 	the sets 
-	\begin{align}	\S_\Delta(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\Delta > \eta(\mA)\big\}, \\
-					\U_\Delta(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\Delta < \eta(\mA)\big\},
+	\begin{align}	\S_\star(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\star > \eta(\mA)\big\}, \\
+					\U_\star(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\star < \eta(\mA)\big\},
 	\end{align}
-	for \(\Delta \in \{\text{'Sh'},\text{'\(0\)'},\text{'Fb'}\}\) and \(\mA\in\RR^{n\times n}\).
+	for \(\star \in \{\text{'Sh'},\text{'\(0\)'},\text{'Fb'}\}\) and \(\mA\in\RR^{n\times n}\).
 	
 	\begin{Remark}	Further variants of the remote state estimation and control problem that were also considered in \cite{MS07, MS07SC} 
 					allow communication channels with feedback. However, this supplementary degree of freedom does not introduce an additional channel capacity. 
@@ -524,7 +524,8 @@
 	{\color{red} Decidability \emph{relative} to some set... Consistency in nomenclature between versions?}
 	
 \section{Turing Computability and Channels (Working Title)}
-	\begin{Lemma}	Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
+	\begin{Lemma}	\label{lem:IndicatorFunctionBanachMazur}
+					Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
 					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
 										we have \((1-\mu)W_0 + \mu W_1 \in \M_1\). 
 					\end{itemize}
@@ -580,7 +581,8 @@
 					Since \(\rp{n,1}\) is a rational number for all \(n\in\NN\), the predicate \(P(n) \equiv  \rp{n,1} > 2^{-1}\) can be
 					evaluated effectively for all \(n\in\NN\), making \(\mathds{1}_\N\) a recursive function, which is a contradiction to the nonrecursivity of \(\N\).			
 	\end{proof}
-	\begin{Lemma}	Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
+	\begin{Lemma}	\label{lem:SubsetNotSemidecidable}
+					Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
 					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
 										we have \((1-\mu)W_0 + \mu W_1 \in \M_1\). 
 					\end{itemize}
@@ -809,7 +811,7 @@
 					\end{align*} 
 					We observe that, as a direct consequence of Theorem \ref{thm:ZE_Capacity}, the value of \(C_0(W)\) is 
 					entirely determined by the set 
-					\begin{align*}   \{(x,y) \in \X\times \Y : W(x|y) > 0\} \subseteq 2^{\X\times\Y}
+					\begin{align*}   \{(x,y) \in \X\times \Y : W(x|y) > 0\} \subseteq \X\times\Y
 					\end{align*} 
 					and hence, the zero-error capacity of \(W\) depends exclusively on the number \(\Delta(W)\). Thus, we obtain the existence of a mapping
 					\(C'_0 : \big\{1,\ldots,2^{J_\mathrm{R}}\big\} \rightarrow \RR_0^+,~ \Delta \mapsto C'_0(\Delta),        
@@ -859,16 +861,16 @@
 	%\end{align}
 	
 	%As indicated in the introduction, the zero-error capacity of the DMC \(W\) plays a central role in the solvability of the remote state estimation problem;
-	%in essence, given a characterization \((\mA,\mB,W,\E,\D)\) of a remote state estimation setup, it is almost entirely determined by the pair \((\mu(\mA),C_0(W))\).
+	%in essence, given a characterization \((\mA,\mB,W,\E,\D)\) of a remote state estimation setup, it is almost entirely determined by the pair \((\eta(\mA),C_0(W))\).
 	
 	%\begin{Lemma} 	[\cite{MS07}]\label{lem:SolvabilityCondition} Let \(\X,\Y\) be finite alphabets, \(W\in \W(\X,\Y)\) a DMC and \((\mA,\mB) \in \RR^{n\times n}\times \RR^{m\times n}\) 
 					%a characterization of an unstable, time-invariant, linear plant and an associated local sensor. Then, the following holds true:
-					%\begin{itemize}	\item If \(\mu(\mA) < C_0(W)\) is satisfied, there exists an encoder/decoder-pair \((\E,\D)\) such that we have
+					%\begin{itemize}	\item If \(\eta(\mA) < C_0(W)\) is satisfied, there exists an encoder/decoder-pair \((\E,\D)\) such that we have
 										%\(
 											%\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| < \infty 
 										%\) almost surely.
 										%That is, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
-									%\item If \(\mu(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have\linebreak 
+									%\item If \(\eta(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have\linebreak 
 										%\(
 											%\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| = \infty 
 										%\) almost surely.
@@ -877,13 +879,62 @@
 	%\end{Lemma} 
 	
 	%In view of the solvability conditions stated in Lemma \ref{lem:SolvabilityCondition}, we introduce the sets
-	%\begin{align*}	\S_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) < C_0(W) \right\} \\ 
-					%\U_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \mu(\mA) > C_0(W) \right\} 
+	%\begin{align*}	\S_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \eta(\mA) < C_0(W) \right\} \\ 
+					%\U_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \eta(\mA) > C_0(W) \right\} 
 	%\end{align*}
 	%Then, if \(W\in \S_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
 	%Likewise, if \(W\in \U_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
 	%In the following, denote \(\mathds{1}_{\S_{\mA}(\X,\Y)}\), \(\mathds{1}_{\U_{\mA}(\X,\Y)}\) the \emph{indicator function}
 	%of \(\S_{\mA}(\X,\Y)\), \(\U_{\mA}(\X,\Y)\), respectively.
+	\begin{Lemma} \label{lem:SstarSatisfiesProp}
+		For \(\star \in \{\text{'\(0\)'},\text{'Fb'}\}\) and \(\mA\in\RRcP{n\times n}\) with \(\log_2\min\{|\X|,|\Y|\} > \eta(\mA) > 0\), there exists channels
+		\(W_0 \in \S_\star(\mA)\cap \Wc(\X.\Y)\) and \(W_1\in \U_\star(\mA)\cap\Wc(\X,\Y)\), such that for all \(\mu\in (0,1]\cap\RRc\), 
+		we have
+		\begin{align}	(1-\mu)W_0 + \mu W_1 \in \U_\star(\mA)\cap\Wc(\X,\Y).
+		\end{align}  
+	\end{Lemma}\begin{proof}
+		Observe that for \(W\in\W(\X,\Y)\) both the zero-error and the feedback zero-error capacity are entirely determined by the set
+		\begin{align*}   \Omega(W) := \{(x,y) \in \X\times \Y : W(x|y) > 0\} \subseteq \X\times\Y.
+		\end{align*}
+		For details, see \cite{Sh56}. In particular, we have 
+		\begin{align}	\Omega(W) = \X\times\Y \quad \Rightarrow \quad C_\star(W) = 0.
+		\end{align}
+		Furthermore, for all (nonempty) finite alphabets \(\X\) and \(\Y\), there exists a channel 
+		\(\W_0\in \Wc(\X,\Y)\) that satisfies 
+		\begin{align}	C_\star(W) = \log_2 \min \{|\X|,|\Y|\}.
+		\end{align}
+		By assumption, \(\eta(\mA) < \log_2 \min \{|\X|,|\Y|\}\) holds true. Thus, we have \(\W_0\in \S_\star(\mA)\).
+		For all \((x,y)\in\X\times \Y\), define
+		\begin{align}
+			W_1(y|x) := \frac{1}{|\Y|}.
+		\end{align}
+		Then, we have \(\Omega(W_1) = \X\times \Y\), and thus \(C_\star(W_1) = 0\). Hence, \(W_1 \in \U_\star(\mA)\cap \Wc(\X,\Y)\)
+		is satisfied. Now define
+		\begin{align}
+			W(\mu) := (1-\mu)W_0 + \mu W_1.
+		\end{align}
+		For all \(\mu \in (0,1]\cap\RRc\), we have \(\Omega(W(\mu)) = \X\times\Y\) and thus \(C_\star(W(\mu)) = 0\).
+		Hence, \(W(\mu) \in \U_\star(\mA)\cap\Wc(\X,\Y)\) is satisfied for all \(\mu \in (0,1]\cap\RRc\).
+	\end{proof}
+	
+	\begin{Theorem}
+		For \(\star \in \{\text{'\(0\)'},\text{'Fb'}\}\), (nonempty) finite alphabets \(\X\) and \(\Y\) and
+		\(\mA\in\RRcP{n\times n}\) with \(\log_2\min\{|\X|,|\Y|\} > \eta(\mA) > 0\), the indicator function \(\mathds{1}_{\S_\star(\mA) \cap \Wc(\X,\Y)}\)
+		is not Banach-Mazur computable.
+	\end{Theorem}\begin{proof}
+		The claim is a direct consequence of Lemmata \ref{lem:IndicatorFunctionBanachMazur} and \ref{lem:SstarSatisfiesProp} and
+		the observation that \((\S_\star(\mA) \cup \U_\star(\mA)) \cap \Wc(\X,\Y)\) is a nonempty subset of \(\Wc(\X,\Y)\).
+	\end{proof}
+	
+	\begin{Theorem}
+		For \(\star \in \{\text{'\(0\)'},\text{'Fb'}\}\), (nonempty) finite alphabets \(\X\) and \(\Y\) and
+		\(\mA\in\RRcP{n\times n}\) with \(\log_2\min\{|\X|,|\Y|\} > \eta(\mA) > 0\), the set \(\S_\star(\mA) \cap \Wc(\X,\Y)\)
+		is not semi-decidable as a subset of \(\Wc(\X,\Y)\).
+	\end{Theorem}\begin{proof}
+		The claim is a direct consequence of Lemmata \ref{lem:SubsetNotSemidecidable} and \ref{lem:SstarSatisfiesProp} and
+		the observation that \((\S_\star(\mA) \cup \U_\star(\mA)) \cap \Wc(\X,\Y)\) is a nonempty subset of \(\Wc(\X,\Y)\).
+	\end{proof}
+	
 	\begin{Theorem}	\label{thm:RemoteStateEstimationBSSDecidable}
 					Let \(\X,\Y\) be finite alphabets and \(\mA \in \RR^{n\times n}\) a characterization of an unstable, time-invariant, 
 					linear plant. Then, the following holds true:
@@ -902,7 +953,7 @@
 					Consider again an enumeration \(j \mapsto \big(x(j), y(j)\big)\) of the set \(\X\times\Y\) 
 					Define \(M_\mathrm{C} := 1\), \(M_\mathrm{B} := 2\) and \(M_\BSS := 4\) as well as \(J_\mathrm{R} = \max\{|\X\times \Y|,3\}\) and 
 					\(J_\mathrm{C} = J_\mathrm{R} + 1\). Furthermore, hard-code the sole constant \(c_{J_\mathrm{C}}\) according to
-					\(c_{J_\mathrm{C} } := \mu(\mA)\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) in the following way:
+					\(c_{J_\mathrm{C} } := \eta(\mA)\) and specify the program \(\G = ([M_\BSS],\V_\BSS)\) in the following way:
 					\begin{enumerate}	\item[\(\iota\)\hspace{1pt}:] Preallocate the machine's registers \(\bm{r}\) according to
 											\begin{align}	r^1_j :=	\begin{cases}	W\big(y(j)|x(j)\big)	&\text{if}~ j\leq |\X\times\Y|,\\
 																						0						&\text{otherwise}
@@ -934,7 +985,7 @@
 	\end{proof}
 	
 	The algorithm specified in the proof of Theorem \ref{thm:RemoteStateEstimationBSSDecidable} does not depend on \(\mA\) in a BSS-computable manner,
-	since the number \(\mu(\mA)\) has to be hard-coded into the algorithm. In practical applications however, the characteristics of the plant
+	since the number \(\eta(\mA)\) has to be hard-coded into the algorithm. In practical applications however, the characteristics of the plant
 	are usually known during the design process, whereas only the channel is likely to vary during the operation
 	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
 	
