@@ -67,13 +67,10 @@
 	\newcommand{\rp}[1]{\mathrlap{\phantom{r}^{\prime}}r_{#1}}
 	\newcommand{\Wc}{\W_{\mathrm{c}}}
 	\DeclareMathOperator{\Span}{Span}
+% Editing
 	\newcommand{\rdummy}{{\color{red}[REF]}}
 	\newcommand{\sdummy}{{\color{red}[SOURCE]}}
-	\newcommand{\col}{\color{black}}
-	\newcommand{\colol}{\color{orange}}
-	%\newcommand{\tbr}[1]{{\color{gray}[#1]}}
-	\newcommand{\tbr}[1]{}
-	\newcommand{\noteholger}[1]{{\color{red}#1}}
+	\newcommand{\edited}{\color{black}}
 % Custom Environments
 	\newtheorem{Theorem}{Theorem}
 	\newtheorem{Definition}[Theorem]{Definition}
@@ -167,9 +164,7 @@
 		%\item tbr Command!
 	%\end{itemize}
 
-%\tbr{Generally, remote and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like``Industry 4.0'', 
-	%``Autonomous Driving'', ``Internet of Things'' and the ``Metaverse'' are examples for the currentd trend in communications to shift the focus away from pure data transmission 
-	%towards interconnected information processing and control of agents that perform real world actions. Since technologies of this kind are potentially affecting human lives, 
+%\tbr{Generally,  Since technologies of this kind are potentially affecting human lives, 
 	%strict rules for technology assessment are necessary. {\color{red} Der Übergang passt noch nicht...} For the upcoming 5G and 6G mobile communication standards,
 	%explicite requirements regarding hardware trustworthiness and integrity are stated, some of which have been shown to exceed the limitations of today's digital hardware. 
 	%At the same time, we can observe a recent paradigm shift in research and development towards analog signal processing and computing hardware, summarized under the slogan ``neuromorphic computing''. 
@@ -180,12 +175,20 @@
 	%\tbr{Given the rise of digital technology in control and decision making, questions of this kind become increasingly important, especially with regards to technology assessment and machine ethics.}
 
 \section{Introduction}	\label{sec:Introduction}
-	\IEEEPARstart{R}{emote} state estimation via noisy communication channels is a prominent problem in control theory 
-	\cite{MS07, MS07SC, S06, SP03}. 
-	The problem involves both control and communications. In particular, as we will see in the following, the communications part is essential.  
-	Informally, the corresponding dynamic system can be described as follows. The state of an unstable linear time-invariant \emph{(LTI)} plant is observed by a local sensor. 
+	
+	\IEEEPARstart{R}{emote} and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like 
+	``Industry 4.0'', ``Autonomous Driving'', ``Internet of Things'' and ``Metaverse'' are examples for the currentd trend in communications to shift the focus away from pure data transmission 
+	towards interconnected information processing in a virtal space and control of agents that interact with the physical world. Networks of this kind, i.e., those that contain both 
+	virtual and physical components, belong to a class of technologies that are commonly referred to as \emph{cyber-physical systems}. \sdummy
+	
+	In many cases, cyber-physical networks are a field of application for control engineering, since, per definition, they contain physical component that act within the real world. 
+	However, as compared to classical control engineering, cyber-physical physical networks aim to solve control problems remotely in a distributed and cooperative fashion, 
+	ranther than individually and locally at every physical component. Remote state estimation and sabilization via noisy communication channels, which is a prominent problem 
+	in control theory \cite{MS07, MS07SC, S06, SP03}, is thus naturally a part of many cyber-physical systems, either in an implicite or explicite manner. 
+	From a theoretical point of view, the problem can informally be described as follows. The state of an unstable linear time-invariant \emph{(LTI)} plant is observed by a local sensor. 
 	Subsequently, the sensor data is feed into an encoder that prepares the data for transmission trough a discrete, memoryless channel \emph{(DMC)}. 
-	Based on the sequence of channel outputs, the remote decoder/estimator tries to estimate the current state of the plant. The setup is schematically depicted in Figure \ref{fig:Schematics}.
+	At the receiving end, the sequence of channel outputs is processed by a remote estimator/controller. The latter tries to estimate and/or stabilize the state of the plant, where 
+	the stabilization task requires the possibility of affecting the plant's state by means of a feedback link. The setup is schematically depicted in Figure \ref{fig:Schematics}.
 	\begin{figure}\linespread{1}
 		\centering
 		\begin{tikzpicture}[scale = 0.7, every node/.style={scale=0.7}]
@@ -261,11 +264,31 @@
 				\draw (-3.25,0)  node[fill = white, anchor=center, align=center]
 				{\(\rvs\)};
 		\end{tikzpicture}
-		\caption{Schematics of the remote state estimation setup considered throughout this article. The setup is identical to the one introduced in \cite{BoBoDe21TAC}\tbr{{\color{red}\(\leftarrow\) Change to TAC!~}}.}
+		\caption{Schematics of the remote state estimation setup considered throughout this article. The setup is identical to the one introduced in \cite{BoBoDe21TAC}.}
 		\label{fig:Schematics}
-	\end{figure}
+	\end{figure}     
+	
+	The expectations towards cyber-physical networks, however, go beyond the mere execution of state estimation and stabilization and similar tasks. In classical control engineering,
+	the controller of a time invariant, dynamic system is designed by an engineer during the process of the system's developement, with respect to the system's indicidual characteristics.
+	Cyber-physical networks, on the other hand, are often required to adapt to changing environmental conditions at runtime, while simultaneously operating in a fully autonomous manner.
+	In the context of remote state estimation and stabilization, changing environmental conditions correspond to time variant characteristics of the transmission channel.
+	Hence, the autonomous operation of a remote state estimation and stabilization system includes channel estimation and the automated generation of a suitable pair of encoder and estimator/controller
+	for each transmission frame. In a more general scope, \emph{digital twins} are regularly mentioned as the future key technology for implementing autonomous cyber-physical systems \sdummy.
+	The approach is based on creating virtual copies of the system's physical agents, which are then employed for optimization, control tasks and decision-making. 
+	For cyber-physical networks, this method can be extended as far as to implement a virtual copy of the full network itself, which may then be used e.g. for the generation
+	of channel-coding schemes at runtime.
+	
+	An example of a cyber-physical, digital twin technology that implicitely includes remote state estimation and stabilization can be found in \sdummy, a patent held by the \emph{Siemens AG}.  
+	
+	more conservative approach. unless positive proof is provided by the algorithm
+
+	
+	
+	\color{gray}
+	The problem involves both control and communications. In particular, as we will see in the following, the communications part is essential.  
+	Informally, the corresponding dynamic system can be described as follows. 
 	The key applications of this problem range from robotics over autonomous driving to general remote controlled systems \cite{FeBo21}. However, there exist fundamental 
-	limits to the capabilities of autonomous systems and computer aided design tools, as has been shown in several instances \cite{BoBoDe21TAC}\tbr{{\color{red}\(\leftarrow\) Check this source!~}}. These fundamental limits essentially
+	limits to the capabilities of autonomous systems and computer aided design tools, as has been shown in several instances \cite{BoBoDe21TAC}. These fundamental limits essentially
 	depend on the hardware in use. For digital hardware, the Turing machine determines the fundamental limits. In recent times, there has been an increasing interest in analog information processing.
 	Here Blum-Shub-Smale machines are a good candidate for a universal computation model.
 	
@@ -287,13 +310,13 @@
 	processors, is more suitable for this task.
 
 	Problems of the latter kind are traditionally investigated in the field of theoretical computer science and have not gained much attention in applied engineering until now. 
-	On the other hand, we can observe increasing requirements on electronic systems regarding safety, secrecy and, in lack of a different term, ethical behaviour \tbr{\sdummy}. 
-	A prominent example is the related discussion surrounding autonomous driving, which is recently taking place in the community of machine ethics and technology assessment \tbr{\sdummy}. 
+	On the other hand, we can observe increasing requirements on electronic systems regarding safety, secrecy and, in lack of a different term, ethical behaviour. 
+	A prominent example is the related discussion surrounding autonomous driving, which is recently taking place in the community of machine ethics and technology assessment. 
 	In order to obtain a qualified evaluation of whether some digitally controlled technological system meets the abovementioned requirements, it is necessary to precisely understand 
 	the fundamental boundaries of digital technology. This, in turn, requires an explicit treatment of those aspects of digital technology that involve theoretical computer science.
 
 	In this series of articles (c.f. \cite{BoBoDe21X} for a full survey), we aim to approach the decision problem related to remote state estimation and stabilization from the perspective 
-	of theoretical computer science. In \cite{BoBoDe21TAC}\tbr{{\color{red}\(\leftarrow\) Change to TAC!~}}, we have considered the decision problem with regards to Turing machines. In this work, we instead discuss 
+	of theoretical computer science. In \cite{BoBoDe21TAC}, we have considered the decision problem with regards to Turing machines. In this work, we instead discuss 
 	\emph{Blum-Shub-Smale (BSS) machines} as the underlying machine model. Potentially, Blum-Shub-Smale machines yield a mathematical description of a universal analog computer.
 	Regarding a practical implementation, however, there exist only individual examples of analog computation platforms, as, for example, from Intel, IBM and Samsung, until today. 
 	
@@ -681,7 +704,7 @@
 	with a binary relation \(\diamond~{:}~\FF \times \FF \rightarrow \{\mathsf{T},\mathsf{F}\}\), which is either an equality, equivalence or strict total order. 
 	
 	Despite the so called Church-Turing thesis being widely accepted as true, which implies that the capabilities of real-world computers are exactly characterized 
-	by the abstract Turing machine, BSS machines are often implicitly considered as the underlying machine model in numerics and complexity theory \tbr{\sdummy}. 
+	by the abstract Turing machine, BSS machines are often implicitly considered as the underlying machine model in numerics and complexity theory. 
 	A reason for this practice may lie in the ability of BSS machines to handle exact real numbers. Since most areas of applied mathematics involve continuous structures, 
 	treating the content of a computer's memory as actual real numbers simplifies the description of algorithms to a great extent. For a detailed discussion on the Topic, we refer to \cite{Bl04}.
 
@@ -995,7 +1018,7 @@
 	problem is decidable on a BSS machines as a function on on \(\W(\X,\Y)\). Both results rely essentially on the ability of BSS machines to handle exact real numbers.
 	
 	The problem of remote state estimation via noisy channels is an explicit example of control and communications co-design. The criterion imposed on the control performance
-	essentially determines the required communication performance. In \cite{MS07,BoBoDe21TAC}\tbr{{\color{red}\(\leftarrow\) Change to TAC!~}}, it was shown that the strong objective of almost sure observability requires the DMC to provide a sufficiently high
+	essentially determines the required communication performance. In \cite{MS07,BoBoDe21TAC}, it was shown that the strong objective of almost sure observability requires the DMC to provide a sufficiently high
 	zero-error capacity and is not semi-decidable on Turing machines. Furthermore, it was shown that the weakened control objective only requires the DMC to provide a sufficiently high
 	Shannon capacity and is semi-decidable on a Turing machine. Here, we have shown that the strong objective is decidable on a Blum-Shub-Smale machine, which is generally more powerful than
 	Turing machines. Hence, the objective of almost sure observability not only requires a stronger communication performance, but also a stronger computation model.
