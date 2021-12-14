@@ -143,39 +143,7 @@
 	Co-Design of Communications and Control, Remote State Estimation, Noisy Channels, Neuromorphic Computing. 
 \end{IEEEkeywords}
 
-%\section{TO-DO}
-	%\begin{itemize}
-		%\item Check usage of \(j,J,k,K,l,L,\ldots\).
-		%\item Check indents.
-		%\item Sources and references.
-		%\item Spellcheck.
-		%\item Hypenation.
-		%\item Emphasizement/Italic
-		%\item \textbf{Revision.}
-		%\item Conclusion (Why are results important?; Description on a BSS machine: BSS machines are able to handle exact descriptions, not ``representations of objects'',
-				%as TMs do; Machine ethics; Big picture: other results on the topic; Different machine models lead to different results, making an explicit treatment of underlying
-				%machine model necessary;).
-		%\item ``Despite the fact..'': check styleguide.
-		%\item ``BSS machines over \(\RR\) are regularly..'': check styleguide.
-		%\item Almost sure stability.
-		%\item Reference exact assumptions on \((\mA,\mB,W,\E,\D)\) and \((\rz_t)_{t\in\NN}\), \(\rs_{0}\).
-		%\item Lemma \label{lem:SolvabilityCondition}: independent of distributions.
-		%\item Sans-Serif versus normal notation (random variables versus realizations).
-		%\item tbr Command!
-	%\end{itemize}
-
-%\tbr{Generally,  Since technologies of this kind are potentially affecting human lives, 
-	%strict rules for technology assessment are necessary. {\color{red} Der Übergang passt noch nicht...} For the upcoming 5G and 6G mobile communication standards,
-	%explicite requirements regarding hardware trustworthiness and integrity are stated, some of which have been shown to exceed the limitations of today's digital hardware. 
-	%At the same time, we can observe a recent paradigm shift in research and development towards analog signal processing and computing hardware, summarized under the slogan ``neuromorphic computing''. 
-	%While the theoretical capabilities of digital hardware are precisely captured by the abstract model of Turing machines, a comparable universal model for analog computing has not been widely accepted. 
-	%A promising candidate for the latter is the \emph{Blum-Shub-Smale} machine, a generalization of the Turing machine that can process exact real numbers. BSS machines have been shown to be more powerful
-	%than Turing machines in general, with many specific instances of practical relevance. In particular, there are several scenarios in communication where BSS machines are more powerful than Turing machines.
-	%Hence, BSS machines merit an investigation from a theoretical point of, even if they cannot be practically implementend as of today.}
-	%\tbr{Given the rise of digital technology in control and decision making, questions of this kind become increasingly important, especially with regards to technology assessment and machine ethics.}
-
-\section{Introduction}	\label{sec:Introduction}
-	
+\section{Introduction {\color{red}\textbf{Check where to Insert Sources!}}}	\label{sec:Introduction}
 	\IEEEPARstart{R}{emote} and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like 
 	``Industry 4.0'', ``Autonomous Driving'', ``Internet of Things'' and ``Metaverse'' are examples for the currentd trend in communications to shift the focus away from pure data transmission 
 	towards interconnected information processing in a virtal space and control of agents that interact with the physical world. Networks of this kind, i.e., those that contain both 
@@ -264,79 +232,52 @@
 				\draw (-3.25,0)  node[fill = white, anchor=center, align=center]
 				{\(\rvs\)};
 		\end{tikzpicture}
-		\caption{Schematics of the remote state estimation setup considered throughout this article. The setup is identical to the one introduced in \cite{BoBoDe21TAC}.}
+		\caption{Schematics of the remote state estimation and stabilization setup considered throughout this article.}
 		\label{fig:Schematics}
 	\end{figure}     
 	
-	The expectations towards cyber-physical networks, however, go beyond the mere execution of state estimation and stabilization and similar tasks. In classical control engineering,
+	The expectations towards future cyber-physical networks are manifold. In classical control engineering,
 	the controller of a time invariant, dynamic system is designed by an engineer during the process of the system's developement, with respect to the system's indicidual characteristics.
 	Cyber-physical networks, on the other hand, are often required to adapt to changing environmental conditions at runtime, while simultaneously operating in a fully autonomous manner.
 	In the context of remote state estimation and stabilization, changing environmental conditions correspond to time variant characteristics of the transmission channel.
 	Hence, the autonomous operation of a remote state estimation and stabilization system includes channel estimation and the automated generation of a suitable pair of encoder and estimator/controller
 	for each transmission frame. In a more general scope, \emph{digital twins} are regularly mentioned as the future key technology for implementing autonomous cyber-physical systems \sdummy.
 	The approach is based on creating virtual copies of the system's physical agents, which are then employed for optimization, control tasks and decision-making. 
-	For cyber-physical networks, this method can be extended as far as to implement a virtual copy of the full network itself, which may then be used e.g. for the generation
+	An example of a cyber-physical, digital twin technology that implicitely includes remote state estimation and stabilization 
+	can be found in \sdummy, a patent held by the \emph{Siemens AG}. For cyber-physical networks, the method can be extended as far as to implement a virtual copy of the full network itself, which may then be used e.g. for the generation
 	of channel-coding schemes at runtime.
 	
-	An example of a cyber-physical, digital twin technology that implicitely includes remote state estimation and stabilization can be found in \sdummy, a patent held by the \emph{Siemens AG}.  
+	Future cyber-physical networks are expected to be applied in security- and safety-critical systems to a great extent, as is the case in e.g. autonomous driving.
+	Hence, strict requirements regarding technology assessment and verification are necessary. In particular, this concerns questions of trustwortiness, integrity, 
+	fault-detection and -tolerance and, in the broadest sense, machine ethics. The significane of these considerations is reflected in the ongoing discussions within the scientific community \sdummy. 
+	In order to obtain a qualified evaluation of whether some cyber-physical system meets the abovementioned requirements, it is necessary to precisely understand 
+	the fundamental boundaries of digital technology from a theoretical point of view. In fact, some of the trustworthiness and integrity requirements discussed in the context of 5G and 6G mobile
+	communication networks have already been shown to exceed the theoretical limitations of digital systems. Never the less, current research in the field of cyber-physical systems and 
+	digital twins does not seem to provide many attemts towards modeling cyber-physical systems in a fundamental and mathematically consistent manner. As is hinted in \sdummy, universal theoretical 
+	frameworks that provide a sound fromalization of cyber-physicality and digital twinning are critically underdeveloped. 
 	
-	more conservative approach. unless positive proof is provided by the algorithm
-
+	This work aims to provide a contribution towards the understanding of fundamental limits and possible pitfalls of cyber-physical technologies from a theoretical point of view.
+	To this end, we apply the theory of Turing and Blum-Shub-Smale machines to the problem of remote state estimation and stabilization in terms of a decidability analysis. That is,
+	we investigate whether there exist algorithms on Turing and Blum-Shub-Smale machines that decide whether it is possible to remotely estimate and/or stabilize the state of an unstable LTI plant
+	based on a description of the communication channel. Any autonomous system handling remote state estimation and stabilization scenarios involves this decision problem, 
+	either in an explicite manner, or implicitely when computing a suitable pair of encoder and estimator/controller.
+	In essence, this task reduces to a channel classification problem. The latter occur frequently in different variants throughout network theory \sdummy.   
 	
+	The theory of Turing machines yields a precise indication of the fundamental capabilities of real-world, digital hardware. Any problem that cannot be solven in theory on a Turing machine
+	can certainly not be solved on a real-world (digital) computer. Never the less, it is common in numerics and engineering to employ Blum-Shub-Smale machines as the underlying machine model.  
+	Usually, this is done for reasons of convenience and in an implicite manner. By investigating the abovementioned decision problem for both Turing and Blum-Shub-Smale 
+	machines, we want to provide an applied comparison of the different implications of both models for real-world technologies. 
 	
-	\color{gray}
-	The problem involves both control and communications. In particular, as we will see in the following, the communications part is essential.  
-	Informally, the corresponding dynamic system can be described as follows. 
-	The key applications of this problem range from robotics over autonomous driving to general remote controlled systems \cite{FeBo21}. However, there exist fundamental 
-	limits to the capabilities of autonomous systems and computer aided design tools, as has been shown in several instances \cite{BoBoDe21TAC}. These fundamental limits essentially
-	depend on the hardware in use. For digital hardware, the Turing machine determines the fundamental limits. In recent times, there has been an increasing interest in analog information processing.
-	Here Blum-Shub-Smale machines are a good candidate for a universal computation model.
-	
-	In essence, the remote state estimation problem consists of designing a pair of encoder and decoder which allows for the estimation of the plant's state in a sufficient manner.
-	Generally, this is known as the co-design of control and communication. In this context, the problem of remote state estimation via noisy channels is particularly interesting,
-	since it is an example for a scenario where practically relevant control-performance criteria have an essential impact on the required communications performance.
-	As was shown in \cite{MS07}, the strong objective of almost sure observability requires the zero-error capacity of the DMC, while a weakened form of the observability criterion can be achieved
-	by the classical Shannon capacity of the DMC.
-	According to this, it is necessary to decide, based on the specifications of the plant and the DMC, whether an appropriate pair of encoder and decoder can exist in the first place. 
-	Nowadays, this decision is often made by automated design tools or autonomous control units, e.g., in automated driving, either in an explicit or implicit way. In recent times, 
-	\emph{digital twins} emerged as a further technique for handling design problems of this kind in practical applications \cite{RaSaKv20,TaZhLiNe19}. 
-	The approach is based on creating a full virtual copy of the system on a digital computer, which is then employed for optimization, control tasks and decision-making. 
-
-	From an analytic point of view, remote state estimation involves the disciplines of control and information theory. As indicated above, it is an explicit example of a so 
-	called co-design problem. The practice of automated design and autonomous control adds another layer to the problem. In almost all cases, dynamic plants are analog, continuous  systems, 
-	whereas the operation of digital computers is based on discrete algorithms. Hence, the question of whether appropriate computer-based decision-making with respect to analog 
-	dynamic systems is actually possible, arises naturally. Thus, the question arises whether digital hardware is the proper hardware platform for decision making of this kind. It has been shown
-	that digital hardware is insufficient in several cases. The Blum-Shub-Smale model is suitable to investigate whether analog information processing hardware, e.g., neuromorphic computing
-	processors, is more suitable for this task.
-
-	Problems of the latter kind are traditionally investigated in the field of theoretical computer science and have not gained much attention in applied engineering until now. 
-	On the other hand, we can observe increasing requirements on electronic systems regarding safety, secrecy and, in lack of a different term, ethical behaviour. 
-	A prominent example is the related discussion surrounding autonomous driving, which is recently taking place in the community of machine ethics and technology assessment. 
-	In order to obtain a qualified evaluation of whether some digitally controlled technological system meets the abovementioned requirements, it is necessary to precisely understand 
-	the fundamental boundaries of digital technology. This, in turn, requires an explicit treatment of those aspects of digital technology that involve theoretical computer science.
-
-	In this series of articles (c.f. \cite{BoBoDe21X} for a full survey), we aim to approach the decision problem related to remote state estimation and stabilization from the perspective 
-	of theoretical computer science. In \cite{BoBoDe21TAC}, we have considered the decision problem with regards to Turing machines. In this work, we instead discuss 
-	\emph{Blum-Shub-Smale (BSS) machines} as the underlying machine model. Potentially, Blum-Shub-Smale machines yield a mathematical description of a universal analog computer.
-	Regarding a practical implementation, however, there exist only individual examples of analog computation platforms, as, for example, from Intel, IBM and Samsung, until today. 
-	
-	Despite the fact that the capabilities real-world, digital computers are 
-	entirely captured by Turing machines, BSS machines over \(\RR\) are regularly considered in numerics and computational complexity theory. 
-	This practice is justified by the premise that the error emerging from representing real numbers by floating point approximations is neglectible in all practically relevant numerical problems. 
-	Furthermore, assumptions on the underlying machine model are usually implicit in numerics. In contrast, we seek to explicitly treat the underlying machine model in our investigations.
-
-	The outline of the remainder of this work is as follows. Sections \ref{sec:FormalEstimationSetup}, \ref{sec:PreliminariesBSS} and \ref{sec:PreliminariesZeroError} are dedicated to preliminaries. 
-	In particular, we recapitulate the description of the remote state estimation setup in a formal manner and introduce the theory of Blum-Shub-Smale machines and zero-error coding.
-	In Section \ref{sec:ComputingZeroErrorOnBSS}, we present a BSS algorithm which, for fixed channel input and output alphabets, computes the zero-error capacity as a function on 
-	the set of channels. In \ref{sec:DecidingRemoteStateEstimationOnBSS}, we apply the results established in Section \ref{sec:ComputingZeroErrorOnBSS} to devise a BSS algorithm
-	which, for a fixed characterization of the unstable plant, decides the solvability of the remote state estimation problem. 
-	As already stated before the co-design of control and communication is of particular interest in this context, since the criterion for control performance, which is
-	usually determined by the practical application, essentially determines the performance criterion for communication. Interestingly, the weakened form of the control performance criterion 
-	is decidable on digital hardware, and thus requires not only a weaker communication performance, but also a weaker computation performance regarding decidability. 
-	The paper closes with a subsumption of 
-	our findings in Section \ref{sec:Conclusion}.
+	The outline of the remainder of our work is as follows. In Section \ref{sec:FormalEstimationSetup}, we provid a formal description of the remote state estimation and stabilization problem
+	and discuss the preliminaries that lead to the associated channel classficaton problem. In Section \ref{sec:introTuring}, we introduce the fundamentals of Turing theory.
+	Based on the latter, we estabish two general results on channel classification problems, one of which exhibits a notable interpretation in the context of system verification. 
+	In Section \ref{sec:PreliminariesBSS}, we introduce the fundamentals of Blum-Shub-Smale theory. Furthermore, we prove the existence of 
+	Blum-Shub-Smale agorithms that compute the zero-error and feedback zero-error capacity of discrete, memoryless channels on fixed pairs of channel input and channel output alphabet. 
+	In Section \ref{sec:DecidingRemoteStateEstimationOnBSS}, we investigate the decidability of the remote state estimation and sabilization problem 
+	by applying the results we estabished in Sections \ref{sec:introTuring} and \ref{sec:PreliminariesBSS}. Section \ref{sec:Conclusion} concludes the paper with some additional 
+	remarks on the implications of our findings. 
                                                                         
-\section{Formal Description of the Remote State Estimation Setup}	\label{sec:FormalEstimationSetup}
+\color{gray}\section{Formal Description of the Remote State Estimation Setup}	\label{sec:FormalEstimationSetup}
 	\noindent In to following, we give a formal description of the setup depicted in Figure \ref{fig:Schematics}, as well as a brief summary of 
 	some relevant results concerning different variants of the related estimation and control problem. Originally, these were derived in \cite{MS07, MS07SC}.  
 	
@@ -438,6 +379,7 @@
 	\end{Remark} 
 
 \section{Preliminaries from the Theory of Turing Machines and Effective Analysis}\label{sec:introTuring}
+	more conservative approach. unless positive proof is provided by the algorithm
 	
 	\noindent {\color{red} Copied from \cite{BoBoDe21TAC}!}
 	
@@ -699,8 +641,13 @@
 	possible sequence of test cases. If, on the other hand, the indicator function \(\mathds{1}_{\M_0}\) is not Banach-Mazur computable, it is not generally possible to generate the 
 	sequence of correct target values on digital hardware. In other words, for some sequences \((V_n)_{n\in\NN}\), there may not exist a digital verifier at all in this case.
 
-\section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}	    	
-	\noindent Blum-Shub-Smale (BSS) machines formalize the notion of computability over a field \(\FF\). The latter is assume to be equipped 
+\section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}	
+	{\color{green} Despite the fact that the capabilities real-world, digital computers are 
+	entirely captured by Turing machines, BSS machines over \(\RR\) are regularly considered in numerics and computational complexity theory. 
+	This practice is justified by the premise that the error emerging from representing real numbers by floating point approximations is neglectible in all practically relevant numerical problems. 
+	Furthermore, assumptions on the underlying machine model are usually implicit in numerics. In contrast, we seek to explicitly treat the underlying machine model in our investigations.}
+			
+	Blum-Shub-Smale (BSS) machines formalize the notion of computability over a field \(\FF\). The latter is assume to be equipped 
 	with a binary relation \(\diamond~{:}~\FF \times \FF \rightarrow \{\mathsf{T},\mathsf{F}\}\), which is either an equality, equivalence or strict total order. 
 	
 	Despite the so called Church-Turing thesis being widely accepted as true, which implies that the capabilities of real-world computers are exactly characterized 
@@ -774,8 +721,9 @@
 		register variables \((r_j^T)_{j\in \J_\sigma \cap \{1,\ldots,J_\mathrm{R}\}}\) and constants \((c_j)_{j\in \J_\sigma \cap \{J_\mathrm{R}+1,\ldots,J_\mathrm{C}\}}\). 
 		There exists no next node to \(\sigma\).
 
-	In our case, the field \(\FF\) will be the real numbers \(\RR\) with the usual strict total order "\(<\)". If \(\FF\) equals \(\ZZ_2\) (the set of boolean values with logical con- and disjunction 
-	as field operations), the traditional theory of computation as formalized by Turing machines is recovered. For the remainder of this article, we will refer to BSS machines over \(\RR\) 
+	In our case, the field \(\FF\) will be the real numbers \(\RR\) with the usual strict total order "\(<\)". If \(\FF\) equals \(\mathbb{Q}\),
+	%\(\ZZ_2\) (the set of boolean values with logical con- and disjunction as field operations), 
+	the traditional theory of computation as formalized by Turing machines is recovered. For the remainder of this article, we will refer to BSS machines over \(\RR\) 
 	simply as BSS machines, omitting the explicit mention of the field \(\FF\) being equal to the real numbers. 
 
 %\section{Preliminaries from the Theory of Zero-Error Coding}	\label{sec:PreliminariesZeroError}
@@ -814,6 +762,7 @@
 	%of such an algorithm essentially relies on the ability of BSS machines to handle exact real numbers.
 
 \section{Computing the Zero-Error Capacity for Fixed Alphabets on Blum-Shub-Smale Machines}	\label{sec:ComputingZeroErrorOnBSS}
+	{\color{red} unsolved problem on TMs!}
 	\noindent In the following, we specify a BSS-Algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes the zero-error capacity \(C_0(W)\) 
 	upon being passed a channel description \(W \in \W(\X,\Y)\). 
 
@@ -1012,7 +961,7 @@
 	are usually known during the design process, whereas only the channel is likely to vary during the operation
 	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
 	
-\section{Summary and Conclusion}	\label{sec:Conclusion}
+\section{Summary and Additional Remarks}	\label{sec:Conclusion}
 	We have proven that for fixed alphabets \(\X,\Y\), the zero-error capacity \(C_0(W)\) is BSS-computable as a function on \(\W(\X,\Y)\).
 	Furthermore, we have shown that for each \(\mA\in \RR^{n\times n}\) describing an unstable plant, the solvability of the remote state estimation
 	problem is decidable on a BSS machines as a function on on \(\W(\X,\Y)\). Both results rely essentially on the ability of BSS machines to handle exact real numbers.
@@ -1025,7 +974,32 @@
 	
 	The strong objective of almost sure observability is required for several real-world control engineering scenarios, especially those which potentially affect human safety or heal, e.g.
 	autonomous driving. This highlights the importance of the precise understanding of the underlying mathematical theories of the models involved in the design process of these systems.
+	
+	{\color{red} Thus, the question arises whether digital hardware is the proper hardware platform for decision making of this kind. It has been shown
+	that digital hardware is insufficient in several cases. The Blum-Shub-Smale model is suitable to investigate whether analog information processing hardware, e.g., neuromorphic computing
+	processors, is more suitable for this task.}
 
+	{\color{red} Potentially, Blum-Shub-Smale machines yield a mathematical description of a universal analog computer.
+	Regarding a practical implementation, however, there exist only individual examples of analog computation platforms, as, for example, from Intel, IBM and Samsung, until today.}
+	
+	{\color{red} These fundamental limits essentially depend on the hardware in use. For digital hardware, the Turing machine determines the fundamental limits. 
+	In recent times, there has been an increasing interest in analog information processing. Here Blum-Shub-Smale machines are a good candidate for a universal computation model.}
+	
+	{\color{violet} The problem involves both control and communications. In particular, as we will see in the following, the communications part is essential.}  
+	
+	{\color{violet} Generally, this is known as the co-design of control and communication. In this context, the problem of remote state estimation via noisy channels is particularly interesting,
+	since it is an example for a scenario where practically relevant control-performance criteria have an essential impact on the required communications performance.}
+	
+	{\color{violet} From an analytic point of view, remote state estimation involves the disciplines of control and information theory. As indicated above, it is an explicit example of a so 
+	called co-design problem.} 
+	
+	{\color{violet} As already stated before the co-design of control and communication is of particular interest in this context, since the criterion for control performance, which is
+	usually determined by the practical application, essentially determines the performance criterion for communication. Interestingly, the weakened form of the control performance criterion 
+	is decidable on digital hardware, and thus requires not only a weaker communication performance, but also a weaker computation performance regarding decidability.} 
+	
+	{\color{green} The practice of automated design and autonomous control adds another layer to the problem. In almost all cases, dynamic plants are analog, continuous  systems, 
+	whereas the operation of digital computers is based on discrete algorithms. Hence, the question of whether appropriate computer-based decision-making with respect to analog 
+	dynamic systems is actually possible, arises naturally.}
 		
 %\section*{Acknowledgment}
 
