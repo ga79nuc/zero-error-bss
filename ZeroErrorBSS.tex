@@ -326,7 +326,7 @@
 	depends first and foremoste on the specific objective regarding estimation and control, the behavior of the dynamic system as characterized by the matrix \(\mA\), 
 	and the quantitative ability of the communication channel to transmit inforamtion. The latter is is expressed in terms of \emph{channel capacities}, the 
 	relevant of which are the \emph{Shannon capacity} \cite{Sh48}, the \emph{zero-error capacity} \cite{Sh56} and the \emph{feedback zero-error capacity} \cite{Sh56}, 
-	\begin{align*} C_{\text{Sh}}, C_{0}, C_{\text{Fb}}:~ \W(\X,\Y) \rightarrow \RR_{\hspace{1pt}}^{+},
+	\begin{align*} C, C_{0}, C_{\text{Fb}}:~ \W(\X,\Y) \rightarrow \RR_{\hspace{1pt}}^{+},
 	\end{align*}
 	where \(\W(\X,\Y)\) is the set of conditional probability mass functions on finite alphabets \(\X\) and \(\Y\),
 	\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+,~ (x,y) \mapsto W(y|x),\\
@@ -378,7 +378,7 @@
 	\begin{align}	\S_\star(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\star > \eta(\mA)\big\}, \\
 					\U_\star(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\star < \eta(\mA)\big\},
 	\end{align}
-	for \(\star \in \{\text{'Sh'},\text{'\(0\)'},\text{'Fb'}\}\) and \(\mA\in\RR^{n\times n}\).
+	for \(\star \in \{\text{'\(0\)'},\text{'\(0,\mathrm{f}\)'}\}\) and \(\mA\in\RR^{n\times n}\).
 	
 	\begin{Remark}	Further variants of the remote state estimation and control problem that were also considered in \cite{MS07, MS07SC} 
 					allow communication channels with feedback. However, this supplementary degree of freedom does not introduce an additional channel capacity. 
@@ -899,7 +899,8 @@
 	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
 	
 \section{Summary and Additional Remarks}	\label{sec:Conclusion}
-	\noindent On the one hand, we have introduced a class of binary channel classification problems  \(\M_j \subset \Wc : j \in \{0,1\}\) such that the case of \( j = 0\) is 
+	
+	On the one hand, we have introduced a class of binary channel classification problems  \(\M_j \subset \Wc : j \in \{0,1\}\) such that the case of \( j = 0\) is 
 	not semi-decidable on a Turing Machine. With respect to this class of channel classification problems, we have shown that the indicator function 
 	\(\mathds{1}_{\M_0} : \M_0 \cup \M_1 \rightarrow \{0,1\}\) is not Banach-Mazur computable, which we have discussed in the context of system verification.
 	Furthermore, we have shown that the classification problem \((\S_\star(\mA),\U_\star(\mA)) = (\M_0,\M_1) : \star \in \{\text{'\(0\)'},\text{'\(0,\mathrm{f}\)'}\}\), 
@@ -925,7 +926,39 @@
 	interpreted as model for \emph{perfect} analog computing, i.e., in disregard of any imperfections or limitations on measurement resolution of real-world analog systems.
 	Regarding practical implementations, there currently exist only individual examples of analog computation platforms, for example by Intel, IBM and Samsung \sdummy.
 
-	{\color{violet} The problem of remote state estimation via noisy channels is an explicit example of control and communications co-design. The criterion imposed on the control performance
+	{\color{violet}% 
+	%Remote state estimation and stabilization via discrete, memoryless channels belongs to a class of engineering problems that arereferred to as \emph{co-design} tasks. 
+	As indicated in the introduction, RES problems for undisturbed plants and an objective of observability/stabilizability with
+	high probability were investigated in \sdummy. The Shannon capacity \(C : \W \rightarrow \RR_{\hspace{1pt}0}^{+}\) was identified as the decisive quantity in this context.
+	%On the one hand, the amount of information that needs to be transmitted is in all cases quantified by the number \(\eta(\mA)\). On the other hand, 
+	%the we have seen that the specific control objective determines whether \(C\), \(C_0\) or \(C_{\text{'\(0,\mathrm{f}\)'}}\) is the suitable measure of channel quality.
+	%-> hence channel design cannot be done soely on amount of info, but requires knowledge about ctrl objective; ctrl and info part dont decompose,
+	%hence co design problem.
+	Consider a pair \((\E,\De\text{/}\Dc)\) of encoder and estimator/controller that estimates/stabilizes the state of some \textcolor{red}{noisy} plant almost surely.
+	Then, \((\E,\De\text{/}\Dc)\) also estimates/stabilizes the state of the same plant with (arbitrary) high probability, a fortiori, if the plant's state is 
+	assumed to evolve free of noisy fluctuations. The converse is not true in general. Thus, mathematically speaking, the objective of almost sure 
+	observability/stabilizability for disturbed plants is strictly stronger than the objective of observability/stabilizability with high probability for 
+	undisturbed plants. This ``ordering'' is reflected in the relationship between the channel capacities relevant to each objective: we have
+	\begin{align}
+		C_0(W) \leq C_{0,\mathrm{f}}(W) \leq C(W)
+	\end{align}
+	for all \(W\in\W\). In \sdummy, the channel classification problem \((\S(\mA),\U(\mA) = (\M_0,\M_1)\) with
+	\begin{align}	\S(\mA) :&= \big\{ W \in \W : C > \eta(\mA)\big\}, \\
+					\U(\mA) :&= \big\{ W \in \W : C < \eta(\mA)\big\},
+	\end{align}
+	which corresponds to the objective of observability/stabilizability with high probability for 
+	undisturbed plants, was shown to be decidable on a Turing Machine. {\color{red} As indicated in Section \ref{sec:PreliminariesBSS}}, the computational
+	capabilities of Blum-Shub-Smale machines strictly exceed those of Turing machines, in the sense that any Turing machine can be emulated by a suitable
+	Blum-Shub-Smale machine, but not vice versa. This leads to a noteworthy observation: the ordering between the differnt objectives not only reflects 
+	in the relevant channel capacities, but also in the computational strength that is required to decide their satisfiability. 
+	
+ 
+	-> in the boradest sense: also co design of hardware platform since bss stronger than turing.
+	 is an explicit example of control and communications co-design. 
+	
+	-> co desing problem, thing does not decompose into individual parts ....
+	
+	The criterion imposed on the control performance
 	essentially determines the required communication performance. In \cite{MS07,BoBoDe21TAC}, it was shown that the strong objective of almost sure observability requires the DMC to provide a sufficiently high
 	zero-error capacity and is not semi-decidable on Turing machines. Furthermore, it was shown that the weakened control objective only requires the DMC to provide a sufficiently high
 	Shannon capacity and is semi-decidable on a Turing machine. Here, we have shown that the strong objective is decidable on a Blum-Shub-Smale machine, which is generally more powerful than
