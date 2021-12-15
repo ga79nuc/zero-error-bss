@@ -127,20 +127,25 @@
 \maketitle
 
 \begin{abstract}
-	We consider a decision problem associated to the task of estimating the state of a dynamic plant remotely via a noisy communication channel: 
-	given the characteristics of some unstable LTI plant and some DMC, does there exist an encoder/decoder-pair that 
-	allows for the remote tracking of the plant's state with bounded error? Questions of this kind are becoming increasingly important in communication technologies, 
-	since future communication networks are expected to incorporate distributed control and decision making. Analytically, this problem has been shown to involve the 
-	zero-error capacity of the DMC. Starting from this result, we approach the problem from the view of theoretical computer science, 
-	with an explicit treatment of the underlying machine Model. In particular, we prove that for every pair of a finite channel input alphabet and a finite channel output alphabet, there exists
-	a Blum-Shub-Smale algorithm that computes the zero-error capacity in dependence of the channel matrix. Based on this, we devise a Blum-Shub-Smale algorithm that solves the above 
-	decision problem given the plant's and DMC's characteristics. Blum-Shub-Smale machines are a promising candidate for a universal model of real number processing hardware, comparable
-	to the Turing machine in the digital domain. Recently, we observe an increased interest in research and development towards real number and/or analog computing hardware, usually
-	referred to by the term ``neuromorphic computing''.   
+	We consider a decision problem associated to the task of remotely estimating and stabilizing the state of an unstable, 
+	linear time-invariant plant via a discrete, memoryless channel: given the channel's characteristics, does there exist a pair 
+	of encoder and estimator/controller that allows for the estimation and stabilization the plant's state? 
+	Analytically, this problem has been shown to involve the zero-error and feedback zero-error capacity of the channel. 
+	Starting from this result, we approach the problem from an algorithmic point of view. 
+	In particular, we investigate whether there exist Turing and/or Blum-Shubs-Male machines that solve the decision problem
+	based on a machine-readable description of the channel. Questions of this kind are becoming increasingly important in information technology.
+	Future cyber-physical networks are expected to incorporate distributed control and decision making to a large extend,
+	while simultaneously adapting to changes in evironmental conditios in an autonomous manner. 
+	On the one hand, the potential of digital technology is fully characterized by the theory of Turing machines.
+	On the other hand, the Blum-Shubs-Male machine model is commonly employed in numerics and enigeering, usually in an implicite manner. 
+	In providing an applied comparison of the different implications of both machine models real-world technologies,
+	we aim to contribute to the understanding of fundamental limits and possible pitfalls of cyber-physical technologies.
+	In the broadest sense, our findings relate to the question of which machine models adequately represent the capabilities of 
+	different hardware platforms. 
 \end{abstract}
 
 \begin{IEEEkeywords}
-	Co-Design of Communications and Control, Remote State Estimation, Noisy Channels, Neuromorphic Computing. 
+	\textcolor{red}{Co-Design of Communications and Control, Remote State Estimation, Noisy Channels, Neuromorphic Computing.} 
 \end{IEEEkeywords}
 
 \section{Introduction {\color{red}\textbf{Check where to Insert Sources!}}}	\label{sec:Introduction}
@@ -244,8 +249,8 @@
 	for each transmission frame. In a more general scope, \emph{digital twins} are regularly mentioned as the future key technology for implementing autonomous cyber-physical systems \sdummy.
 	The approach is based on creating virtual copies of the system's physical agents, which are then employed for optimization, control tasks and decision-making. 
 	An example of a cyber-physical, digital twin technology that implicitely includes remote state estimation and stabilization 
-	can be found in \sdummy, a patent held by the \emph{Siemens AG}. For cyber-physical networks, the method can be extended as far as to implement a virtual copy of the full network itself, which may then be used e.g. for the generation
-	of channel-coding schemes at runtime.
+	can be found in \sdummy, a patent held by the \emph{Siemens AG}. For cyber-physical networks, the method can be extended as far as to implement a virtual copy of the full network itself, 
+	which may then be used e.g. for the generation of channel-coding schemes at runtime.
 	
 	Future cyber-physical networks are expected to be applied in security- and safety-critical systems to a great extent, as is the case in e.g. autonomous driving.
 	Hence, strict requirements regarding technology assessment and verification are necessary. In particular, this concerns questions of trustwortiness, integrity, 
@@ -488,7 +493,6 @@
 	
 	{\color{red} Decidability \emph{relative} to some set... Consistency in nomenclature between versions?}
 	
-\section{Turing Computability and Channels (Working Title)}
 	\begin{Lemma}	\label{lem:IndicatorFunctionBanachMazur}
 					Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
 					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
@@ -569,7 +573,6 @@
 					which is a contradiction to the undecidability of the \emph{halting} problem, see \sdummy.
 	\end{proof}
 	
-\section{Discussion on Banach-Mazur Computability (Working Title)}
 	In the scope of system verification, Banach-Mazur computability has a noteworthy interpretation.
 	For reasons of expedience, we will discuss this interpretation in the context of remote system control; the underlying principle can be 
 	directly transferred to problems that are similar in structure.
@@ -726,42 +729,6 @@
 	the traditional theory of computation as formalized by Turing machines is recovered. For the remainder of this article, we will refer to BSS machines over \(\RR\) 
 	simply as BSS machines, omitting the explicit mention of the field \(\FF\) being equal to the real numbers. 
 
-%\section{Preliminaries from the Theory of Zero-Error Coding}	\label{sec:PreliminariesZeroError}
-	%\noindent As indicated in Section \ref{sec:FormalEstimationSetup}, we consider finite alphabets \(\X\) and \(\Y\) as well as conditional probability mass functions on \(\Y\times\X\).
-	%In particular we define
-	%\begin{align*}	\W(\X,\Y)	:=	\bigg\{ W: 	&~\X \times \Y \rightarrow\RR_{\hspace{1pt}0}^+,~ (x,y) \mapsto W(y|x),\\
-												%&~\forall x\in\X: ~{\sum}_{y\in\Y} W(y|x) = 1 \bigg\}.
-	%\end{align*}
-	%The triple \((\X,\Y,W)\) is called a \emph{discrete, memoryless channel}. 
-
-	%The theory of zero-error coding, as introduced in \cite{Sh56}, is a sub-discipline of general channel coding. In essence, it considers the problem of finding the supremum 
-	%\(C_0(W)\) of all possible rates at which information can be transmitted trough a DMC \((\X,\Y,W)\) with perfect reliability. Here, ``perfect reliability'' refers
-	%to the ability of the decoder to correctly infer the transmitted message with probability one. Furthermore, the term ``rate'' denominates the asymptotic average of bits transmitted per channel use. 
-	%The number \(C_0(W)\) is commonly referred to as zero-error capacity of \(W\).
-
-	%Given a DMC \((\X,\Y,W)\), one of the results derived in \cite{Sh56} yields a characterization of \(C_0(W)\) in graph-theoretic terms.
-	%In fact, for each \(W\in \W(\X,\Y)\), there exists a finite, undirected, simple graph \(G(W)\), referred to as the \emph{confusability graph} of \(W\), which
-	%uniquely determines \(C_0(W)\).
-
-	%\begin{Theorem}	[\cite{Sh56}]\label{thm:ZE_Capacity}
-					%For a DMC \(W\in\W(\X,\Y)\), let \(G(W) = (\X, \V(W))\) be the finite, simple graph that satisfies
-					%\begin{align*}   \V(W) = \big\{\{x,x'\} : \exists y : W(y|x)W(y|x') > 0\big\}.
-					%\end{align*}
-					%Then, the zero-error capacity of \(W\) satisfies
-					%\begin{align*}   C_0(W)  	&=  \lim_{n\to\infty} \frac{1}{n} \log_2 \alpha\big(G^{\boxtimes n }(W)\big) \\
-												%&=  \sup_{n\in\NN} \frac{1}{n} \log_2 \alpha\big(G^{\boxtimes n }(W)\big),
-					%\end{align*}
-					%where \(G^{\boxtimes n }(W)\) denotes the \(n\)-fold \emph{strong graph product} of \(G(W)\) with itself and
-					%\(\alpha\big(G^{\boxtimes n }(W)\big)\) denotes the \emph{independence number} of \(\alpha\big(G^{\boxtimes n }(W)\big)\).
-	%\end{Theorem}
-	
-	%For finite alphabets \(\X,\Y\), we denote by \(\Wc(\X,\Y)\) the set of conditional probability mass functions \(W\) on \(\X\times\Y\) such that \(W(y|x) \in \RRc\) 
-	%holds true for all \((x,y) \in \X\times \Y\). In \cite{BD20Z}, it was shown that \(C_0(W)\) is not computable on a Turing machine as a function on computable channel descriptions \(W\).
-	%To the best of the author's knowledge, it remains an open problem whether \(C_0(W)\) is even a Turing computable number for all computable channel descriptions.
-	%In Section \ref{sec:ComputingZeroErrorOnBSS}, we describe a BSS-algorithm that, for fixed alphabets \(\X\) and \(\Y\), computes \(C_0(W)\) as a function on \(\W(\X,\Y)\). The existence 
-	%of such an algorithm essentially relies on the ability of BSS machines to handle exact real numbers.
-
-\section{Computing the Zero-Error Capacity for Fixed Alphabets on Blum-Shub-Smale Machines}	\label{sec:ComputingZeroErrorOnBSS}
 	{\color{red} unsolved problem on TMs!}
 	\noindent In the following, we specify a BSS-Algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes the zero-error capacity \(C_0(W)\) 
 	upon being passed a channel description \(W \in \W(\X,\Y)\). 
@@ -826,38 +793,7 @@
 	decides the solvability of the remote state estimation problem as a function on \(\W(\X,\Y)\).
 	
 	Again, the algorithm essentially relies on the ability of BSS machines to handle exact real numbers. 
-	%For \(\mA \in \RR^{n\times n}\), denote \(\bm{\lambda}(\mA) := (\lambda_1(A),\lambda_2(A),\ldots,\lambda_n(\mA))\) a family 
-	%consisting of all eigenvalues of \(\mA\), according to their algebraic multiplicity. Consequently, the family \(\bm{\lambda}(\mA)\)
-	%consists of exactly \(n\) components for all \(\mA\in \RR^{n\times n}\). We define
-	%\begin{align}	\eta(\mA):={\sum}_{j:|\lambda_j(\mA)|\geq 1} \log_2|\lambda_j(\mA)|.
-	%\end{align}
-	
-	%As indicated in the introduction, the zero-error capacity of the DMC \(W\) plays a central role in the solvability of the remote state estimation problem;
-	%in essence, given a characterization \((\mA,\mB,W,\E,\D)\) of a remote state estimation setup, it is almost entirely determined by the pair \((\eta(\mA),C_0(W))\).
-	
-	%\begin{Lemma} 	[\cite{MS07}]\label{lem:SolvabilityCondition} Let \(\X,\Y\) be finite alphabets, \(W\in \W(\X,\Y)\) a DMC and \((\mA,\mB) \in \RR^{n\times n}\times \RR^{m\times n}\) 
-					%a characterization of an unstable, time-invariant, linear plant and an associated local sensor. Then, the following holds true:
-					%\begin{itemize}	\item If \(\eta(\mA) < C_0(W)\) is satisfied, there exists an encoder/decoder-pair \((\E,\D)\) such that we have
-										%\(
-											%\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| < \infty 
-										%\) almost surely.
-										%That is, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
-									%\item If \(\eta(\mA) > C_0(W)\) is satisfied, then, for every encoder/decoder-pair \((\E,\D)\), we have\linebreak 
-										%\(
-											%\sup_{t\in\NN} |\rs(t) - \hat{\rs}(t)| = \infty 
-										%\) almost surely.
-										%That is, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
-					%\end{itemize}
-	%\end{Lemma} 
-	
-	%In view of the solvability conditions stated in Lemma \ref{lem:SolvabilityCondition}, we introduce the sets
-	%\begin{align*}	\S_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \eta(\mA) < C_0(W) \right\} \\ 
-					%\U_{\mA}(\X,\Y) := \left\{ W\in \W(\X,\Y) : \eta(\mA) > C_0(W) \right\} 
-	%\end{align*}
-	%Then, if \(W\in \S_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{solvable} for \((\mA,\mB, W)\).
-	%Likewise, if \(W\in \U_{\mA}(\X,\Y)\) holds true, the remote state estimation problem is \emph{unsolvable} for \((\mA,\mB, W)\).
-	%In the following, denote \(\mathds{1}_{\S_{\mA}(\X,\Y)}\), \(\mathds{1}_{\U_{\mA}(\X,\Y)}\) the \emph{indicator function}
-	%of \(\S_{\mA}(\X,\Y)\), \(\U_{\mA}(\X,\Y)\), respectively.
+
 	\begin{Lemma} \label{lem:SstarSatisfiesProp}
 		For \(\star \in \{\text{'\(0\)'},\text{'Fb'}\}\) and \(\mA\in\RRcP{n\times n}\) with \(\log_2\min\{|\X|,|\Y|\} > \eta(\mA) > 0\), there exists channels
 		\(W_0 \in \S_\star(\mA)\cap \Wc(\X.\Y)\) and \(W_1\in \U_\star(\mA)\cap\Wc(\X,\Y)\), such that for all \(\mu\in (0,1]\cap\RRc\), 
