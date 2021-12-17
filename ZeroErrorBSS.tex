@@ -899,41 +899,42 @@
 	of the system. Hence, the fact that for each system, an individual algorithm has to be designed, is not necessarily a drawback in this context.
 	
 \section{Summary and Additional Remarks}	\label{sec:Conclusion}
-	
-	On the one hand, we have introduced a class of binary channel classification problems  \(\M_j \subset \Wc : j \in \{0,1\}\) such that the case of \( j = 0\) is 
+	In Section \ref{sec:introTuring}, we have introduced a class of binary channel classification problems  \(\M_j \subset \Wc : j \in \{0,1\}\) such that the case of \( j = 0\) is 
 	not semi-decidable on a Turing Machine. With respect to this class of channel classification problems, we have shown that the indicator function 
 	\(\mathds{1}_{\M_0} : \M_0 \cup \M_1 \rightarrow \{0,1\}\) is not Banach-Mazur computable, which we have discussed in the context of system verification.
-	Furthermore, we have shown that the classification problem \((\S_\star(\mA),\U_\star(\mA)) = (\M_0,\M_1) : \star \in \{\text{'\(0\)'},\text{'\(0,\mathrm{f}\)'}\}\), 
-	which characterizes the solvability of the remote state estimation and stabilization problem, belongs to this class. 
-	
-	On the other hand, we have proven the existence of a Blum-Shub-Smale algorithm that computes the zero-error and/or feedback zero-error capacity
+	Furthermore, we have shown in Section \ref{sec:DecidingRemoteStateEstimationOnBSS} that the classification problem \((\S_\star(\mA),\U_\star(\mA)) = (\M_0,\M_1) : 
+	\star \in \{\text{'\(0\)'},\text{'\(0,\mathrm{f}\)'}\}\), which characterizes the solvability of the remote state estimation and stabilization problem, belongs to this class. 
+	In Section \ref{sec:PreliminariesBSS}, we have proven the existence of a Blum-Shub-Smale algorithm that computes the zero-error and/or feedback zero-error capacity
 	\(C_\star : \W \rightarrow \RR_{\hspace{1pt}0}^{+}, \star \in \{\text{'\(0\)'},\text{'\(0,\mathrm{f}\)'}\}\) for channels \(W\in\W\). In turn, 
-	we have used this result to provide a Blum-Shub-Smale algorithm that decides the classification problem
+	we have used this result in Section \ref{sec:DecidingRemoteStateEstimationOnBSS} to provide a Blum-Shub-Smale algorithm that decides the classification problem
 	\((\S_\star(\mA),\U_\star(\mA)) = (\M_0,\M_1) : \star \in \{\text{'\(0\)'},\text{'\(0,\mathrm{f}\)'}\}\).
-	Both algorithms rely essentially on the ability of Blum-Shub-Smale machines to process exact real numbers.   
 	
-	{\color{red} add: bezug zur introduction, applied coparison, differences of models and so on} 
+	The Blum-Shub-Smale algorithms introduced in Sections \ref{sec:PreliminariesBSS} and \ref{sec:DecidingRemoteStateEstimationOnBSS} rely essentially on the 
+	ability of Blum-Shub-Smale machines to process exact real numbers. As indicated in Sections \ref{sec:Introduction} and \ref{sec:PreliminariesBSS}, 
+	the assumption of being able to perform exact computations within the continuous field \(\RR\) is common in engineering. It is usually made for reasons 
+	of simplicity and despite the fact that the limits of real-world (digital) computing are characterized by the discrete Turing model. Remote state estaimation
+	and stabilization is thus an applied example of the differing predictions provided by Turing and Blum-Shub-Smale theory with respect to the algorithmic
+	solvability of mathematical problems.
+	% POSSIBLE EXTENSION IF NOT LONG ENOUGH: computing zero-error capacity is hard for Turing machines; BSS machines can solve hard problems
+	% by "cheating", i.e., putting the solution to hard problems in their memory; inability of Turing machines to solve RES decidability problem
+	% is caused by first and foremost by inability to detect if a number equals zero; even if Turing machine is provided with additional information
+	% (e.g. confusability graph), decidability is still unclear, since C0 could still be an uncomputable number; BSS machines do not
+	% face this restriction for the abovementioned reason.
 	
-	{\color{green} The practice of automated design and autonomous control adds another layer to the problem. In almost all cases, dynamic plants are analog, continuous  systems, 
-	whereas the operation of digital computers is based on discrete algorithms. Hence, the question of whether appropriate computer-based decision-making with respect to analog 
-	dynamic systems is actually possible, arises naturally.}
-	
-	In recent years, we observe a paradigm shift in research and development away from classical digital signal processing and computing hardware.
+	In the present work, the RES problem has been chosen as an example of use due to its inherent relevance to cyber-physical networks,
+	which has been discussed in Section \ref{sec:Introduction}. The ``physical'' component in this scenario consists of the unstable LTI plant, which is an analog, 
+	continuous system. The latter is true for the physical component of cyber-physical networks in almost all cases. Accordingly, the question arises as to 
+	whether an implementation of the ``cyber'' component based solely on digital hardware will generally be sufficient.
+	In recent years, we indeed observe a paradigm shift in research and development away from classical digital signal processing and computing hardware.
 	Instead, the interest in analog technology experiences a revial, especially in the context of so-called \emph{neuromorphic computing}. 
 	The question of how to model the computational capabilities of these technologies has not been conclusively resolved at the present time.
 	In particular, a model for universal analog computing, comparable to the Turing machine for the digital domain, has not yet been widely accepted. 
 	Such a characterization of universal neuromorphic computing may be related to the Blum-Shub-Smale model. In the broadest sense, the latter can be
-	interpreted as model for \emph{perfect} analog computing, i.e., in disregard of any imperfections or limitations on measurement resolution of real-world analog systems.
+	interpreted as a model for \emph{perfect} analog computing, i.e., in disregard of any imperfections or limitations on measurement resolution of real-world analog systems.
 	Regarding practical implementations, there currently exist only individual examples of analog computation platforms, for example by Intel, IBM and Samsung \sdummy.
 
-	{\color{violet}% 
-	%Remote state estimation and stabilization via discrete, memoryless channels belongs to a class of engineering problems that arereferred to as \emph{co-design} tasks. 
 	As indicated in the introduction, RES problems for undisturbed plants and an objective of observability/stabilizability with
 	high probability were investigated in \sdummy. The Shannon capacity \(C : \W \rightarrow \RR_{\hspace{1pt}0}^{+}\) was identified as the decisive quantity in this context.
-	%On the one hand, the amount of information that needs to be transmitted is in all cases quantified by the number \(\eta(\mA)\). On the other hand, 
-	%the we have seen that the specific control objective determines whether \(C\), \(C_0\) or \(C_{\text{'\(0,\mathrm{f}\)'}}\) is the suitable measure of channel quality.
-	%-> hence channel design cannot be done soely on amount of info, but requires knowledge about ctrl objective; ctrl and info part dont decompose,
-	%hence co design problem.
 	Consider a pair \((\E,\De\text{/}\Dc)\) of encoder and estimator/controller that estimates/stabilizes the state of some \textcolor{red}{noisy} plant almost surely.
 	Then, \((\E,\De\text{/}\Dc)\) also estimates/stabilizes the state of the same plant with (arbitrary) high probability, a fortiori, if the plant's state is 
 	assumed to evolve free of noisy fluctuations. The converse is not true in general. Thus, mathematically speaking, the objective of almost sure 
@@ -951,38 +952,9 @@
 	capabilities of Blum-Shub-Smale machines strictly exceed those of Turing machines, in the sense that any Turing machine can be emulated by a suitable
 	Blum-Shub-Smale machine, but not vice versa. This leads to a noteworthy observation: the ordering between the differnt objectives not only reflects 
 	in the relevant channel capacities, but also in the computational strength that is required to decide their satisfiability. 
-	
- 
-	-> in the boradest sense: also co design of hardware platform since bss stronger than turing.
-	 is an explicit example of control and communications co-design. 
-	
-	-> co desing problem, thing does not decompose into individual parts ....
-	
-	The criterion imposed on the control performance
-	essentially determines the required communication performance. In \cite{MS07,BoBoDe21TAC}, it was shown that the strong objective of almost sure observability requires the DMC to provide a sufficiently high
-	zero-error capacity and is not semi-decidable on Turing machines. Furthermore, it was shown that the weakened control objective only requires the DMC to provide a sufficiently high
-	Shannon capacity and is semi-decidable on a Turing machine. Here, we have shown that the strong objective is decidable on a Blum-Shub-Smale machine, which is generally more powerful than
-	Turing machines. Hence, the objective of almost sure observability not only requires a stronger communication performance, but also a stronger computation model.}
-	
-	{\color{violet} The problem involves both control and communications. In particular, as we will see in the following, the communications part is essential.}  
-	
-	{\color{violet} Generally, this is known as the co-design of control and communication. In this context, the problem of remote state estimation via noisy channels is particularly interesting,
-	since it is an example for a scenario where practically relevant control-performance criteria have an essential impact on the required communications performance.}
-	
-	{\color{violet} From an analytic point of view, remote state estimation involves the disciplines of control and information theory. As indicated above, it is an explicit example of a so 
-	called co-design problem.} 
-	
-	{\color{violet} As already stated before the co-design of control and communication is of particular interest in this context, since the criterion for control performance, which is
-	usually determined by the practical application, essentially determines the performance criterion for communication. Interestingly, the weakened form of the control performance criterion 
-	is decidable on digital hardware, and thus requires not only a weaker communication performance, but also a weaker computation performance regarding decidability.} 
-	
-	
-	{\color{yellow} The strong objective of almost sure observability is required for several real-world control engineering scenarios, especially those which potentially affect human safety or heal, e.g.
-	autonomous driving. This highlights the importance of the precise understanding of the underlying mathematical theories of the models involved in the design process of these systems.}
-	
-	
-	
-	
+	In essence, remote state estimation and stabilization is thus an example of what is often referred to as \emph{co-design} problem. It is characterized by
+	an interplay of control engineering, information and network theory and hardware modeling, and does not decompose into subproblems from each of these fields
+	that can be addressed individually. 	
 		
 %\section*{Acknowledgment}
 
