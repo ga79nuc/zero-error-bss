@@ -12,6 +12,7 @@
 	\usepackage[numbers]{natbib}
 % Custom Packages
 	\usepackage{tikz}
+	\tikzset{>=stealth}
 % Custom Commands
 	\newcommand{\rx}{\mathsf{x}}
 	\newcommand{\ry}{\mathsf{y}}
@@ -67,6 +68,122 @@
 	\newcommand{\rp}[1]{\mathrlap{\phantom{r}^{\prime}}r_{#1}}
 	\newcommand{\Wc}{\W_{\mathrm{c}}}
 	\DeclareMathOperator{\Span}{Span}
+% tikz-commands
+	\newcommand{\wireless}{		\begin{tikzpicture}		\draw [domain=-45:45] plot ({cos(\x)}, {sin(\x)});
+														\draw [domain=-45:45] plot ({1.5*cos(\x)}, {1.5*sin(\x)});
+														\draw [domain=-45:45] plot ({2*cos(\x)}, {2*sin(\x)});
+														\draw [domain=135:225] plot ({cos(\x)}, {sin(\x)});
+														\draw [domain=135:225] plot ({1.5*cos(\x)}, {1.5*sin(\x)});
+														\draw [domain=135:225] plot ({2*cos(\x)}, {2*sin(\x)});
+								\end{tikzpicture}}
+	\newcommand{\sender}{		\begin{tikzpicture}		\draw [domain=-45:45] plot ({cos(\x)}, {sin(\x)});
+														\draw [domain=-45:45] plot ({1.5*cos(\x)}, {1.5*sin(\x)});
+														\draw [domain=-45:45] plot ({2*cos(\x)}, {2*sin(\x)});
+														\draw [domain=135:225] plot ({cos(\x)}, {sin(\x)});
+														\draw [domain=135:225] plot ({1.5*cos(\x)}, {1.5*sin(\x)});
+														\draw [domain=135:225] plot ({2*cos(\x)}, {2*sin(\x)});
+														\draw[fill = black] (0,0) circle[radius = 0.5cm];
+								\end{tikzpicture}}
+	\newcommand{\receiver}{		\begin{tikzpicture}		\draw [domain=-45:45] plot ({cos(\x) -3}, {sin(\x)});
+														\draw [domain=-45:45] plot ({1.5*cos(\x) -3}, {1.5*sin(\x)});
+														\draw [domain=-45:45] plot ({2*cos(\x)-3}, {2*sin(\x)});
+														\draw [domain=135:225] plot ({cos(\x) +3}, {sin(\x)});
+														\draw [domain=135:225] plot ({1.5*cos(\x) +3}, {1.5*sin(\x)});
+														\draw [domain=135:225] plot ({2*cos(\x) +3}, {2*sin(\x)});
+														\draw[fill = black] (0,0) circle[radius = 0.5cm];
+								\end{tikzpicture}}							
+	\newcommand{\mobileagent}{	\begin{tikzpicture}		\draw (0,2.5) node[anchor = center] {\sender};
+														\fill[color = black] (-0.15, 2.5) rectangle ( 0.15, -1);
+														\fill[color = black!35] (0,-0.5) -- (1.5,-0.5) -- (2,-1) -- (5.5,-1) -- (6,-1.5) -- (5.5,-2) -- (3.5, -2) -- (3,-2.5) -- (1.5,-2.5) -- (1,-3) --%
+																				(-1,-3) -- (-1.5,-2.5) -- (-3,-2.5) -- (-3.5, -2) -- (-5.5,-2) -- (-6,-1.5) -- (-5.5,-1) -- (-2,-1) -- (-1.5,-0.5) --cycle;
+														\fill[color = black]	(1.5,-2.5) -- (2.5, -3.5) -- (2.5, -5.5) -- (3.5, -5.5) -- (3.5, -3.5) -- (2.5, -2.5) -- cycle;
+														\fill[color = black]	(-1.5,-2.5) -- (-2.5, -3.5) -- (-2.5, -5.5) -- (-3.5, -5.5) -- (-3.5, -3.5) -- (-2.5, -2.5) -- cycle;
+														\fill[color = black!35] (4,-1) -- (4.5,-0.5) -- (4.5, 0) -- (5,0) -- (5,-0.5) -- (5.5, -1) -- cycle;
+														\fill[color = black] (1,0.25) -- (1.25, 0.5) -- (8.25, 0.5) -- (8.5, 0.25) -- (8.25, 0) -- (1.25, 0) -- cycle;
+														\fill[color = black!35] (-4,-1) -- (-4.5,-0.5) -- (-4.5, 0) -- (-5,0) -- (-5,-0.5) -- (-5.5, -1) -- cycle;
+														\fill[color = black] (-1,0.25) -- (-1.25, 0.5) -- (-8.25, 0.5) -- (-8.5, 0.25) -- (-8.25, 0) -- (-1.25, 0) -- cycle;
+														%\draw[very thick, color = black] (-0.3,0.1) circle[radius = 1.25mm];
+														%\draw[very thick, color = black] (0.3,0.1) circle[radius = 1.25mm];
+														%\draw[color = black] (-1,-0.1) -- (1,-0.1);
+														%%\fill[color = white] (-0.4,0.075) circle[radius = 1mm];
+														%%\fill[color = white] (0.4,0.075) circle[radius = 1mm];
+														%\fill[very thick, fill = black!35] 	(-0.6, 0.3) -- (-0.2, 0.3) -- (0, 0.2) -- (0.2,0.3) --  (0.6, 0.3) --%
+																								%%(-0.3,0.1) -- (0.3,0.1) -- cycle; %<= Motorcycle 
+																								%(0.3,0.1) -- (-0.3,0.1) -- cycle;
+														%\draw[thick, color = black!35] (0,0.15) -- (0,0.6);
+														%\fill[color = black] (0,0.6) circle[radius = 0.75mm];
+														%\draw (0,0.6) node[scale = 0.15] {\wireless};
+														%%\draw[very thick, color = black!35] (0.2,0.3) -- (0.3,0.1);
+														%%\draw[very thick, color = black!35] (-0.2,0.3) -- (-0.3,0.1);
+								\end{tikzpicture}}
+	\newcommand{\basestation}{	\begin{tikzpicture} 	\draw[thick, color = black] (0,0.1) -- (0,0.6);
+														\fill[color = black] (0,0.6) circle[radius = 0.75mm];
+														%\draw[color = black] (-0.6,-0.1) -- (0.6,-0.1);
+														\draw (0,0.6) node[scale = 0.15] {\wireless};
+														\fill[color = black!35] (-0.2, 0.2) -- (0, 0) -- (0.2,0.2) -- cycle;
+								\end{tikzpicture}}
+	\newcommand{\bigarrow}{		\begin{tikzpicture}		\shade[ultra thick, right color = black!10, left color = black!35] (-0.3,-2.2) -- (-1.7,-2.2) -- (-2.2,-1.5) -- (-1.7, -0.8) -- (-0.3,-0.8);
+								\end{tikzpicture}}
+	\newcommand{\initstate}{	\begin{tikzpicture}		\draw[very thick, ->, shorten >=1.5pt] (-4.5,1.75) -- (-2,1.75); 
+														\draw (-3.25,1.75)  node[fill = white, anchor=center, align=center]
+														{\(\rs_0\)};
+														\draw (-4.5,1.75)  node[fill = white, anchor=center, align=center]
+														{\(\dots\)};
+								\end{tikzpicture}}
+	\newcommand{\plantdist}{	\begin{tikzpicture}		\draw[very thick, ->, shorten >=1.5pt] (-4.5,1.25) -- (-2,1.25); 
+														\draw (-3.25,1.25)  node[fill = white, anchor=center, align=center]
+														{\(\rzs\)};
+														\draw (-4.5,1.25)  node[fill = white, anchor=center, align=center]
+														{\(\dots\)};
+								\end{tikzpicture}}
+	\newcommand{\plant}{		\begin{tikzpicture}		\draw[thick, fill=black!35] (0,0) rectangle (2,1);
+														\draw (1,0.5)  node[anchor=center] {\(\mA\)};
+														\draw (1,1)  node[anchor=south] {Plant};
+														\draw[thick, ->, shorten >= 0.5mm] (2,0.5) -- (4,0.5);
+														\draw (3,0.5) node[anchor = south] {\(\rss\)};
+								\end{tikzpicture}}
+	\newcommand{\planttosens}{	\begin{tikzpicture}		\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (0,1.5) -- (2.5,1.5); 
+														\draw (1.25,1.5)  node[fill = white, anchor=center]
+														{\(\rss\)};
+								\end{tikzpicture}}
+	\newcommand{\sens}{			\begin{tikzpicture}		\draw[thick, fill=black!35] (4.5,2) rectangle (2.5,1);
+														\draw (3.5,1.5)  node[anchor=center] {\(\mB\)};
+														\draw (3.5,2)  node[anchor=south] {Sensor};
+								\end{tikzpicture}}
+	\newcommand{\senstoenc}{	\begin{tikzpicture}		\draw[very thick, <-, shorten >=1.5pt, shorten <=1.5pt] (4,-1) -- (4,1); 
+														\draw (4,0)  node[fill = white, anchor=center, align=center]
+														{\(\rus\)};
+								\end{tikzpicture}}
+	\newcommand{\enc}{			\begin{tikzpicture}		\draw[thick, fill=black!35] (4.5,-2) rectangle (2.5,-1);
+														\draw (3.5,-1.5)  node[anchor=center] {\(\E\)};
+														\draw (3.5,-1)  node[anchor=south] {Encoder};
+								\end{tikzpicture}}
+	\newcommand{\enctochan}{	\begin{tikzpicture}		\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (2.5,-1.5) -- (-0.3,-1.5); 
+														\draw (1.25,-1.5)  node[fill = white, anchor=center, align=center]
+														{\(\rxs\)};
+								\end{tikzpicture}}
+	\newcommand{\chan}{			\begin{tikzpicture}		\draw[thick, fill = black!25] (-2,-1.5) -- (-1.7, -1.1) -- (0,-1.1) -- (-0.3,-1.5) -- (0,-1.9) -- (-1.7,-1.9) -- (-2,-1.5);
+														\draw (-1,-1.5)  node[anchor=center] {\(W\)};
+														\draw (-1,-2)  node[anchor=north] {DMC};
+								\end{tikzpicture}}
+	\newcommand{\chantodec}{	\begin{tikzpicture}		\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (-2,-1.5) -- (-4.5,-1.5); 
+														\draw (-3.25,-1.5)  node[fill = white, anchor=center, align=center]
+														{\(\rys\)};
+								\end{tikzpicture}}
+	\newcommand{\dec}{			\begin{tikzpicture}		\fill[fill=black!15, rounded corners=0.1cm] (-6.5,-2) rectangle (-4.5,-1);
+														\draw (-5.5,-1.5)  node[anchor=center] {\(\De\)/\(\Dc\)};
+														\draw (-5.5,-2)  node[anchor=north] {Estimator/Controller};
+								\end{tikzpicture}}
+	\newcommand{\stateestim}{	\begin{tikzpicture}		\draw[very thick, ->, shorten <=1.5pt] (-6,-1) -- (-6,1);
+														\draw (-6,0)  node[fill = white, anchor=center, align=center]
+														{\(\rshs\)};
+														\draw (-6,1.5)  node[fill = white, anchor=center, align=center]
+														{\(\vdots\)};
+								\end{tikzpicture}}
+	\newcommand{\controllink}{	\begin{tikzpicture}		\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (-5,-1) -- (-5,-0.5) -- (-1.5,0.5) -- (-1.5,1);
+														\draw (-3.25,0)  node[fill = white, anchor=center, align=center]
+														{\(\rvs\)};
+								\end{tikzpicture}}
 % Editing
 	\newcommand{\rdummy}{{\color{red}[REF]}}
 	\newcommand{\sdummy}{{\color{red}[SOURCE]}}
@@ -151,10 +268,10 @@
 \section{Introduction {\color{red}\textbf{Check where to Insert Sources!}}}	\label{sec:Introduction}
 	\IEEEPARstart{R}{emote} and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like 
 	``Industry 4.0'', ``Autonomous Driving'', ``Internet of Things'' and ``Metaverse'' are examples for the currentd trend in communications to shift the focus away from pure data transmission 
-	towards interconnected information processing in a virtal space and control of agents that interact with the physical world. Networks of this kind, i.e., those that contain both 
+	towards interconnected information processing in a virtual space and control of agents that interact with the physical world. Networks of this kind, i.e., those that contain both 
 	virtual and physical components, belong to a class of technologies that are commonly referred to as \emph{cyber-physical systems}. \sdummy
 	
-	In many cases, cyber-physical networks are a field of application for control engineering, since, per definition, they contain physical component that act within the real world. 
+	In many cases, cyber-physical networks are a field of application for control engineering, since, per definition, they contain physical components that act within the real world. 
 	However, as compared to classical control engineering, cyber-physical physical networks aim to solve control problems remotely in a distributed and cooperative fashion, 
 	ranther than individually and locally at every physical component. Remote state estimation and sabilization via noisy communication channels, which is a prominent problem 
 	in control theory \cite{MS07, MS07SC, S06, SP03}, is thus naturally a part of many cyber-physical systems, either in an implicite or explicite manner. 
@@ -164,82 +281,89 @@
 	the stabilization task requires the possibility of affecting the plant's state by means of a feedback link. The setup is schematically depicted in Figure \ref{fig:Schematics}.
 	\begin{figure}\linespread{1}
 		\centering
-		\begin{tikzpicture}[scale = 0.7, every node/.style={scale=0.7}]
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Initial state
-				\draw[very thick, ->, shorten >=1.5pt] (-4.5,1.75) -- (-2,1.75); 
-				\draw (-3.25,1.75)  node[fill = white, anchor=center, align=center]
-				{\(\rs_0\)};
-				\draw (-4.5,1.75)  node[fill = white, anchor=center, align=center]
-				{\(\dots\)};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Plant disturbance
-				\draw[very thick, ->, shorten >=1.5pt] (-4.5,1.25) -- (-2,1.25); 
-				\draw (-3.25,1.25)  node[fill = white, anchor=center, align=center]
-				{\(\rzs\)};
-				\draw (-4.5,1.25)  node[fill = white, anchor=center, align=center]
-				{\(\dots\)};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Plant
-				\draw[thick, fill=black!25] (-2,2) rectangle (0,1);
-				\draw (-1,1.5)  node[anchor=center] {\(\mA\)};
-				\draw (-1,2)  node[anchor=south] {Plant};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Plant -> Sensor
-				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (0,1.5) -- (2.5,1.5); 
-				\draw (1.25,1.5)  node[fill = white, anchor=center]
-				{\(\rss\)};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Sensor
-				\draw[thick, fill=black!25] (4.5,2) rectangle (2.5,1);
-				\draw (3.5,1.5)  node[anchor=center] {\(\mB\)};
-				\draw (3.5,2)  node[anchor=south] {Sensor};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Sensor -> Encoder
-				\draw[very thick, <-, shorten >=1.5pt, shorten <=1.5pt] (4,-1) -- (4,1); 
-				\draw (4,0)  node[fill = white, anchor=center, align=center]
-				{\(\rus\)};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Encoder
-				\fill[fill=black!15, rounded corners=0.1cm] (4.5,-2) rectangle (2.5,-1);
-				\draw (3.5,-1.5)  node[anchor=center] {\(\E\)};
-				\draw (3.5,-2)  node[anchor=north] {Encoder};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Encoder -> Channel
-				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (2.5,-1.5) -- (-0.3,-1.5); 
-				\draw (1.25,-1.5)  node[fill = white, anchor=center, align=center]
-				{\(\rxs\)};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Channel
-				\draw[thick, fill = black!25] (-2,-1.5) -- (-1.7, -1.1) -- (0,-1.1) -- (-0.3,-1.5) -- (0,-1.9) -- (-1.7,-1.9) -- (-2,-1.5);
-				\draw (-1,-1.5)  node[anchor=center] {\(W\)};
-				\draw (-1,-2)  node[anchor=north] {DMC};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Channel -> Decoder
-				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (-2,-1.5) -- (-4.5,-1.5); 
-				\draw (-3.25,-1.5)  node[fill = white, anchor=center, align=center]
-				{\(\rys\)};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Decoder
-				\fill[fill=black!15, rounded corners=0.1cm] (-6.5,-2) rectangle (-4.5,-1);
-				\draw (-5.5,-1.5)  node[anchor=center] {\(\De\)/\(\Dc\)};
-				\draw (-5.5,-2)  node[anchor=north] {Estimator/Controller};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   State estimate
-				\draw[very thick, ->, shorten <=1.5pt] (-6,-1) -- (-6,1);
-				\draw (-6,0)  node[fill = white, anchor=center, align=center]
-				{\(\rshs\)};
-				\draw (-6,1.5)  node[fill = white, anchor=center, align=center]
-				{\(\vdots\)};
-			%   %   %   %   %   %   %   %   %   %   %
-			%   Control Link
-				\draw[very thick, ->, shorten >=1.5pt, shorten <=1.5pt] (-5,-1) -- (-5,-0.5) -- (-1.5,0.5) -- (-1.5,1);
-				\draw (-3.25,0)  node[fill = white, anchor=center, align=center]
-				{\(\rvs\)};
+		\begin{tikzpicture}[scale = 1, every node/.style={scale=1}]
+			\begin{scope}[shift={(0,2.2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4,2) rectangle (4,-2);
+											\draw (4,-2) node[anchor = south east, scale = 0.7] {Physical Network};
+											\draw (-3,-1) node[anchor = center] {\basestation};
+											\draw (3,1) node[anchor = center] {\basestation};
+											\draw (-2,0.8) node[anchor = center, scale = 0.1] {\mobileagent};
+											\draw (0,0) node[anchor = center, scale = 0.1] {\mobileagent};
+											\draw (2,-0.8) node[anchor = center, scale = 0.1] {\mobileagent};
+			\end{scope}
+			\begin{scope}[shift={(0,-2.2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4,2) rectangle (4,-2);
+											\draw (4,2) node[anchor = north east, scale = 0.7] {Digital Twin};
+											\draw (-3,-1) node[draw, anchor = center] {\(\mathtt{BASE}~1\)};
+											\draw (3,1) node[draw, anchor = center] {\(\mathtt{BASE}~2\)};
+											\draw (-2,0.8) node[draw, anchor = center] {\(\mathtt{MOBILE}~1\)};
+											\draw (0,0) node[draw, anchor = center] {\(\mathtt{MOBILE}~2\)};
+											\draw (2,-0.8) node[draw, anchor = center] {\(\mathtt{MOBILE}~3\)};
+											\draw[very thick, shorten >= 0mm, shorten <= 0mm, <->] (-1.1,0.8) -- (0,0.35);
+											\draw[very thick, shorten >= 4mm, shorten <= 4mm, <->] (-3,-1) -- (-2,0.8);
+											\draw[very thick, shorten >= 7.5mm, shorten <= 9mm, <->] (0,0) -- (-3,-1);
+											\draw[very thick, shorten >= 0mm, shorten <= 0mm, <->] (1.1,-0.8) -- (0,-0.35);
+											\draw[very thick, shorten >= 4mm, shorten <= 4mm, <->] (3,1) -- (2,-0.8);
+											\draw[very thick, shorten >= 7.5mm, shorten <= 9mm, <->] (0,0) -- (3,1);
+			\end{scope}
+			\draw (-1.5,0.28) node[rotate = 90, scale = 0.5, anchor = east]{\bigarrow};
+			\draw (0,-0.28) node[rotate = 270, scale = 0.5, anchor = east]{\bigarrow};
+			\draw (-1.5,0.2) node[anchor = south, align = center, scale = 0.7]{Measurements, \\ Sensor Data};
+			\draw (0,-0.2) node[anchor = north, align = center, scale = 0.7]{Decision-Making, \\ Control};
 		\end{tikzpicture}
 		\caption{Schematics of the remote state estimation and stabilization setup considered throughout this article.}
 		\label{fig:Schematics}
-	\end{figure}     
+	\end{figure}   
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}[every node/.style={scale=0.7}]
+				\begin{scope}[shift = {(0,2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4.5,0.4) rectangle (3.5,-1.3);
+												\draw[thick, fill = black!35] (-3.25,0) rectangle (-1.75,-0.75);
+												\draw[very thick, ->, shorten >= 0.5mm] (-1.75,-0.375) -- (-0.75,-0.375);
+												\draw[very thick, ->, shorten >= 0.5mm] (0.75,-0.375) -- (1.75,-0.375);
+												\draw[very thick, ->, shorten >= 0.5mm] (-4.25,-0.25) -- (-3.25,-0.25);
+												\draw[very thick, ->, shorten >= 0.5mm] (-4.25,-0.5) -- (-3.25,-0.5);
+												\draw (-4.5,-0.25) node[anchor = center] {\(\cdots\)};
+												\draw (-4.5,-0.5) node[anchor = center] {\(\cdots\)};
+												\draw (-1.25,-0.375) node[anchor= south] {\(\rss\)};
+												\draw (1.25,-0.375) node[anchor= south] {\(\rus\)};
+												\draw (-3.75,-0.5) node[anchor= north] {\(\rs_0\)};
+												\draw (-3.75,-0.25) node[anchor= south] {\(\rzs\)};
+												\draw[thick, fill = black!35] (-0.75,0) rectangle (0.75,-0.75);
+												\draw[thick, fill = black!35] (1.75,0) rectangle (3.25,-0.75);
+												\draw (-2.5,-0.375) node[] {\(\mA\)};
+												\draw (0,-0.373) node[] {\(\mB\)};
+												\draw (2.5,-0.375) node[] {\(\E\)};
+												\draw (-2.5,0) node[anchor = south] {Plant};
+												\draw (0,0) node[anchor = south] {Sensor};
+												\draw (2.5,0) node[anchor = south] {Encoder};
+												\draw (-4.5,-1.3) node[anchor = south west] {Mobile Agent};
+				\end{scope}
+				\fill[color = black!10, rounded corners=0.05cm] (1, 0.55) rectangle (3,-0.55);
+				\fill[color = black!10, rounded corners=0.05cm] (-1, 0.55) rectangle (-3,-0.55);
+				\begin{scope}[shift = {(0,-2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4.5,-0.4) rectangle (3.5,1.3);
+												\draw[thick, fill = black!35] (-3.25,0) rectangle (3.25,0.75);
+												\draw[very thick, <-] (-4.25,0.375) -- (-3.25,0.375);
+												\draw (-4.5,0.375) node[anchor = center] {\(\cdots\)};		
+												\draw (-3.75,0.375) node[anchor= north] {\(\rshs\)};
+												\draw (0,0.375) node[] {\(\Dc\)~/~\(\De\)};
+												\draw (0,0) node[anchor = north] {Controller/Estimator};
+												\draw (-4.5,1.3) node[anchor = north west] {Base Station};
+				\end{scope}
+				\draw (2.5, 0.925) node[anchor = east] {\(\rxs\)};
+				\draw (2.5, -0.925) node[anchor = east] {\(\rys\)};
+				\draw (-2.5, -0.925) node[anchor = west] {\(\rvs\)};
+				\draw[very thick, ->, shorten >= 0.5mm] (2.5, 1.25) -- (2.5, 0.3);
+				\draw[very thick, <-, shorten <= 0.5mm] (2.5, -1.25) -- (2.5, -0.3);
+				\draw[very thick, <-, shorten <= 0.5mm] (-2.5, 1.25) -- (-2.5, -1.25);
+				\draw (1, 0) node[anchor = west, align = left] {Noisy \\ Channel};
+				\draw (-1, 0) node[anchor = east, align = right] {Feedback \\ Link};
+				\draw (2.5, 0.3) node[anchor = center, scale = 0.15] {\sender};
+				\draw (2.5, -0.3) node[anchor = center, scale = 0.15] {\receiver};
+				\draw (2.5, 0) node[anchor = center] {\(W\)};
+				
+		\end{tikzpicture}
+		\caption{Schematics of the remote state estimation and stabilization setup considered throughout this article.}
+		\label{fig:Schematics}
+	\end{figure}    
 	
 	The expectations towards future cyber-physical networks are manifold. In classical control engineering,
 	the controller of a time invariant, dynamic system is designed by an engineer during the process of the system's developement, with respect to the system's indicidual characteristics.
@@ -591,7 +715,7 @@
 	\begin{align}	V_1,V_2,V_3,\ldots \in (\M_0\cup \M_0) \cap \Wc(\X,\Y), 
 	\end{align}
 	while the tool's output is compared to a target value by a verifier. 
-	\begin{figure}\linespread{1}
+	\begin{figure}\linespread{1} %Put everything in box: Testbench
 		\centering
 		\begin{tikzpicture}[scale = 0.7, every node/.style={scale=0.7}]
 			%   %   %   %   %   %   %   %   %   %   %
