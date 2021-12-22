@@ -188,6 +188,11 @@
 	\newcommand{\rdummy}{{\color{red}[REF]}}
 	\newcommand{\sdummy}{{\color{red}[SOURCE]}}
 	\newcommand{\edited}{\color{black}}
+	\newenvironment{RV}	{	\noindent\color{red}\textbf{Revision.}~\textit
+						}{ 	\hfill\mbox{}\par
+						}
+	%\newcommand{\revision}[1]{\begin{RV}#1\end{RV}}
+	\newcommand{\revision}[1]{}
 % Custom Environments
 	\newtheorem{Theorem}{Theorem}
 	\newtheorem{Definition}[Theorem]{Definition}
@@ -199,7 +204,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 %
-	\title{Algorithmic Aspects of Remote Control Problems:\\ Decidability on Digital and Real Number\\ Signal Processing Hardware
+	\title{Decision-Making for Network-Controlled Systems:\\ Decidability on Digital and Real Number\\ Information Processing Hardware
 		%\thanks{H.~Boche was supported by the German Research Foundation (DFG) within
 				%the Gottfried Wilhelm Leibniz Prize under Grant BO 1734/20-1, within
 				%Germany’s Excellence Strategy EXC-2111—390814868 and EXC-2092 CASA -
@@ -351,11 +356,12 @@
 				\draw (2.5, 0.925) node[anchor = east] {\(\rxs\)};
 				\draw (2.5, -0.925) node[anchor = east] {\(\rys\)};
 				\draw (-2.5, -0.925) node[anchor = west] {\(\rvs\)};
+				\draw (-2.5, 0.925) node[anchor = west] {\(\rvs\)};
 				\draw[very thick, ->, shorten >= 0.5mm] (2.5, 1.25) -- (2.5, 0.3);
 				\draw[very thick, <-, shorten <= 0.5mm] (2.5, -1.25) -- (2.5, -0.3);
 				\draw[very thick, <-, shorten <= 0.5mm] (-2.5, 1.25) -- (-2.5, -1.25);
 				\draw (1, 0) node[anchor = west, align = left] {Noisy \\ Channel};
-				\draw (-1, 0) node[anchor = east, align = right] {Feedback \\ Link};
+				\draw (-1, 0) node[anchor = east, align = right] {(Noiseless) \\ Feedback \\ Link};
 				\draw (2.5, 0.3) node[anchor = center, scale = 0.15] {\sender};
 				\draw (2.5, -0.3) node[anchor = center, scale = 0.15] {\receiver};
 				\draw (2.5, 0) node[anchor = center] {\(W\)};
@@ -393,9 +399,10 @@
 	In essence, this task reduces to a channel classification problem. The latter occur frequently in different variants throughout network theory \sdummy.   
 	
 	The theory of Turing machines yields a precise indication of the fundamental capabilities of real-world, digital hardware. Any problem that cannot be solven in theory on a Turing machine
-	can certainly not be solved on a real-world (digital) computer. Never the less, it is common in numerics and engineering to employ Blum-Shub-Smale machines as the underlying machine model.  
-	Usually, this is done for reasons of convenience and in an implicite manner. By investigating the abovementioned decision problem for both Turing and Blum-Shub-Smale 
-	machines, we want to provide an applied comparison of the different implications of both models for real-world technologies. 
+	can certainly not be solved on a real-world (digital) computer. Never the less, it is common in numerics and engineering to employ Blum-Shub-Smale machines,
+	which give rise to a formal framework for the algorithmic processing of real numbers, as the underlying machine model. Usually, this is done for reasons of convenience and in an implicite manner. 
+	By investigating the abovementioned decision problem for both Turing and Blum-Shub-Smale machines, we want to provide an applied comparison of the different implications of 
+	both models for real-world technologies. 
 	
 	The outline of the remainder of our work is as follows. In Section \ref{sec:FormalEstimationSetup}, we provid a formal description of the remote state estimation and stabilization problem
 	and discuss the preliminaries that lead to the associated channel classficaton problem. In Section \ref{sec:introTuring}, we introduce the fundamentals of Turing theory.
@@ -408,6 +415,8 @@
                                                                         
 %\color{gray}
 \section{Formal Description of the Remote State Estimation Setup}	\label{sec:FormalEstimationSetup}
+	
+	\subsection{Formal Setup Description}
 	\noindent In to following, we give a formal description of the setup depicted in Figure \ref{fig:Schematics}, as well as a brief summary of 
 	some relevant results concerning different variants of the related estimation and control problem. Originally, these were derived in \cite{MS07, MS07SC}.  
 	
@@ -497,6 +506,7 @@
 	If \(\eta(\mA) < C_{\text{Fb}}\) is satisfied, there exists a pair \((\E,\Dc)\) that meets the requirement. On the other hand,
 	if \(\eta(\mA) > C_{\text{Fb}}\) is satisfied, then \(\limsup_{t\in\NN} \|\rs_t\| = \infty\) holds true almost surely for all possible pairs \((\E,\Dc)\).
 	
+	\subsection{Channel Classification Problems}
 	In the following, we use the star symbol '\(\star\)' as a placeholder. In light of the results established in \cite{MS07, MS07SC}, we define 
 	the sets 
 	\begin{align}	\S_\star(\mA) :&= \big\{ W \in \W(\X,\Y) : C_\star > \eta(\mA)\big\}, \\
@@ -509,12 +519,19 @@
 	\end{Remark} 
 
 \section{Preliminaries from the Theory of Turing Machines and Effective Analysis}\label{sec:introTuring}
-	more conservative approach. unless positive proof is provided by the algorithm
 	
-	\noindent {\color{red} Copied from \cite{BoBoDe21TAC}!}
-	
+	\subsection{Background}
+	\revision{Conservative approach: unless a positive proof (i.e., the channel is sufficient) is provided by the algorithm, the system
+				must not operate.}
 	\noindent In order to formalize the idea of algorithmic decidability, we employ the theory of Turing machines and, subsequently, 
-	the theory of effective analysis, which is based on the former.	Turing machines were introduced in \cite{T37a,T38} in order to formalize the idea of computability. 
+	the theory of effective analysis, which is based on the former.	In \cite{BoBoDe21TAC}, we have applied the both theories to investigated the decidability of the problem of
+	remote state estimation via noisy channels with respect to the objective of almost sure observability for disturbend plants, and with respect to the
+	objective of observability with high probability for undisturbed plants. In order to provide a self contained work, we recapitulate the introduction 
+	to Turing machines and effective analysis given in \cite{BoBoDe21TAC} in the following.
+	
+	\revision{Revise the last paragraph?}
+	
+	Turing machines were introduced in \cite{T37a,T38} in order to formalize the idea of computability. 
 	The framework of Turing machines fully captures the theoretical limits of today's real-world digital computers. For \(n\in\NN\), a partial mapping \(f : \NN^n \part \NN\) 
 	is referred to as recursive if and only if it can be computed on a Turing machine \cite{Kl36,T37b}. Hence, a function \(f :\NN^n \part \NN\) can, in principle, be 
 	computed on a real-world digital computer if and only if it is recursive. 
@@ -618,6 +635,7 @@
 	
 	{\color{red} Decidability \emph{relative} to some set... Consistency in nomenclature between versions?}
 	
+	\subsection{Decidability of Channel Classification Problems}
 	\begin{Lemma}	\label{lem:IndicatorFunctionBanachMazur}
 					Let \(\X,\Y\) be finite Alphabets and \(\M_0, \M_1\) disjoint subsets of \(\Wc(\X,\Y)\) that satisfy the following:
 					\begin{itemize}	\item There exist \(W_0\in\M_0\) and \(W_1\in\M_1\) such that for all \(\mu \in (0,1]\cap \RRc\), 													
@@ -698,6 +716,7 @@
 					which is a contradiction to the undecidability of the \emph{halting} problem, see \sdummy.
 	\end{proof}
 	
+	\subsection{Banach-Mazur Computability in the Scope of System Verification}
 	In the scope of system verification, Banach-Mazur computability has a noteworthy interpretation.
 	For reasons of expedience, we will discuss this interpretation in the context of remote system control; the underlying principle can be 
 	directly transferred to problems that are similar in structure.
@@ -769,8 +788,10 @@
 	possible sequence of test cases. If, on the other hand, the indicator function \(\mathds{1}_{\M_0}\) is not Banach-Mazur computable, it is not generally possible to generate the 
 	sequence of correct target values on digital hardware. In other words, for some sequences \((V_n)_{n\in\NN}\), there may not exist a digital verifier at all in this case.
 
-\section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}	
-	{\color{green} Despite the fact that the capabilities real-world, digital computers are 
+\section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}
+
+	\subsection{Background}
+	\revision{Despite the fact that the capabilities real-world, digital computers are 
 	entirely captured by Turing machines, BSS machines over \(\RR\) are regularly considered in numerics and computational complexity theory. 
 	This practice is justified by the premise that the error emerging from representing real numbers by floating point approximations is neglectible in all practically relevant numerical problems. 
 	Furthermore, assumptions on the underlying machine model are usually implicit in numerics. In contrast, we seek to explicitly treat the underlying machine model in our investigations.}
@@ -853,8 +874,9 @@
 	%\(\ZZ_2\) (the set of boolean values with logical con- and disjunction as field operations), 
 	the traditional theory of computation as formalized by Turing machines is recovered. For the remainder of this article, we will refer to BSS machines over \(\RR\) 
 	simply as BSS machines, omitting the explicit mention of the field \(\FF\) being equal to the real numbers. 
-
-	{\color{red} unsolved problem on TMs!}
+	
+	\subsection{Computing the Zero-Error and Feedback Zero-Error Capacity on BSS-Machines}
+	\revision{Computing the Zero-Error capacity is an unsolved problem on Turing machines!}
 	\noindent In the following, we specify a BSS-Algorithm which, for fixed alphabets \(\X\) and \(\Y\), computes the zero-error capacity \(C_0(W)\) 
 	upon being passed a channel description \(W \in \W(\X,\Y)\). 
 
@@ -909,11 +931,11 @@
 					Then, the BSS machine \(\BSS_{C_0}\) characterized by the triple \((\bm{r}, \bm{c}, \G)\) computes the mapping \(W\mapsto C_0(W)\).
 	\end{proof}
 	
-	\begin{Remark}
-		Semi-algebraic sets!
-	\end{Remark}
+	\revision{ Semi-algebraic sets!}
 
 \section{Decidability Analysis}	\label{sec:DecidingRemoteStateEstimationOnBSS}
+	
+	\subsection{Decidability analysis of the RES Problem for Turing Machines}
 	In this section, we will use Theorem \ref{thm:ZeroErrorBSScomputable} to derive a BSS algorithm which, given the description of an unstable, linear plant,
 	decides the solvability of the remote state estimation problem as a function on \(\W(\X,\Y)\).
 	
@@ -968,6 +990,7 @@
 		the observation that \((\S_\star(\mA) \cup \U_\star(\mA)) \cap \Wc(\X,\Y)\) is a nonempty subset of \(\Wc(\X,\Y)\).
 	\end{proof}
 	
+	\subsection{Decidability analysis of the RES Problem for BSS-Machines}
 	\begin{Theorem}	\label{thm:RemoteStateEstimationBSSDecidable}
 					Let \(\X,\Y\) be finite alphabets and \(\mA \in \RR^{n\times n}\) a characterization of an unstable, time-invariant, 
 					linear plant. Then, the following holds true:
@@ -1039,11 +1062,12 @@
 	of simplicity and despite the fact that the limits of real-world (digital) computing are characterized by the discrete Turing model. Remote state estaimation
 	and stabilization is thus an applied example of the differing predictions provided by Turing and Blum-Shub-Smale theory with respect to the algorithmic
 	solvability of mathematical problems.
-	% POSSIBLE EXTENSION IF NOT LONG ENOUGH: computing zero-error capacity is hard for Turing machines; BSS machines can solve hard problems
-	% by "cheating", i.e., putting the solution to hard problems in their memory; inability of Turing machines to solve RES decidability problem
-	% is caused by first and foremost by inability to detect if a number equals zero; even if Turing machine is provided with additional information
-	% (e.g. confusability graph), decidability is still unclear, since C0 could still be an uncomputable number; BSS machines do not
-	% face this restriction for the abovementioned reason.
+	
+	\revision{Computing zero-error capacity is hard for Turing machines; BSS machines can solve hard problems
+	by "cheating", i.e., putting the solution to hard problems in their memory; inability of Turing machines to solve RES decidability problem
+	is caused by first and foremost by inability to detect if a number equals zero; even if Turing machine is provided with additional information
+	(e.g. confusability graph), decidability is still unclear, since C0 could still be an uncomputable number; BSS machines do not
+	face this restriction for the abovementioned reason.}
 	
 	In the present work, the RES problem has been chosen as an example of use due to its inherent relevance to cyber-physical networks,
 	which has been discussed in Section \ref{sec:Introduction}. The ``physical'' component in this scenario consists of the unstable LTI plant, which is an analog, 
@@ -1059,7 +1083,7 @@
 
 	As indicated in the introduction, RES problems for undisturbed plants and an objective of observability/stabilizability with
 	high probability were investigated in \sdummy. The Shannon capacity \(C : \W \rightarrow \RR_{\hspace{1pt}0}^{+}\) was identified as the decisive quantity in this context.
-	Consider a pair \((\E,\De\text{/}\Dc)\) of encoder and estimator/controller that estimates/stabilizes the state of some \textcolor{red}{noisy} plant almost surely.
+	Consider a pair \((\E,\De\text{/}\Dc)\) of encoder and estimator/controller that estimates/stabilizes the state of some disturbed plant almost surely.
 	Then, \((\E,\De\text{/}\Dc)\) also estimates/stabilizes the state of the same plant with (arbitrary) high probability, a fortiori, if the plant's state is 
 	assumed to evolve free of noisy fluctuations. The converse is not true in general. Thus, mathematically speaking, the objective of almost sure 
 	observability/stabilizability for disturbed plants is strictly stronger than the objective of observability/stabilizability with high probability for 
@@ -1072,7 +1096,8 @@
 					\U(\mA) :&= \big\{ W \in \W : C < \eta(\mA)\big\},
 	\end{align}
 	which corresponds to the objective of observability/stabilizability with high probability for 
-	undisturbed plants, was shown to be decidable on a Turing Machine. {\color{red} As indicated in Section \ref{sec:PreliminariesBSS}}, the computational
+	undisturbed plants, was shown to be decidable on a Turing Machine. 
+	\revision{As indicated in Section \ref{sec:PreliminariesBSS},} The computational
 	capabilities of Blum-Shub-Smale machines strictly exceed those of Turing machines, in the sense that any Turing machine can be emulated by a suitable
 	Blum-Shub-Smale machine, but not vice versa. This leads to a noteworthy observation: the ordering between the differnt objectives not only reflects 
 	in the relevant channel capacities, but also in the computational strength that is required to decide their satisfiability. 
