@@ -270,11 +270,12 @@
 	\textcolor{red}{Co-Design of Communications and Control, Remote State Estimation, Noisy Channels, Neuromorphic Computing.} 
 \end{IEEEkeywords}
 
-\section{Introduction {\color{red}\textbf{Check where to Insert Sources!}}}	\label{sec:Introduction}
-	\IEEEPARstart{R}{emote} and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like 
+\section{Introduction}	\label{sec:Introduction}
+	\IEEEPARstart{R}{emote} and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known topics like 
 	``Industry 4.0'', ``Autonomous Driving'', ``Internet of Things'' and ``Metaverse'' are examples for the currentd trend in communications to shift the focus away from pure data transmission 
 	towards interconnected information processing in a virtual space and control of agents that interact with the physical world. Networks of this kind, i.e., those that contain both 
 	virtual and physical components, belong to a class of technologies that are commonly referred to as \emph{cyber-physical systems} \cite{AlEl17, BaCaFo19, Do21}.
+	\revision{``Slogans'' was changed to ``topics''.}
 	
 	In many cases, cyber-physical networks are a field of application for control engineering, since, per definition, they contain physical components that act within the real world. 
 	However, as compared to classical control engineering, cyber-physical physical networks aim to solve control problems remotely in a distributed and cooperative fashion, 
@@ -284,40 +285,7 @@
 	Subsequently, the sensor data is feed into an encoder that prepares the data for transmission trough a discrete, memoryless channel \emph{(DMC)}. 
 	At the receiving end, the sequence of channel outputs is processed by a remote estimator/controller. The latter tries to estimate and/or stabilize the state of the plant, where 
 	the stabilization task requires the possibility of affecting the plant's state by means of a feedback link. The setup is schematically depicted in Figure \ref{fig:Schematics}.
-	\begin{figure}\linespread{1}
-		\centering
-		\begin{tikzpicture}[scale = 1, every node/.style={scale=1}]
-			\begin{scope}[shift={(0,2.2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4,2) rectangle (4,-2);
-											\draw (4,-2) node[anchor = south east, scale = 0.7] {Physical Network};
-											\draw (-3,-1) node[anchor = center] {\basestation};
-											\draw (3,1) node[anchor = center] {\basestation};
-											\draw (-2,0.8) node[anchor = center, scale = 0.1] {\mobileagent};
-											\draw (0,0) node[anchor = center, scale = 0.1] {\mobileagent};
-											\draw (2,-0.8) node[anchor = center, scale = 0.1] {\mobileagent};
-			\end{scope}
-			\begin{scope}[shift={(0,-2.2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4,2) rectangle (4,-2);
-											\draw (4,2) node[anchor = north east, scale = 0.7] {Digital Twin};
-											\draw (-3,-1) node[draw, anchor = center] {\(\mathtt{BASE}~1\)};
-											\draw (3,1) node[draw, anchor = center] {\(\mathtt{BASE}~2\)};
-											\draw (-2,0.8) node[draw, anchor = center] {\(\mathtt{MOBILE}~1\)};
-											\draw (0,0) node[draw, anchor = center] {\(\mathtt{MOBILE}~2\)};
-											\draw (2,-0.8) node[draw, anchor = center] {\(\mathtt{MOBILE}~3\)};
-											\draw[very thick, shorten >= 0mm, shorten <= 0mm, <->] (-1.1,0.8) -- (0,0.35);
-											\draw[very thick, shorten >= 4mm, shorten <= 4mm, <->] (-3,-1) -- (-2,0.8);
-											\draw[very thick, shorten >= 7.5mm, shorten <= 9mm, <->] (0,0) -- (-3,-1);
-											\draw[very thick, shorten >= 0mm, shorten <= 0mm, <->] (1.1,-0.8) -- (0,-0.35);
-											\draw[very thick, shorten >= 4mm, shorten <= 4mm, <->] (3,1) -- (2,-0.8);
-											\draw[very thick, shorten >= 7.5mm, shorten <= 9mm, <->] (0,0) -- (3,1);
-			\end{scope}
-			\draw (-1.5,0.28) node[rotate = 90, scale = 0.5, anchor = east]{\bigarrow};
-			\draw (0,-0.28) node[rotate = 270, scale = 0.5, anchor = east]{\bigarrow};
-			\draw (-1.5,0.2) node[anchor = south, align = center, scale = 0.7]{Measurements, \\ Sensor Data};
-			\draw (0,-0.2) node[anchor = north, align = center, scale = 0.7]{Decision-Making, \\ Control};
-		\end{tikzpicture}
-		\caption{Schematics of the remote state estimation and stabilization setup considered throughout this article.}
-		\label{fig:Schematics}
-	\end{figure}   
-	\begin{figure}
+	\begin{figure}[h]
 		\centering
 		\begin{tikzpicture}[every node/.style={scale=0.7}]
 				\begin{scope}[shift = {(0,2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4.5,0.4) rectangle (3.5,-1.3);
@@ -365,7 +333,6 @@
 				\draw (2.5, 0.3) node[anchor = center, scale = 0.15] {\sender};
 				\draw (2.5, -0.3) node[anchor = center, scale = 0.15] {\receiver};
 				\draw (2.5, 0) node[anchor = center] {\(W\)};
-				
 		\end{tikzpicture}
 		\caption{Schematics of the remote state estimation and stabilization setup considered throughout this article.}
 		\label{fig:Schematics}
@@ -380,18 +347,52 @@
 	\cite{RaSaKv20,TaZhLiNe19,BaCaFo19,QiTa18,AlEl17}. The approach is based on creating virtual copies of the system's physical agents, which are then employed for optimization, control tasks and 
 	decision-making. Examples of cyber-physical and digital twin technologies that implicitely include remote state estimation and stabilization 
 	can be found e.g. in \cite{GuSiKuNi18, LiNgLeSoSt16}, or in \cite{Kr16}, the latter being a patent held by the \emph{Siemens AG Munich}. For cyber-physical networks, the method can 
-	be extended as far as to implement a virtual copy of the full network itself, which may then be used e.g. for the generation of channel-coding schemes at runtime.
+	be extended as far as to implement a virtual copy of the full network itself, which may then be used e.g. for the generation of channel-coding schemes at runtime. The concept is
+	visualized in Figure \ref{fig:DigitalTwin}.
 	\revision{Are all of these references \cite{RaSaKv20,TaZhLiNe19,BaCaFo19,QiTa18,AlEl17} necessary? Maybe reduce to three.}
 	\revision{In the above paragraph, ``cyber-physical, digital twin'' was changed to ``cyber-physical and digital twin'' in order to match the sources. Review consistency of paragraph
 	(and introduction as a whole) in view of this.}
+	\begin{figure}[h]\linespread{1}
+		\centering
+		\begin{tikzpicture}[scale = 1, every node/.style={scale=1}]
+			\begin{scope}[shift={(0,2.2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4,2) rectangle (4,-2);
+											\draw (4,-2) node[anchor = south east, scale = 0.7] {Physical Network};
+											\draw (-3,-1) node[anchor = center] {\basestation};
+											\draw (3,1) node[anchor = center] {\basestation};
+											\draw (-2,0.8) node[anchor = center, scale = 0.1] {\mobileagent};
+											\draw (0,0) node[anchor = center, scale = 0.1] {\mobileagent};
+											\draw (2,-0.8) node[anchor = center, scale = 0.1] {\mobileagent};
+			\end{scope}
+			\begin{scope}[shift={(0,-2.2)}]	\fill[fill=black!10, rounded corners=0.05cm] (-4,2) rectangle (4,-2);
+											\draw (4,2) node[anchor = north east, scale = 0.7] {Digital Twin};
+											\draw (-3,-1) node[draw, anchor = center] {\(\mathtt{BASE}~1\)};
+											\draw (3,1) node[draw, anchor = center] {\(\mathtt{BASE}~2\)};
+											\draw (-2,0.8) node[draw, anchor = center] {\(\mathtt{MOBILE}~1\)};
+											\draw (0,0) node[draw, anchor = center] {\(\mathtt{MOBILE}~2\)};
+											\draw (2,-0.8) node[draw, anchor = center] {\(\mathtt{MOBILE}~3\)};
+											\draw[very thick, shorten >= 0mm, shorten <= 0mm, <->] (-1.1,0.8) -- (0,0.35);
+											\draw[very thick, shorten >= 4mm, shorten <= 4mm, <->] (-3,-1) -- (-2,0.8);
+											\draw[very thick, shorten >= 7.5mm, shorten <= 9mm, <->] (0,0) -- (-3,-1);
+											\draw[very thick, shorten >= 0mm, shorten <= 0mm, <->] (1.1,-0.8) -- (0,-0.35);
+											\draw[very thick, shorten >= 4mm, shorten <= 4mm, <->] (3,1) -- (2,-0.8);
+											\draw[very thick, shorten >= 7.5mm, shorten <= 9mm, <->] (0,0) -- (3,1);
+			\end{scope}
+			\draw (-1.5,0.28) node[rotate = 90, scale = 0.5, anchor = east]{\bigarrow};
+			\draw (0,-0.28) node[rotate = 270, scale = 0.5, anchor = east]{\bigarrow};
+			\draw (-1.5,0.2) node[anchor = south, align = center, scale = 0.7]{Measurements, \\ Sensor Data};
+			\draw (0,-0.2) node[anchor = north, align = center, scale = 0.7]{Decision-Making, \\ Control};
+		\end{tikzpicture}
+		\caption{Visualization of the interaction between a physical network and its virtual, digital twin.}
+		\label{fig:DigitalTwin}
+	\end{figure}   
 	
 	Future cyber-physical networks are expected to be applied in security- and safety-critical systems to a great extent, as is the case in e.g. autonomous driving.
 	Hence, strict requirements regarding technology assessment and verification are necessary. In particular, this concerns questions of trustwortiness, integrity, 
 	fault-detection and -tolerance and, in the broadest sense, machine ethics. The significane of these considerations is reflected in the ongoing discussions within the scientific community 
-	\cite{RaSaKv20, AwDsKiScHeShBoRa18, ShHeZh16, FeBo21, BoScPo21, GePoBeLuLi21}. 
+	\cite{RaSaKv20, AwDsKiScHeShBoRa18, ShHeZh16, FeBo21, FeBo22, BoScPo21, GePoBeLuLi21}. 
 	In order to obtain a qualified evaluation of whether some cyber-physical system meets the abovementioned requirements, it is necessary to precisely understand 
 	the fundamental boundaries of digital technology from a theoretical point of view. In fact, some of the trustworthiness and integrity requirements discussed in the context of 5G and 6G mobile
-	communication networks have already been shown to exceed the theoretical limitations of digital systems \cite{FeBo21, BoScPo21, BoBoDe21TAC}. Never the less, current research in the field 
+	communication networks have already been shown to exceed the theoretical limitations of digital systems \cite{FeBo21, FeBo22, BoScPo21, BoBoDe21TAC}. Never the less, current research in the field 
 	of cyber-physical systems and digital twins does not seem to provide many attemts towards modeling cyber-physical systems in a fundamental and mathematically consistent manner. 
 	As is hinted in \cite{TaZhLiNe19}, universal theoretical frameworks that provide a sound fromalization of cyber-physicality and digital twinning are critically underdeveloped.
 	\revision{The ``ongoing discussions within the scientific community'' mentioned above is not limited to one specific nieche of engineering but instead spans a broad range of
@@ -420,7 +421,7 @@
 	remarks on the implications of our findings. 
                                                                         
 %\color{gray}
-\section{Formal Description of the Remote State Estimation Setup}	\label{sec:FormalEstimationSetup}
+\section{Formal Description of the Remote State Estimation and Stabilization Setup}	\label{sec:FormalEstimationSetup}
 	
 	\subsection{Formal Setup Description}
 	\noindent In to following, we give a formal description of the setup depicted in Figure \ref{fig:Schematics}, as well as a brief summary of 
@@ -524,7 +525,7 @@
 					allow communication channels with feedback. However, this supplementary degree of freedom does not introduce an additional channel capacity. 
 	\end{Remark} 
 
-\section{Preliminaries from the Theory of Turing Machines and Effective Analysis}\label{sec:introTuring}
+\section{Turing Machines and Effective Analysis}\label{sec:introTuring}
 	
 	\subsection{Background}
 	\revision{Conservative approach: unless a positive proof (i.e., the channel is sufficient) is provided by the algorithm, the system
@@ -617,16 +618,8 @@
 
 	\noindent Since real-valued vectors and matrices are essentially multi-dimensional tuples of real numbers, the ideas of standard descriptions, computable sequences,
 	Banach-Mazur computability and Markov computability naturally extend to the set \(\RRcP{n\times m} := (\RRc)^{n\times m}\) and vector/matrix-valued functions thereon. 
-	{\color{red} Last but not least, we introduce a formal notion of decidability in the realm of computable \(n\times m\) - matrices \(\RRcP{n\times m}\):}
-
-	{\color{red}\begin{Definition}  
-						A set \(\A \subseteq \RRcP{n\times m}\) is called \emph{semi-decidable} as a subset of \(\RRcP{n\times m}\) 
-						if there exists a Turing machine \(\TM_{\A}\) that reaches its halting state (and returns the value ``\(\mathtt{TRUE}\)") 
-						after a finite number of computation steps if and only if it receives a standard description \(\mathfrak{A}\) of an element 
-						\(\mA \in \RRcP{n\times m}\) that satisfies \(\mA\in\A\) as input. A set \(\A \subseteq \RRcP{n\times m}\) is called 
-						\emph{decidable} as a subset of \(\RRcP{n\times m}\) if both \(\A\) and \(\overline{\A} := \RRcP{n\times m}\setminus\A\) are semi-decidable.
-	\end{Definition}} 
-	
+	Last but not least, we introduce a formal notion of decidability in the realm of computable \(n\times m\) - matrices \(\RRcP{n\times m}\):
+	\revision{We need a definition of decidability with respect to \(\W\) and channel classification problems here.}
 	\begin{Definition}  \label{semi}
 						A set \(\A \subseteq \RRcP{n\times m}\) is called \emph{semi-decidable} as a subset of \(\RRcP{n\times m}\) 
 						if there exists a Turing machine \(\TM_{\A}\) that reaches its halting state (and returns the value ``\(\mathtt{TRUE}\)") 
@@ -637,10 +630,7 @@
 	
 	\noindent The Turing machine \(\TM_\A\) is said to \emph{accept} standard descriptions \(\mathfrak{A}\) of elements \(\mA\in\A\).
 	
-	{\color{red} 
-	\begin{Remark} Decidability and Recursiveness, indicator function\end{Remark}}
-	
-	{\color{red} Decidability \emph{relative} to some set... Consistency in nomenclature between versions?}
+	\revision{Decidability, recursiveness, the indicator function and their relation.}
 	
 	\subsection{Decidability of Channel Classification Problems}
 	\begin{Lemma}	\label{lem:IndicatorFunctionBanachMazur}
@@ -795,7 +785,7 @@
 	possible sequence of test cases. If, on the other hand, the indicator function \(\mathds{1}_{\M_0}\) is not Banach-Mazur computable, it is not generally possible to generate the 
 	sequence of correct target values on digital hardware. In other words, for some sequences \((V_n)_{n\in\NN}\), there may not exist a digital verifier at all in this case.
 
-\section{Preliminaries from the Theory of Blum-Shub-Smale Machines}	\label{sec:PreliminariesBSS}
+\section{Blum-Shub-Smale Theory}	\label{sec:PreliminariesBSS}
 
 	\subsection{Background}
 	\revision{Despite the fact that the capabilities real-world, digital computers are 
