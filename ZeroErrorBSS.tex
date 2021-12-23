@@ -98,9 +98,9 @@
 																				(-1,-3) -- (-1.5,-2.5) -- (-3,-2.5) -- (-3.5, -2) -- (-5.5,-2) -- (-6,-1.5) -- (-5.5,-1) -- (-2,-1) -- (-1.5,-0.5) --cycle;
 														\fill[color = black]	(1.5,-2.5) -- (2.5, -3.5) -- (2.5, -5.5) -- (3.5, -5.5) -- (3.5, -3.5) -- (2.5, -2.5) -- cycle;
 														\fill[color = black]	(-1.5,-2.5) -- (-2.5, -3.5) -- (-2.5, -5.5) -- (-3.5, -5.5) -- (-3.5, -3.5) -- (-2.5, -2.5) -- cycle;
-														\fill[color = black!35] (4,-1) -- (4.5,-0.5) -- (4.5, 0) -- (5,0) -- (5,-0.5) -- (5.5, -1) -- cycle;
+														\fill[color = black!35] (4,-1) -- (4.5,-0.5) -- (4.5, 0.5) -- (4.75,1) -- (5,0.5) -- (5,-0.5) -- (5.5, -1) -- cycle;
 														\fill[color = black] (1,0.25) -- (1.25, 0.5) -- (8.25, 0.5) -- (8.5, 0.25) -- (8.25, 0) -- (1.25, 0) -- cycle;
-														\fill[color = black!35] (-4,-1) -- (-4.5,-0.5) -- (-4.5, 0) -- (-5,0) -- (-5,-0.5) -- (-5.5, -1) -- cycle;
+														\fill[color = black!35] (-4,-1) -- (-4.5,-0.5) -- (-4.5, 0.5) -- (-4.75,1) -- (-5,0.5) -- (-5,-0.5) -- (-5.5, -1) -- cycle;
 														\fill[color = black] (-1,0.25) -- (-1.25, 0.5) -- (-8.25, 0.5) -- (-8.5, 0.25) -- (-8.25, 0) -- (-1.25, 0) -- cycle;
 														%\draw[very thick, color = black] (-0.3,0.1) circle[radius = 1.25mm];
 														%\draw[very thick, color = black] (0.3,0.1) circle[radius = 1.25mm];
@@ -274,12 +274,12 @@
 	\IEEEPARstart{R}{emote} and/or distributed decision making is becoming increasingly important in view of future communication networks. The ideas behin well known slogans like 
 	``Industry 4.0'', ``Autonomous Driving'', ``Internet of Things'' and ``Metaverse'' are examples for the currentd trend in communications to shift the focus away from pure data transmission 
 	towards interconnected information processing in a virtual space and control of agents that interact with the physical world. Networks of this kind, i.e., those that contain both 
-	virtual and physical components, belong to a class of technologies that are commonly referred to as \emph{cyber-physical systems}. \sdummy
+	virtual and physical components, belong to a class of technologies that are commonly referred to as \emph{cyber-physical systems} \cite{AlEl17, BaCaFo19, Do21}.
 	
 	In many cases, cyber-physical networks are a field of application for control engineering, since, per definition, they contain physical components that act within the real world. 
 	However, as compared to classical control engineering, cyber-physical physical networks aim to solve control problems remotely in a distributed and cooperative fashion, 
 	ranther than individually and locally at every physical component. Remote state estimation and sabilization via noisy communication channels, which is a prominent problem 
-	in control theory \cite{MS07, MS07SC, S06, SP03}, is thus naturally a part of many cyber-physical systems, either in an implicite or explicite manner. 
+	in control theory \cite{MS07, MS07SC}, is thus naturally a part of many cyber-physical systems, either in an implicite or explicite manner. 
 	From a theoretical point of view, the problem can informally be described as follows. The state of an unstable linear time-invariant \emph{(LTI)} plant is observed by a local sensor. 
 	Subsequently, the sensor data is feed into an encoder that prepares the data for transmission trough a discrete, memoryless channel \emph{(DMC)}. 
 	At the receiving end, the sequence of channel outputs is processed by a remote estimator/controller. The latter tries to estimate and/or stabilize the state of the plant, where 
@@ -376,27 +376,33 @@
 	Cyber-physical networks, on the other hand, are often required to adapt to changing environmental conditions at runtime, while simultaneously operating in a fully autonomous manner.
 	In the context of remote state estimation and stabilization, changing environmental conditions correspond to time variant characteristics of the transmission channel.
 	Hence, the autonomous operation of a remote state estimation and stabilization system includes channel estimation and the automated generation of a suitable pair of encoder and estimator/controller
-	for each transmission frame. In a more general scope, \emph{digital twins} are regularly mentioned as the future key technology for implementing autonomous cyber-physical systems \sdummy.
-	The approach is based on creating virtual copies of the system's physical agents, which are then employed for optimization, control tasks and decision-making. 
-	An example of a cyber-physical, digital twin technology that implicitely includes remote state estimation and stabilization 
-	can be found in \sdummy, a patent held by the \emph{Siemens AG}. For cyber-physical networks, the method can be extended as far as to implement a virtual copy of the full network itself, 
-	which may then be used e.g. for the generation of channel-coding schemes at runtime.
+	for each transmission frame. In a more general scope, \emph{digital twins} are regularly mentioned as the future key technology for implementing autonomous cyber-physical systems 
+	\cite{RaSaKv20,TaZhLiNe19,BaCaFo19,QiTa18,AlEl17}. The approach is based on creating virtual copies of the system's physical agents, which are then employed for optimization, control tasks and 
+	decision-making. Examples of cyber-physical and digital twin technologies that implicitely include remote state estimation and stabilization 
+	can be found e.g. in \cite{GuSiKuNi18, LiNgLeSoSt16}, or in \cite{Kr16}, the latter being a patent held by the \emph{Siemens AG Munich}. For cyber-physical networks, the method can 
+	be extended as far as to implement a virtual copy of the full network itself, which may then be used e.g. for the generation of channel-coding schemes at runtime.
+	\revision{Are all of these references \cite{RaSaKv20,TaZhLiNe19,BaCaFo19,QiTa18,AlEl17} necessary? Maybe reduce to three.}
+	\revision{In the above paragraph, ``cyber-physical, digital twin'' was changed to ``cyber-physical and digital twin'' in order to match the sources. Review consistency of paragraph
+	(and introduction as a whole) in view of this.}
 	
 	Future cyber-physical networks are expected to be applied in security- and safety-critical systems to a great extent, as is the case in e.g. autonomous driving.
 	Hence, strict requirements regarding technology assessment and verification are necessary. In particular, this concerns questions of trustwortiness, integrity, 
-	fault-detection and -tolerance and, in the broadest sense, machine ethics. The significane of these considerations is reflected in the ongoing discussions within the scientific community \sdummy. 
+	fault-detection and -tolerance and, in the broadest sense, machine ethics. The significane of these considerations is reflected in the ongoing discussions within the scientific community 
+	\cite{RaSaKv20, AwDsKiScHeShBoRa18, ShHeZh16, FeBo21, BoScPo21, GePoBeLuLi21}. 
 	In order to obtain a qualified evaluation of whether some cyber-physical system meets the abovementioned requirements, it is necessary to precisely understand 
 	the fundamental boundaries of digital technology from a theoretical point of view. In fact, some of the trustworthiness and integrity requirements discussed in the context of 5G and 6G mobile
-	communication networks have already been shown to exceed the theoretical limitations of digital systems. Never the less, current research in the field of cyber-physical systems and 
-	digital twins does not seem to provide many attemts towards modeling cyber-physical systems in a fundamental and mathematically consistent manner. As is hinted in \sdummy, universal theoretical 
-	frameworks that provide a sound fromalization of cyber-physicality and digital twinning are critically underdeveloped. 
+	communication networks have already been shown to exceed the theoretical limitations of digital systems \cite{FeBo21, BoScPo21, BoBoDe21TAC}. Never the less, current research in the field 
+	of cyber-physical systems and digital twins does not seem to provide many attemts towards modeling cyber-physical systems in a fundamental and mathematically consistent manner. 
+	As is hinted in \cite{TaZhLiNe19}, universal theoretical frameworks that provide a sound fromalization of cyber-physicality and digital twinning are critically underdeveloped.
+	\revision{The ``ongoing discussions within the scientific community'' mentioned above is not limited to one specific nieche of engineering but instead spans a broad range of
+	scientific fields.} 
 	
 	This work aims to provide a contribution towards the understanding of fundamental limits and possible pitfalls of cyber-physical technologies from a theoretical point of view.
 	To this end, we apply the theory of Turing and Blum-Shub-Smale machines to the problem of remote state estimation and stabilization in terms of a decidability analysis. That is,
 	we investigate whether there exist algorithms on Turing and Blum-Shub-Smale machines that decide whether it is possible to remotely estimate and/or stabilize the state of an unstable LTI plant
 	based on a description of the communication channel. Any autonomous system handling remote state estimation and stabilization scenarios involves this decision problem, 
 	either in an explicite manner, or implicitely when computing a suitable pair of encoder and estimator/controller.
-	In essence, this task reduces to a channel classification problem. The latter occur frequently in different variants throughout network theory \sdummy.   
+	In essence, this task reduces to a channel classification problem. The latter occur frequently in different variants throughout network theory \cite{BoScPo21}.   
 	
 	The theory of Turing machines yields a precise indication of the fundamental capabilities of real-world, digital hardware. Any problem that cannot be solven in theory on a Turing machine
 	can certainly not be solved on a real-world (digital) computer. Never the less, it is common in numerics and engineering to employ Blum-Shub-Smale machines,
@@ -523,7 +529,8 @@
 	\subsection{Background}
 	\revision{Conservative approach: unless a positive proof (i.e., the channel is sufficient) is provided by the algorithm, the system
 				must not operate.}
-	\noindent In order to formalize the idea of algorithmic decidability, we employ the theory of Turing machines and, subsequently, 
+	
+	In order to formalize the idea of algorithmic decidability, we employ the theory of Turing machines and, subsequently, 
 	the theory of effective analysis, which is based on the former.	In \cite{BoBoDe21TAC}, we have applied the both theories to investigated the decidability of the problem of
 	remote state estimation via noisy channels with respect to the objective of almost sure observability for disturbend plants, and with respect to the
 	objective of observability with high probability for undisturbed plants. In order to provide a self contained work, we recapitulate the introduction 
@@ -713,7 +720,7 @@
 					\(\TM_{=0}\) that satisfies
 					\begin{align}	\mathfrak{m} \sim \mu \wedge \mu = 0	\quad\Leftrightarrow\quad  \TM_{=0}(\mathfrak{m}) = \mathtt{TRUE},
 					\end{align}
-					which is a contradiction to the undecidability of the \emph{halting} problem, see \sdummy.
+					which is a contradiction to the undecidability of the \emph{halting} problem, see \cite{PoRi17}.
 	\end{proof}
 	
 	\subsection{Banach-Mazur Computability in the Scope of System Verification}
@@ -1079,10 +1086,11 @@
 	In particular, a model for universal analog computing, comparable to the Turing machine for the digital domain, has not yet been widely accepted. 
 	Such a characterization of universal neuromorphic computing may be related to the Blum-Shub-Smale model. In the broadest sense, the latter can be
 	interpreted as a model for \emph{perfect} analog computing, i.e., in disregard of any imperfections or limitations on measurement resolution of real-world analog systems.
-	Regarding practical implementations, there currently exist only individual examples of analog computation platforms, for example by Intel, IBM and Samsung \sdummy.
+	Regarding practical implementations, there currently exist only individual examples of analog computation platforms, for example by Intel, IBM and Samsung.
+	\revision{Provide a source for the last statement.}
 
 	As indicated in the introduction, RES problems for undisturbed plants and an objective of observability/stabilizability with
-	high probability were investigated in \sdummy. The Shannon capacity \(C : \W \rightarrow \RR_{\hspace{1pt}0}^{+}\) was identified as the decisive quantity in this context.
+	high probability were investigated in \cite{MS07SC}. The Shannon capacity \(C : \W \rightarrow \RR_{\hspace{1pt}0}^{+}\) was identified as the decisive quantity in this context.
 	Consider a pair \((\E,\De\text{/}\Dc)\) of encoder and estimator/controller that estimates/stabilizes the state of some disturbed plant almost surely.
 	Then, \((\E,\De\text{/}\Dc)\) also estimates/stabilizes the state of the same plant with (arbitrary) high probability, a fortiori, if the plant's state is 
 	assumed to evolve free of noisy fluctuations. The converse is not true in general. Thus, mathematically speaking, the objective of almost sure 
@@ -1091,7 +1099,7 @@
 	\begin{align}
 		C_0(W) \leq C_{0,\mathrm{f}}(W) \leq C(W)
 	\end{align}
-	for all \(W\in\W\). In \sdummy, the channel classification problem \((\S(\mA),\U(\mA) = (\M_0,\M_1)\) with
+	for all \(W\in\W\). In \cite{BoBoDe21TAC}, the channel classification problem \((\S(\mA),\U(\mA) = (\M_0,\M_1)\) with
 	\begin{align}	\S(\mA) :&= \big\{ W \in \W : C > \eta(\mA)\big\}, \\
 					\U(\mA) :&= \big\{ W \in \W : C < \eta(\mA)\big\},
 	\end{align}
